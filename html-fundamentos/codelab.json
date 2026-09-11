@@ -1,0 +1,28 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-09-11T13:01:44-03:00",
+  "id": "html-fundamentos",
+  "duration": 80,
+  "title": "Fundamentos Essenciais do HTML",
+  "authors": "TDS Professor",
+  "summary": "Guia Definitivo: Fundamentos do HTML, Semântica e Estrutura do DOM",
+  "source": "html-fundamentos.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "html",
+    "frontend",
+    "web"
+  ],
+  "tags": [
+    "fiap",
+    "frontend",
+    "tds"
+  ],
+  "url": "html-fundamentos"
+}

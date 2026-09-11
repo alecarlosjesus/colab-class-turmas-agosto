@@ -1,0 +1,229 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Fundamentos Essenciais do HTML</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="html-fundamentos"
+                  title="Fundamentos Essenciais do HTML"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="A História e o Conceito do HTML" duration="10">
+        <p>O <strong>HTML</strong> (<em>HyperText Markup Language</em> ou Linguagem de Marcação de Hipertexto) é a espinha dorsal de toda a internet.</p>
+<p><strong>O que ele não é:</strong> HTML <strong>não é uma linguagem de programação</strong>. Ele não possui lógica, não toma decisões (não tem <code>if/else</code>), não faz laços de repetição (não tem <code>for/while</code>) e não guarda variáveis.</p>
+<p><strong>O que ele é:</strong> Ele é estritamente uma <strong>Linguagem de Marcação</strong>. Sua única função é &#34;marcar&#34; (anotar) um documento de texto simples para dizer ao navegador o que cada parte daquele texto significa. Ele avisa o Chrome, Edge ou Safari: <em>&#34;Isto é um título&#34;</em>, <em>&#34;Isto é um parágrafo&#34;</em>, <em>&#34;Isto é uma imagem&#34;</em>.</p>
+<p><strong>Contexto Histórico:</strong> Foi inventado em 1991 por Tim Berners-Lee no CERN (Organização Europeia para a Pesquisa Nuclear). O problema da época era que cientistas de diferentes universidades não conseguiam compartilhar documentos de forma fácil. O HTML nasceu para ser uma linguagem universal de documentos, interligados através de &#34;Hipertextos&#34; (os famosos links), permitindo pular de um documento para outro instantaneamente.</p>
+<p>Hoje, na sua versão <strong>HTML5</strong>, ele evoluiu de um simples formatador de textos para uma plataforma capaz de rodar aplicações complexas, suportando áudio, vídeo, gráficos 2D/3D e integrações nativas com APIs do navegador.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Estrutura Inicial, o DOM e o DOCTYPE" duration="15">
+        <p>Quando o navegador lê o seu arquivo HTML, ele o transforma em uma árvore de elementos estruturada chamada <strong>DOM (Document Object Model)</strong>. Para que o navegador construa essa árvore corretamente, seu arquivo precisa de um &#34;esqueleto&#34; fundamental.</p>
+<p>Abra seu editor e analise a anatomia de um documento HTML padrão:</p>
+<pre><code language="language-html" class="language-html">&lt;!-- 1. A DECLARAÇÃO DOCTYPE --&gt;
+&lt;!DOCTYPE html&gt;
+
+&lt;!-- 2. O ELEMENTO RAIZ --&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+
+  &lt;!-- 3. A CABEÇA (HEAD) --&gt;
+  &lt;head&gt;
+    &lt;title&gt;Painel Tático Central&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;!-- 4. O CORPO (BODY) --&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Bem-vindo ao Sistema&lt;/h1&gt;
+    &lt;p&gt;Todos os módulos operantes.&lt;/p&gt;
+  &lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p><strong>Dissecando cada linha:</strong></p>
+<ol type="1">
+<li><strong>&lt;!DOCTYPE html&gt;</strong>: No passado, existiam dezenas de versões confusas de HTML. Essa linha foi criada para ativar o &#34;Modo Padrão&#34; (<em>Standards Mode</em>) do navegador. Ao digitar exatamente isso, você garante que o navegador vai renderizar a página usando as regras mais modernas do HTML5, evitando que o site quebre em navegadores mais novos.</li>
+<li><strong>&lt;html lang=&#34;pt-BR&#34;&gt;</strong>: É a raiz da árvore do DOM. O atributo <code>lang</code> é vital. Ele avisa aos motores de busca (Google) e aos leitores de tela para deficientes visuais que o conteúdo está em Português do Brasil. Sem isso, um leitor de tela tentaria ler seu site em português com sotaque americano.</li>
+<li><strong>&lt;head&gt;</strong>: É o centro de inteligência da página. Tudo o que vai aqui dentro é <strong>invisível</strong> para o usuário final (exceto a tag de título, que aparece na aba do navegador). Aqui carregamos fontes, arquivos CSS, scripts, e meta-dados.</li>
+<li><strong>&lt;body&gt;</strong>: É a área de renderização visual. Absolutamente tudo o que você quer que o usuário veja, clique ou interaja precisa estar encapsulado dentro desta tag.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Meta Tags: Comunicação com o Navegador" duration="10">
+        <p>As tags <strong>&lt;meta&gt;</strong> ficam obrigatoriamente dentro do <strong>&lt;head&gt;</strong>. O papel delas é fornecer metadados (dados sobre os dados), configurando o comportamento interno do navegador e passando informações para os robôs do Google (crawlers).</p>
+<p>As duas mais importantes, que nunca podem faltar no seu projeto, são:</p>
+<pre><code language="language-html" class="language-html">&lt;head&gt;
+  &lt;!-- 1. Configuração de Tabela de Caracteres --&gt;
+  &lt;meta charset=&#34;UTF-8&#34;&gt;
+
+  &lt;!-- 2. Configuração de Responsividade (Viewport) --&gt;
+  &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+  
+  &lt;title&gt;Documentação Oficial&lt;/title&gt;
+&lt;/head&gt;
+</code></pre>
+<p><strong>Por que elas são obrigatórias?</strong></p>
+<ul>
+<li><strong>charset=&#34;UTF-8&#34;</strong>: Sem esta tag, o navegador tenta adivinhar a codificação do seu arquivo. Se ele adivinhar errado, todos os caracteres especiais do português (ç, á, ã, é) vão se transformar em símbolos quebrados na tela (ex: <code>AÃ§Ã£o</code>). O UTF-8 é o padrão universal que engloba quase todos os caracteres de todos os idiomas do mundo.</li>
+<li><strong>name=&#34;viewport&#34;</strong>: Historicamente, os celulares reduziam o tamanho dos sites de computador para caber na telinha (gerando um mini-site onde você precisava dar zoom com os dedos). Essa tag proíbe esse comportamento. Ela diz ao celular: <em>&#34;A largura do site (</em><em><code>width</code></em><em>) deve ser exatamente igual à largura física da tela do aparelho (</em><em><code>device-width</code></em><em>), e o zoom inicial (</em><em><code>initial-scale</code></em><em>) deve ser 1.0 (100%)&#34;</em>. Isso é o que permite o CSS Responsivo funcionar.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="O Poder das Tags Semânticas" duration="15">
+        <p>Até a chegada do HTML5, os desenvolvedores construíam o layout inteiro usando apenas <strong>&lt;div&gt;</strong> (uma caixa genérica sem significado lógico). O código virava uma &#34;sopa de divs&#34;, ilegível para humanos e máquinas.</p>
+<p>O HTML5 introduziu a <strong>Semântica</strong>: tags que têm nomes que descrevem exatamente a finalidade do conteúdo que carregam.</p>
+<p><strong>Os 3 Grandes Pilares da Semântica:</strong></p>
+<ol type="1">
+<li><strong>Acessibilidade (A11y):</strong> Usuários cegos navegam usando o teclado (pressionando a tecla Tab). O software de leitura de tela usa as tags semânticas para anunciar: <em>&#34;Você entrou no rodapé&#34;</em>, ou <em>&#34;Pular para o conteúdo principal&#34;</em>.</li>
+<li><strong>SEO (Search Engine Optimization):</strong> O robô do Google não &#34;enxerga&#34; o visual do seu site. Ele lê o código. Se o seu artigo principal estiver dentro de um <strong>&lt;article&gt;</strong>, o Google entende que aquilo é a informação de maior relevância e melhora sua posição nas buscas.</li>
+<li><strong>Manutenibilidade:</strong> Para outro programador que herdar seu código, é muito mais fácil entender a arquitetura visual lendo tags bem nomeadas.</li>
+</ol>
+<p><strong>Dicionário de Tags Semânticas Estruturais:</strong></p>
+<ul>
+<li><strong>&lt;header&gt;</strong>: Representa o cabeçalho introdutório. Geralmente abriga a logo da empresa e o menu principal. Pode ser usado mais de uma vez (ex: o cabeçalho de um artigo).</li>
+<li><strong>&lt;nav&gt;</strong>: Vem de <em>Navigation</em>. Deve encapsular os links principais de navegação do site. (Não use para todo e qualquer link, apenas para menus importantes).</li>
+<li><strong>&lt;main&gt;</strong>: O conteúdo central e dominante da página. <strong>Regra de ouro:</strong> Só pode existir um único <strong>&lt;main&gt;</strong> por página.</li>
+<li><strong>&lt;section&gt;</strong>: Agrupa um bloco temático de conteúdo. Imagine como os capítulos de um livro. Toda <strong>&lt;section&gt;</strong> geralmente deve começar com um título (<strong>&lt;h2&gt;</strong> ou <strong>&lt;h3&gt;</strong>).</li>
+<li><strong>&lt;article&gt;</strong>: Um bloco de conteúdo autossuficiente. Se você arrancar esse bloco e colar em outro site, ele ainda fará sentido (ex: uma notícia de blog, um card de produto em um e-commerce).</li>
+<li><strong>&lt;footer&gt;</strong>: O rodapé da página ou da seção. Costuma guardar links úteis, CNPJ, direitos autorais e contatos.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Atributos: O DNA das Tags" duration="10">
+        <p>As tags sozinhas às vezes não têm informações suficientes para funcionar. É aí que entram os <strong>Atributos</strong>.</p>
+<p>Eles são informações adicionais injetadas <strong>sempre na tag de abertura</strong>, seguindo o formato de par chave-valor: <code>nome-do-atributo="valor"</code>.</p>
+<p><strong>Tipos de Atributos:</strong></p>
+<ol type="1">
+<li><strong>Atributos Globais:</strong> Podem ser aplicados em literalmente qualquer tag HTML.<ul>
+<li><code>id</code>: É o CPF do elemento. Dá um nome <strong>único</strong> na página. Muito usado para o JavaScript encontrar elementos específicos.</li>
+<li><code>class</code>: É o uniforme. Serve para agrupar vários elementos sob o mesmo nome para estilizá-los em massa com o CSS.</li>
+<li><code>style</code>: Permite injetar regras visuais de CSS diretamente na linha do HTML.</li>
+</ul>
+</li>
+<li><strong>Atributos Específicos:</strong> Só funcionam em tags que precisam deles.<ul>
+<li><code>src</code> (<em>Source</em>/Fonte): Usado na tag <strong>&lt;img&gt;</strong> para informar de onde o navegador deve baixar o arquivo da imagem.</li>
+<li><code>href</code> (<em>Hypertext Reference</em>): Usado na tag de âncora <strong>&lt;a&gt;</strong> para dizer qual é a URL de destino quando o usuário clicar no link.</li>
+<li><code>target="_blank"</code>: Usado em links para forçar a abertura em uma nova aba, impedindo que o usuário saia do seu site.</li>
+</ul>
+</li>
+</ol>
+<p><strong>O caso crucial do atributo ‘alt&#39; (Texto Alternativo):</strong> Toda imagem (<strong>&lt;img&gt;</strong>) exige o atributo <code>alt</code>. Ele tem dupla função: se a internet falhar e a imagem não carregar, esse texto aparece no lugar. E, mais importante, é esse o texto que o leitor de tela lê para um usuário cego saber o que a imagem representa.</p>
+<pre><code language="language-html" class="language-html">&lt;!-- Exemplo Completo de Atributos --&gt;
+&lt;img 
+  id=&#34;logo-principal&#34; 
+  class=&#34;img-redonda sombra-suave&#34; 
+  src=&#34;logo.png&#34; 
+  alt=&#34;Logotipo oficial da corporação&#34; 
+  style=&#34;margin-top: 10px;&#34;
+&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Exercício Prático: Estruturação e Semântica" duration="20">
+        <p><strong>Missão:</strong> Você foi escalado para construir uma &#34;Ficha de Status de Operação&#34; para uso interno da corporação. Seu objetivo é utilizar a estrutura raiz correta, tags semânticas lógicas e aplicar estilos utilizando o esquema de cores <strong>Verde Oliva / Militar</strong>.</p>
+<p><strong>Instruções:</strong></p>
+<ol type="1">
+<li>Crie um arquivo chamado <code>index.html</code>.</li>
+<li>Digite a estrutura completa, analisando os comentários do código abaixo para fixar onde aplicar as áreas corretas do layout.</li>
+</ol>
+<pre><code language="language-html" class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+&lt;head&gt;
+  &lt;meta charset=&#34;UTF-8&#34;&gt;
+  &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+  &lt;title&gt;Dossiê de Operador - Sistema Tático&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;!-- O &#39;body&#39; recebe o estilo global de cores: fundo verde militar muito escuro e letras verdes claras --&gt;
+&lt;body style=&#34;background-color: #1a1e15; color: #a3c489; font-family: &#39;Courier New&#39;, Courier, monospace; padding: 20px;&#34;&gt;
+
+  &lt;!-- CABEÇALHO DA PÁGINA --&gt;
+  &lt;header style=&#34;border-bottom: 2px solid #4B5320; padding-bottom: 15px;&#34;&gt;
+    &lt;h1 style=&#34;color: #d1e2c4;&#34;&gt;Dossiê Operacional Ativo&lt;/h1&gt;
+    
+    &lt;!-- Navegação Semântica --&gt;
+    &lt;nav&gt;
+      &lt;a href=&#34;#&#34; style=&#34;color: #a3c489; margin-right: 15px;&#34;&gt;[ Módulo Inicial ]&lt;/a&gt;
+      &lt;a href=&#34;#&#34; style=&#34;color: #a3c489;&#34;&gt;[ Relatórios ]&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;!-- CONTEÚDO CENTRAL E DOMINANTE --&gt;
+  &lt;main style=&#34;margin-top: 25px;&#34;&gt;
+    
+    &lt;!-- PRIMEIRA SEÇÃO: Identificação --&gt;
+    &lt;section style=&#34;background-color: #2c3325; padding: 20px; border-radius: 4px; border: 1px solid #4B5320; margin-bottom: 20px;&#34;&gt;
+      &lt;h2 style=&#34;color: #d1e2c4; margin-top: 0;&#34;&gt;Identificação do Alvo&lt;/h2&gt;
+      
+      &lt;!-- Atributos vitais da imagem: src e alt --&gt;
+      &lt;img src=&#34;https://images.unsplash.com/photo-1506869640319-fea1a2753c53?w=150&amp;auto=format&amp;fit=crop&amp;q=80&#34; 
+           alt=&#34;Foto de perfil de um soldado camuflado&#34; 
+           style=&#34;border-radius: 5px; border: 3px solid #4B5320;&#34;&gt;
+      
+      &lt;p&gt;&lt;strong&gt;Codinome:&lt;/strong&gt; Espectro&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Status:&lt;/strong&gt; Em missão&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;!-- SEGUNDA SEÇÃO: Lista de Habilidades --&gt;
+    &lt;section style=&#34;background-color: #2c3325; padding: 20px; border-radius: 4px; border: 1px solid #4B5320;&#34;&gt;
+      &lt;h2 style=&#34;color: #d1e2c4; margin-top: 0;&#34;&gt;Competências Técnicas&lt;/h2&gt;
+      
+      &lt;!-- Lista não ordenada (Unordered List) --&gt;
+      &lt;ul style=&#34;list-style-type: square;&#34;&gt;
+        &lt;li&gt;Estruturação Semântica (HTML5)&lt;/li&gt;
+        &lt;li&gt;Estilização Tática (CSS3)&lt;/li&gt;
+        &lt;li&gt;Lógica de Engajamento (JavaScript)&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/section&gt;
+
+  &lt;/main&gt;
+
+  &lt;!-- RODAPÉ DA PÁGINA --&gt;
+  &lt;footer style=&#34;margin-top: 40px; font-size: 0.85em; color: #5a7343; border-top: 1px dashed #4B5320; padding-top: 15px;&#34;&gt;
+    &lt;p&gt;Documento de uso restrito. Acesso registrado no servidor. © 2026 Forças de Desenvolvimento.&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
