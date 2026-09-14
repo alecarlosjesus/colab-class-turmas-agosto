@@ -1,0 +1,29 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-09-13T23:55:39-03:00",
+  "id": "git-github-fundamentos-conecta-campus",
+  "duration": 240,
+  "title": "Git e GitHub: fundamentos com o projeto Conecta Campus",
+  "authors": "Alexandre Carlos de Jesus",
+  "summary": "Aprenda Git e GitHub passo a passo criando e publicando o primeiro marco do projeto Conecta Campus",
+  "source": "codelab-git-github-fundamentos-conecta-campus.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "git",
+    "github",
+    "versionamento"
+  ],
+  "tags": [
+    "ads",
+    "conecta-campus",
+    "fiap",
+    "frontend"
+  ],
+  "url": "git-github-fundamentos-conecta-campus"
+}

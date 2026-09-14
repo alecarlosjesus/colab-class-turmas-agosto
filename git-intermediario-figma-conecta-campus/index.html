@@ -1,0 +1,1447 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Git intermediário e Figma: Conecta Campus v0.2</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="git-intermediario-figma-conecta-campus"
+                  title="Git intermediário e Figma: Conecta Campus v0.2"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="1. Apresentação e preparação" duration="15">
+        <p>Este Codelab continua exatamente do marco <code>v0.1</code> criado anteriormente. Você não deverá criar outro repositório: continuará usando o projeto <strong>Conecta Campus</strong> e preservará todo o histórico existente.</p>
+<p>Nesta etapa, você aprenderá a desenvolver uma mudança fora da <code>main</code>, publicar essa mudança, revisá-la em um Pull Request e planejar visualmente três telas no Figma.</p>
+<p>Ao final, você terá:</p>
+<ul>
+<li>criado e publicado um branch de trabalho;</li>
+<li>compreendido a diferença entre branch e commit;</li>
+<li>visualizado a separação entre linhas de desenvolvimento;</li>
+<li>praticado merge em um laboratório descartável;</li>
+<li>provocado e resolvido um conflito controlado;</li>
+<li>criado um Pull Request com descrição e critérios de verificação;</li>
+<li>produzido três wireframes móveis no Figma;</li>
+<li>criado e aplicado estilos locais;</li>
+<li>compartilhado o Figma apenas para visualização;</li>
+<li>atualizado o mesmo Pull Request com o link do wireframe;</li>
+<li>revisado e mesclado a proposta;</li>
+<li>sincronizado a <code>main</code> local;</li>
+<li>encerrado os branches temporários;</li>
+<li>concluído o marco <code>v0.2</code> do Conecta Campus.</li>
+</ul>
+<h2 is-upgraded>Pré-requisitos</h2>
+<p>Antes de começar, confirme:</p>
+<ul>
+<li>[ ] O repositório <code>conecta-campus</code> foi criado na etapa anterior.</li>
+<li>[ ] O repositório local está conectado ao GitHub.</li>
+<li>[ ] Você consegue entrar na conta que possui acesso ao repositório.</li>
+<li>[ ] O Visual Studio Code está instalado.</li>
+<li>[ ] O Git responde ao comando <code>git --version</code>.</li>
+<li>[ ] Você possui uma conta gratuita no Figma ou um e-mail disponível para criá-la.</li>
+<li>[ ] Seu navegador está atualizado.</li>
+<li>[ ] Você sabe localizar a pasta do projeto no computador.</li>
+</ul>
+<h2 is-upgraded>Percurso completo</h2>
+<p>O trabalho seguirá esta ordem:</p>
+<pre><code language="language-text" class="language-text">main atualizada
+      ↓
+branch de trabalho
+      ↓
+commits e push
+      ↓
+Pull Request aberto
+      ↓
+wireframes no Figma
+      ↓
+link registrado em novo commit
+      ↓
+revisão e merge
+      ↓
+main local sincronizada
+</code></pre>
+<h2 is-upgraded>Regra de segurança</h2>
+<p>Execute uma ação por vez. Antes de trocar de branch, receber alterações ou integrar trabalho, consulte <code>git status</code>.</p>
+<p><strong>Pare se houver mudanças inesperadas:</strong> não use <code>git restore</code>, <code>git reset</code>, <code>git clean</code> ou exclusões forçadas apenas para fazer uma mensagem desaparecer. Primeiro descubra o que o Git está informando.</p>
+<p><strong>Privacidade:</strong> nunca publique senha, token, chave, arquivo <code>.env</code> ou link do Figma com permissão pública de edição.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="2. Entendendo branches, merge e Pull Request" duration="15">
+        <p>Na primeira etapa do projeto, as mudanças foram registradas diretamente na <code>main</code> para simplificar o contato inicial com Git. A partir de agora, cada alteração relevante será feita em um branch próprio.</p>
+<h2 is-upgraded>O que é um branch?</h2>
+<p>Um <strong>branch</strong> é uma referência móvel para uma linha de commits. Ele permite trabalhar em uma mudança sem alterar imediatamente a versão integrada do projeto.</p>
+<p>Um branch não é uma cópia completa e independente de todos os arquivos. Internamente, ele aponta para commits e acompanha a evolução daquela linha de trabalho.</p>
+<h2 is-upgraded>Por que usar branches?</h2>
+<p><strong>Isolamento:</strong> uma mudança incompleta permanece no branch de trabalho e não altera a <code>main</code>.</p>
+<p><strong>Rastreabilidade:</strong> o nome do branch e seus commits explicam qual tarefa está sendo desenvolvida.</p>
+<p><strong>Revisão:</strong> o branch pode ser publicado e comparado antes de ser integrado.</p>
+<h2 is-upgraded>Branch não substitui commit</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Papel</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Branch</p>
+</td><td colspan="1" rowspan="1"><p>Organiza uma linha de trabalho.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Commit</p>
+</td><td colspan="1" rowspan="1"><p>Registra um estado do projeto nessa linha.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Merge</p>
+</td><td colspan="1" rowspan="1"><p>Integra mudanças de um branch ao branch atual.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Pull Request</p>
+</td><td colspan="1" rowspan="1"><p>Propõe, no GitHub, a revisão e a integração entre branches.</p>
+</td></tr>
+</table>
+<p>Sem commits, o branch não possui novos marcos para compartilhar. Sem branch, os commits podem ser feitos diretamente na <code>main</code>, mas o trabalho deixa de ficar isolado.</p>
+<h2 is-upgraded>Glossário essencial</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Termo</p>
+</td><td colspan="1" rowspan="1"><p>Explicação simples</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Branch</p>
+</td><td colspan="1" rowspan="1"><p>Referência móvel para uma linha de commits.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Branch base</p>
+</td><td colspan="1" rowspan="1"><p>Branch que receberá a alteração do Pull Request. Neste Codelab, será <code>main</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Branch de trabalho</p>
+</td><td colspan="1" rowspan="1"><p>Branch temporário usado para uma mudança específica.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Compare</p>
+</td><td colspan="1" rowspan="1"><p>Branch que contém as mudanças propostas no Pull Request.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Conflito</p>
+</td><td colspan="1" rowspan="1"><p>Situação em que o Git não consegue escolher automaticamente entre alterações incompatíveis.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>HEAD</p>
+</td><td colspan="1" rowspan="1"><p>Referência que indica em qual branch ou commit você está trabalhando.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Main</p>
+</td><td colspan="1" rowspan="1"><p>Branch principal que representa a versão integrada do projeto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Merge</p>
+</td><td colspan="1" rowspan="1"><p>Integração das mudanças de outro branch ao branch atual.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Origin</p>
+</td><td colspan="1" rowspan="1"><p>Nome convencional do repositório remoto principal.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Pull Request</p>
+</td><td colspan="1" rowspan="1"><p>Proposta de revisão e integração entre branches no GitHub.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Upstream</p>
+</td><td colspan="1" rowspan="1"><p>Relação de acompanhamento entre um branch local e um branch remoto.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Prática WP01</h2>
+<p>Responda antes de executar qualquer comando:</p>
+<ol type="1">
+<li>Por que criar um branch não duplica todo o repositório?</li>
+<li>O que o branch organiza?</li>
+<li>O que o commit registra?</li>
+<li>Qual é a finalidade de um Pull Request?</li>
+<li>Por que uma mudança incompleta não deve ser desenvolvida diretamente na <code>main</code>?</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="3. Preparando a main com segurança" duration="15">
+        <p>Antes de criar um branch, você precisa confirmar quatro informações:</p>
+<ol type="1">
+<li>Está na pasta correta?</li>
+<li>Está no branch <code>main</code>?</li>
+<li>Existem mudanças locais pendentes?</li>
+<li>A <code>main</code> local está atualizada em relação ao GitHub?</li>
+</ol>
+<h2 is-upgraded>Abrir o projeto</h2>
+<p>No terminal, entre na pasta <code>conecta-campus</code>. O caminho depende de onde você salvou o projeto.</p>
+<p>Exemplo:</p>
+<pre><code language="language-bash" class="language-bash">cd caminho/para/conecta-campus
+</code></pre>
+<p>Se o Visual Studio Code ainda não estiver aberto nessa pasta:</p>
+<pre><code language="language-bash" class="language-bash">code .
+</code></pre>
+<p>O ponto significa &#34;a pasta atual&#34;.</p>
+<h2 is-upgraded>Executar o diagnóstico inicial</h2>
+<p>Digite um comando por vez:</p>
+<pre><code language="language-bash" class="language-bash">pwd
+git status
+git branch --show-current
+git pull
+</code></pre>
+<h2 is-upgraded>Entendendo cada comando</h2>
+<h3 is-upgraded>pwd</h3>
+<p><code>pwd</code> significa <strong>print working directory</strong>. Ele mostra o caminho da pasta em que o terminal está trabalhando.</p>
+<p>O final do caminho deve indicar <code>conecta-campus</code>.</p>
+<h3 is-upgraded>git status</h3>
+<p>Mostra:</p>
+<ul>
+<li>branch atual;</li>
+<li>arquivos modificados;</li>
+<li>arquivos preparados;</li>
+<li>arquivos ainda não rastreados;</li>
+<li>relação com o branch remoto.</li>
+</ul>
+<p>O resultado esperado antes de continuar é <code>working tree clean</code>.</p>
+<h3 is-upgraded>git branch –show-current</h3>
+<ul>
+<li><code>branch</code>: consulta ou gerencia branches;</li>
+<li><code>--show-current</code>: mostra apenas o nome do branch atual.</li>
+</ul>
+<p>O resultado esperado é:</p>
+<pre><code language="language-text" class="language-text">main
+</code></pre>
+<h3 is-upgraded>git pull</h3>
+<p>Recebe e integra na cópia local as alterações do branch remoto acompanhado.</p>
+<p>O resultado pode informar que houve atualização ou que tudo já estava atualizado:</p>
+<pre><code language="language-text" class="language-text">Already up to date.
+</code></pre>
+<h2 is-upgraded>Critério para avançar</h2>
+<ul>
+<li>[ ] O caminho termina em <code>conecta-campus</code>.</li>
+<li>[ ] O branch atual é <code>main</code>.</li>
+<li>[ ] <code>git status</code> não mostra trabalho pendente.</li>
+<li>[ ] <code>git pull</code> foi concluído sem conflito.</li>
+</ul>
+<p><strong>Se houver arquivos modificados:</strong> pare. Descubra se eles pertencem a um trabalho pronto, incompleto ou acidental. Não troque de branch nem execute <code>pull</code> automaticamente.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="4. Criando o branch do marco v0.2" duration="25">
+        <p>O novo trabalho será desenvolvido em <code>feature/wireframe-inicial</code>.</p>
+<h2 is-upgraded>Como nomear branches</h2>
+<p>Use nomes:</p>
+<ul>
+<li>curtos;</li>
+<li>em letras minúsculas;</li>
+<li>sem espaços e sem acentos;</li>
+<li>separados por hífen;</li>
+<li>relacionados a uma única mudança.</li>
+</ul>
+<p>Neste projeto, usaremos o padrão <code>categoria/descricao-em-hifen</code>.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Prefixo</p>
+</td><td colspan="1" rowspan="1"><p>Quando usar</p>
+</td><td colspan="1" rowspan="1"><p>Exemplo</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>feature/</code></p>
+</td><td colspan="1" rowspan="1"><p>Novo recurso ou parte do produto.</p>
+</td><td colspan="1" rowspan="1"><p><code>feature/wireframe-inicial</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>docs/</code></p>
+</td><td colspan="1" rowspan="1"><p>Mudança somente de documentação.</p>
+</td><td colspan="1" rowspan="1"><p><code>docs/atualiza-readme</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>fix/</code></p>
+</td><td colspan="1" rowspan="1"><p>Correção de comportamento existente.</p>
+</td><td colspan="1" rowspan="1"><p><code>fix/link-figma</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>lab/</code></p>
+</td><td colspan="1" rowspan="1"><p>Experimento local descartável.</p>
+</td><td colspan="1" rowspan="1"><p><code>lab/conflito-controlado</code></p>
+</td></tr>
+</table>
+<p>Evite nomes como <code>branch-nova</code>, <code>teste</code>, <code>coisas</code>, seu nome completo ou uma frase longa.</p>
+<h2 is-upgraded>Criar e acessar o branch</h2>
+<p>Partindo da <code>main</code> atualizada e limpa, execute:</p>
+<pre><code language="language-bash" class="language-bash">git switch -c feature/wireframe-inicial
+git branch --show-current
+git status
+</code></pre>
+<h2 is-upgraded>Entendendo o comando principal</h2>
+<pre><code language="language-bash" class="language-bash">git switch -c feature/wireframe-inicial
+</code></pre>
+<ul>
+<li><code>switch</code>: troca o branch ativo;</li>
+<li><code>-c</code>: cria um novo branch antes da troca;</li>
+<li><code>feature/wireframe-inicial</code>: nome do novo branch;</li>
+<li>o branch nasce a partir do commit atual da <code>main</code>.</li>
+</ul>
+<p>Materiais antigos podem usar <code>git checkout</code>. Neste Codelab, usaremos <code>switch</code>, pois sua intenção de trocar branches é mais explícita.</p>
+<h2 is-upgraded>Conferir o resultado</h2>
+<p><code>git branch --show-current</code> deve mostrar:</p>
+<pre><code language="language-text" class="language-text">feature/wireframe-inicial
+</code></pre>
+<p><code>git status</code> deve indicar árvore de trabalho limpa.</p>
+<h2 is-upgraded>Entendendo HEAD</h2>
+<p><code>HEAD</code> indica onde você está trabalhando agora. Enquanto <code>HEAD</code> apontar para <code>feature/wireframe-inicial</code>, os novos commits serão acrescentados nesse branch.</p>
+<p>Não confunda <code>HEAD</code> com o primeiro commit do projeto. <code>HEAD</code> é uma referência para a posição atual de trabalho.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="5. Criando e registrando o documento do wireframe" duration="20">
+        <p>Você criará um documento que liga o planejamento visual ao histórico do projeto.</p>
+<h2 is-upgraded>Criar o arquivo</h2>
+<p>Na pasta <code>docs</code>, crie o arquivo:</p>
+<pre><code language="language-text" class="language-text">wireframe.md
+</code></pre>
+<p>O caminho completo será:</p>
+<pre><code language="language-text" class="language-text">conecta-campus/docs/wireframe.md
+</code></pre>
+<h2 is-upgraded>Escrever o conteúdo inicial</h2>
+<p>Abra <code>docs/wireframe.md</code> no Visual Studio Code e digite:</p>
+<pre><code language="language-markdown" class="language-markdown"># Wireframe do Conecta Campus
+
+## Objetivo
+
+Planejar a organização das telas antes da implementação em HTML e CSS.
+
+## Telas planejadas
+
+- Página inicial
+- Lista de locais
+- Detalhes do local
+
+## Link do Figma
+
+O link será adicionado após a criação do wireframe.
+</code></pre>
+<h2 is-upgraded>Entendendo o documento</h2>
+<ul>
+<li><code>#</code> cria o título principal;</li>
+<li><code>##</code> cria uma seção;</li>
+<li>os hífens criam a lista das telas;</li>
+<li>a última frase é temporária e será substituída pelo link do Figma;</li>
+<li>o documento registra o planejamento, não a aplicação pronta.</li>
+</ul>
+<h2 is-upgraded>Conferir no editor</h2>
+<p>Abra a visualização Markdown do Visual Studio Code e verifique:</p>
+<ul>
+<li>[ ] Há um título principal.</li>
+<li>[ ] Existem três seções.</li>
+<li>[ ] A lista contém exatamente três telas.</li>
+<li>[ ] A seção do Figma informa que o link será adicionado depois.</li>
+</ul>
+<h2 is-upgraded>Observar o estado no Git</h2>
+<pre><code language="language-bash" class="language-bash">git status
+git diff -- docs/wireframe.md
+</code></pre>
+<p>O arquivo novo deve aparecer como <strong>untracked</strong>.</p>
+<p><code>git diff</code> normalmente não mostra o conteúdo de um arquivo ainda não rastreado. Isso não significa que o arquivo esteja vazio ou perdido. O Git ainda não começou a compará-lo.</p>
+<h2 is-upgraded>Preparar e registrar</h2>
+<pre><code language="language-bash" class="language-bash">git add docs/wireframe.md
+git status
+git commit -m &#34;docs: planeja wireframe do Conecta Campus&#34;
+git status
+</code></pre>
+<p>O primeiro <code>git status</code> depois do <code>add</code> deve mostrar o arquivo em <code>Changes to be committed</code>. O <code>commit</code> registra o conteúdo no branch atual.</p>
+<h2 is-upgraded>Prática WP02</h2>
+<p>Antes de consultar o histórico, responda:</p>
+<ol type="1">
+<li>Qual branch deve aparecer em <code>git branch --show-current</code>?</li>
+<li>Em qual branch o commit foi criado?</li>
+<li>A <code>main</code> já contém <code>docs/wireframe.md</code>?</li>
+<li>Por que o arquivo pode existir em um branch e não existir no outro?</li>
+</ol>
+<p>Execute os comandos de conferência e compare o resultado com sua previsão.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="6. Visualizando e publicando o branch" duration="20">
+        <h2 is-upgraded>Enxergar a separação no histórico</h2>
+<p>Execute:</p>
+<pre><code language="language-bash" class="language-bash">git log --graph --oneline --decorate --all -8
+</code></pre>
+<h2 is-upgraded>Como ler as opções</h2>
+<ul>
+<li><code>log</code>: consulta o histórico;</li>
+<li><code>--graph</code>: desenha linhas que representam os caminhos dos commits;</li>
+<li><code>--oneline</code>: mostra cada commit em uma linha compacta;</li>
+<li><code>--decorate</code>: exibe referências como <code>HEAD</code>, <code>main</code> e <code>origin/main</code>;</li>
+<li><code>--all</code>: inclui todos os branches conhecidos;</li>
+<li><code>-8</code>: limita a saída aos oito commits mais recentes.</li>
+</ul>
+<p>O resultado deve indicar:</p>
+<ul>
+<li><code>HEAD</code> apontando para <code>feature/wireframe-inicial</code>;</li>
+<li><code>main</code> e <code>origin/main</code> permanecendo no commit anterior;</li>
+<li>o commit do documento apenas no branch de trabalho.</li>
+</ul>
+<h2 is-upgraded>Publicar o branch no GitHub</h2>
+<pre><code language="language-bash" class="language-bash">git push -u origin feature/wireframe-inicial
+</code></pre>
+<p>Entenda cada parte:</p>
+<ul>
+<li><code>push</code>: envia commits;</li>
+<li><code>-u</code>: configura o acompanhamento, chamado upstream;</li>
+<li><code>origin</code>: é o apelido do repositório remoto;</li>
+<li><code>feature/wireframe-inicial</code>: é o branch enviado.</li>
+</ul>
+<p>Depois do push, existem referências relacionadas:</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Referência</p>
+</td><td colspan="1" rowspan="1"><p>Onde está</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>feature/wireframe-inicial</code></p>
+</td><td colspan="1" rowspan="1"><p>Branch local no computador.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>origin/feature/wireframe-inicial</code></p>
+</td><td colspan="1" rowspan="1"><p>Referência local que representa o branch remoto conhecido.</p>
+</td></tr>
+</table>
+<p>O Git pode exibir um link para abrir o Pull Request. Guarde esse link ou acesse o repositório pelo navegador.</p>
+<h2 is-upgraded>Conferir novamente</h2>
+<pre><code language="language-bash" class="language-bash">git log --graph --oneline --decorate --all -8
+git status
+</code></pre>
+<p>Agora, <code>origin/feature/wireframe-inicial</code> também deverá apontar para o commit enviado.</p>
+<h2 is-upgraded>Prática WP03</h2>
+<p>Identifique na saída:</p>
+<ul>
+<li><code>HEAD</code>;</li>
+<li><code>main</code>;</li>
+<li><code>origin/main</code>;</li>
+<li><code>feature/wireframe-inicial</code>;</li>
+<li><code>origin/feature/wireframe-inicial</code>.</li>
+</ul>
+<p>Faça uma captura ou transcreva as linhas. Depois explique por que a <code>main</code> ainda não contém o documento novo.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="7. Entendendo merge antes de praticar" duration="15">
+        <p><code>merge</code> integra as mudanças de outro branch ao branch em que você está.</p>
+<p>A pergunta mais importante antes do comando é:</p>
+<p>Em qual branch estou e qual branch desejo trazer para cá?</p>
+<h2 is-upgraded>Regra de leitura</h2>
+<pre><code language="language-text" class="language-text">git merge ORIGEM-DAS-MUDANCAS
+</code></pre>
+<p>O destino não aparece no comando porque o destino é o branch atual.</p>
+<p>Para integrar <code>feature/exemplo</code> na <code>main</code>, a sequência seria:</p>
+<pre><code language="language-bash" class="language-bash">git switch main
+git merge feature/exemplo
+</code></pre>
+<h2 is-upgraded>Resultados possíveis</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Resultado</p>
+</td><td colspan="1" rowspan="1"><p>Quando ocorre</p>
+</td><td colspan="1" rowspan="1"><p>Efeito no histórico</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Fast-forward</p>
+</td><td colspan="1" rowspan="1"><p>A <code>main</code> não avançou desde a criação do branch.</p>
+</td><td colspan="1" rowspan="1"><p>O ponteiro da <code>main</code> avança até o commit do branch.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Merge de três vias</p>
+</td><td colspan="1" rowspan="1"><p>Os dois branches avançaram de forma independente.</p>
+</td><td colspan="1" rowspan="1"><p>O Git combina os históricos e pode criar um merge commit.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Conflito</p>
+</td><td colspan="1" rowspan="1"><p>Mudanças incompatíveis atingiram a mesma parte.</p>
+</td><td colspan="1" rowspan="1"><p>O merge pausa e exige decisão humana.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Fast-forward em linguagem simples</h2>
+<p>Se a <code>main</code> ficou parada e apenas o branch de trabalho recebeu commits, o Git pode simplesmente mover o ponteiro da <code>main</code> para a frente.</p>
+<h2 is-upgraded>Merge de três vias em linguagem simples</h2>
+<p>Se a <code>main</code> e o branch receberam commits diferentes, o Git procura o ponto comum de origem e tenta combinar os dois caminhos.</p>
+<h2 is-upgraded>Por que ocorre conflito?</h2>
+<p>O conflito não significa que o Git quebrou. Significa que duas mudanças não podem ser combinadas automaticamente sem que uma pessoa decida o conteúdo final.</p>
+<p>O branch real do Conecta Campus será integrado pelo Pull Request. O próximo laboratório será separado e descartável para não colocar o projeto em risco.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="8. Laboratório completo de conflito" duration="40">
+        <p>Você criará um segundo repositório apenas para observar um conflito de forma controlada.</p>
+<h2 is-upgraded>Parte 1 - Sair da pasta do projeto</h2>
+<p>Se o terminal está dentro de <code>conecta-campus</code>, execute:</p>
+<pre><code language="language-bash" class="language-bash">cd ..
+</code></pre>
+<p>O comando retorna para a pasta que contém o projeto.</p>
+<p>Confirme o caminho:</p>
+<pre><code language="language-bash" class="language-bash">pwd
+</code></pre>
+<h2 is-upgraded>Parte 2 - Criar o laboratório</h2>
+<pre><code language="language-bash" class="language-bash">mkdir laboratorio-merge
+cd laboratorio-merge
+git init -b main
+git status
+</code></pre>
+<p>Esses comandos:</p>
+<ol type="1">
+<li>criam uma pasta separada;</li>
+<li>entram nela;</li>
+<li>iniciam outro repositório com <code>main</code>;</li>
+<li>confirmam o estado inicial.</li>
+</ol>
+<p>Esse laboratório não possui conexão com o GitHub e não altera o Conecta Campus.</p>
+<h2 is-upgraded>Parte 3 - Criar a versão comum</h2>
+<p>Abra <code>laboratorio-merge</code> no editor:</p>
+<pre><code language="language-bash" class="language-bash">code .
+</code></pre>
+<p>Crie <code>mensagem.txt</code> com exatamente esta linha:</p>
+<pre><code language="language-text" class="language-text">Cor principal: azul
+</code></pre>
+<p>Salve o arquivo. Depois execute:</p>
+<pre><code language="language-bash" class="language-bash">git add mensagem.txt
+git commit -m &#34;docs: registra cor inicial&#34;
+git status
+</code></pre>
+<p>Esse commit é a base comum da qual os dois caminhos partirão.</p>
+<h2 is-upgraded>Parte 4 - Criar o caminho alternativa</h2>
+<pre><code language="language-bash" class="language-bash">git switch -c alternativa
+git branch --show-current
+</code></pre>
+<p>O branch <code>alternativa</code> nasce apontando para o mesmo commit que <code>main</code>.</p>
+<p>No branch <code>alternativa</code>, substitua o conteúdo de <code>mensagem.txt</code> por:</p>
+<pre><code language="language-text" class="language-text">Cor principal: ciano
+</code></pre>
+<p>Salve e registre:</p>
+<pre><code language="language-bash" class="language-bash">git diff
+git add mensagem.txt
+git commit -m &#34;docs: propõe cor ciano&#34;
+git status
+</code></pre>
+<h2 is-upgraded>Parte 5 - Voltar à main</h2>
+<pre><code language="language-bash" class="language-bash">git switch main
+git branch --show-current
+</code></pre>
+<p>Ao trocar para <code>main</code>, o conteúdo de <code>mensagem.txt</code> deve voltar a ser:</p>
+<pre><code language="language-text" class="language-text">Cor principal: azul
+</code></pre>
+<p>Isso acontece porque cada branch aponta para uma versão diferente do histórico.</p>
+<h2 is-upgraded>Parte 6 - Criar a mudança concorrente</h2>
+<p>Agora, em <code>main</code>, substitua a linha por:</p>
+<pre><code language="language-text" class="language-text">Cor principal: azul-escuro
+</code></pre>
+<p>Salve e execute:</p>
+<pre><code language="language-bash" class="language-bash">git diff
+git add mensagem.txt
+git commit -m &#34;docs: define azul-escuro&#34;
+git status
+</code></pre>
+<p>Agora os branches alteraram a mesma linha de maneiras diferentes.</p>
+<h2 is-upgraded>Parte 7 - Provocar o conflito</h2>
+<p>Confirme que está em <code>main</code>:</p>
+<pre><code language="language-bash" class="language-bash">git branch --show-current
+</code></pre>
+<p>Depois tente trazer <code>alternativa</code>:</p>
+<pre><code language="language-bash" class="language-bash">git merge alternativa
+</code></pre>
+<p>O Git deve informar <code>CONFLICT</code> e interromper o merge automático.</p>
+<h2 is-upgraded>Parte 8 - Ler o estado do repositório</h2>
+<pre><code language="language-bash" class="language-bash">git status
+</code></pre>
+<p>O arquivo deverá aparecer como <code>both modified</code> ou caminho não mesclado.</p>
+<p>Depois do conflito, o repositório está no meio de um merge. Não troque de branch. Você precisa resolver ou cancelar a operação.</p>
+<h2 is-upgraded>Parte 9 - Entender os marcadores</h2>
+<p>Abra <code>mensagem.txt</code>. O conteúdo será parecido com:</p>
+<pre><code language="language-text" class="language-text">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Cor principal: azul-escuro
+=======
+Cor principal: ciano
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; alternativa
+</code></pre>
+<p>Leia cada parte:</p>
+<ul>
+<li><code><<<<<<< HEAD</code>: inicia a versão do branch atual;</li>
+<li><code>Cor principal: azul-escuro</code>: conteúdo existente na <code>main</code>;</li>
+<li><code>=======</code>: separa as versões;</li>
+<li><code>Cor principal: ciano</code>: conteúdo trazido do outro branch;</li>
+<li><code>>>>>>>> alternativa</code>: encerra o bloco e identifica o branch recebido.</li>
+</ul>
+<p>Os marcadores não devem permanecer no arquivo final.</p>
+<h2 is-upgraded>Parte 10 - Tomar a decisão humana</h2>
+<p>Substitua o bloco inteiro, incluindo todos os marcadores, por:</p>
+<pre><code language="language-text" class="language-text">Cor principal: azul-escuro com detalhes em ciano
+</code></pre>
+<p>Salve o arquivo.</p>
+<h2 is-upgraded>Parte 11 - Confirmar que os marcadores sumiram</h2>
+<p>No Visual Studio Code, pesquise por:</p>
+<pre><code language="language-text" class="language-text">&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+=======
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+</code></pre>
+<p>Nenhum marcador deve permanecer.</p>
+<h2 is-upgraded>Parte 12 - Marcar como resolvido e concluir</h2>
+<pre><code language="language-bash" class="language-bash">git status
+git add mensagem.txt
+git status
+git commit -m &#34;docs: resolve conflito de cores&#34;
+git status
+git log --graph --oneline --decorate --all -6
+</code></pre>
+<p>Observe a diferença de significado do <code>git add</code> neste momento: ele informa ao Git que você resolveu o conflito daquele arquivo.</p>
+<p>O commit conclui o merge. O log deve mostrar os dois caminhos reunidos.</p>
+<h2 is-upgraded>Saída de emergência</h2>
+<p>Se você quiser cancelar um merge antes de criar o commit de resolução:</p>
+<pre><code language="language-bash" class="language-bash">git merge --abort
+</code></pre>
+<p>Esse comando tenta retornar ao estado anterior ao início do merge.</p>
+<p>Não use <code>git merge --abort</code> depois de concluir a resolução em um commit.</p>
+<h2 is-upgraded>Prática WP04</h2>
+<p>Explique:</p>
+<ol type="1">
+<li>O que <code>HEAD</code> representa nos marcadores.</li>
+<li>Para que serve <code>=======</code>.</li>
+<li>O que o nome <code>alternativa</code> identifica.</li>
+<li>Por que apagar apenas uma das versões não é sempre a melhor decisão.</li>
+<li>Quais são os passos seguros desde <code>git status</code> até o commit de resolução.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="9. Abrindo o primeiro Pull Request" duration="25">
+        <p>Volte ao repositório <code>conecta-campus</code>. O branch <code>feature/wireframe-inicial</code> já foi publicado.</p>
+<h2 is-upgraded>O que é um Pull Request?</h2>
+<p>Um Pull Request, também chamado de PR, é uma proposta de integração entre branches no GitHub. Ele não é apenas uma cópia e não é o mesmo que <code>git pull</code>.</p>
+<p>A página do PR reúne:</p>
+<ul>
+<li>descrição da proposta;</li>
+<li>commits;</li>
+<li>arquivos modificados;</li>
+<li>comparação entre versões;</li>
+<li>comentários;</li>
+<li>revisões;</li>
+<li>verificações automáticas, quando configuradas;</li>
+<li>condições para o merge.</li>
+</ul>
+<h2 is-upgraded>Termos da interface</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Termo</p>
+</td><td colspan="1" rowspan="1"><p>Significado neste projeto</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Base</p>
+</td><td colspan="1" rowspan="1"><p>Branch que receberá a mudança: <code>main</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Compare</p>
+</td><td colspan="1" rowspan="1"><p>Branch que contém a proposta: <code>feature/wireframe-inicial</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Conversation</p>
+</td><td colspan="1" rowspan="1"><p>Descrição, comentários, commits e estado geral.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Commits</p>
+</td><td colspan="1" rowspan="1"><p>Lista de registros incluídos no PR.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Files changed</p>
+</td><td colspan="1" rowspan="1"><p>Diferenças reais dos arquivos.</p>
+</td></tr>
+</table>
+<p>Se <code>base</code> e <code>compare</code> estiverem invertidos, o Pull Request terá o sentido contrário. Confira os dois nomes antes de criar.</p>
+<h2 is-upgraded>Abrir o PR passo a passo</h2>
+<ol type="1">
+<li>Abra o repositório <code>conecta-campus</code> no GitHub.</li>
+<li>Acesse a aba <strong>Pull requests</strong>.</li>
+<li>Clique em <strong>New pull request</strong>.</li>
+<li>Se o GitHub mostrar <strong>Compare &amp; pull request</strong>, você também pode usar esse atalho.</li>
+<li>Confirme <code>base: main</code>.</li>
+<li>Confirme <code>compare: feature/wireframe-inicial</code>.</li>
+<li>Verifique se o commit do documento aparece na comparação.</li>
+<li>Abra <strong>Files changed</strong>.</li>
+<li>Confirme que apenas <code>docs/wireframe.md</code> foi adicionado.</li>
+<li>Leia o conteúdo linha por linha.</li>
+</ol>
+<h2 is-upgraded>Preencher o título</h2>
+<p>Use:</p>
+<pre><code language="language-text" class="language-text">docs: adiciona wireframe inicial do Conecta Campus
+</code></pre>
+<h2 is-upgraded>Preencher a descrição</h2>
+<p>Cole e adapte:</p>
+<pre><code language="language-markdown" class="language-markdown">## O que foi feito
+
+- cria o documento do wireframe
+- registra as três telas planejadas
+
+## Como verificar
+
+- abrir docs/wireframe.md
+- conferir o objetivo e a lista de telas
+
+## Pendente nesta etapa
+
+- adicionar o link do arquivo no Figma
+</code></pre>
+<p>Essa estrutura permite que outra pessoa saiba o que revisar sem adivinhar.</p>
+<h2 is-upgraded>Criar sem mesclar</h2>
+<p>Crie o Pull Request, mas <strong>não faça o merge ainda</strong>. O link do Figma será adicionado ao mesmo branch em outro commit.</p>
+<h2 is-upgraded>Prática WP05</h2>
+<p>Registre:</p>
+<ol type="1">
+<li>Valor de <code>base</code>.</li>
+<li>Valor de <code>compare</code>.</li>
+<li>Quantos commits aparecem no PR.</li>
+<li>Quantos arquivos aparecem em <code>Files changed</code>.</li>
+<li>Duas verificações que devem ser feitas antes de aprovar.</li>
+<li>Por que a <code>main</code> não deve ser usada como branch de trabalho.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="10. Preparando o arquivo no Figma Design" duration="15">
+        <p>O Figma Design será usado para planejar a organização visual das telas. Você não criará a aplicação pronta e não escreverá código no Figma.</p>
+<h2 is-upgraded>Wireframe não é a interface final</h2>
+<p>Um <strong>wireframe</strong> é um esboço estrutural. Ele ajuda a decidir:</p>
+<ul>
+<li>quais informações aparecem;</li>
+<li>qual é a ordem de leitura;</li>
+<li>onde ficam busca, filtros e navegação;</li>
+<li>como as telas se relacionam;</li>
+<li>quais blocos serão necessários na implementação.</li>
+</ul>
+<p>Nesta etapa, acabamento visual, fotografias, ícones definitivos e animações não são prioridade.</p>
+<h2 is-upgraded>Criar o arquivo correto</h2>
+<ol type="1">
+<li>Acesse <a href="https://www.figma.com/" target="_blank">figma.com</a>.</li>
+<li>Entre em sua conta ou crie uma conta gratuita.</li>
+<li>No navegador de arquivos, crie um arquivo do tipo <strong>Figma Design</strong>.</li>
+<li>Não escolha FigJam, Slides, Sites ou Make.</li>
+<li>Renomeie o arquivo para <code>Conecta Campus - Wireframe v0.2</code>.</li>
+<li>Renomeie a página atual para <code>01 - Wireframes</code>.</li>
+</ol>
+<h2 is-upgraded>Localizar as regiões da interface</h2>
+<p>A interface pode mudar de posição, mas procure estas funções pelo nome:</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Região</p>
+</td><td colspan="1" rowspan="1"><p>Para que serve</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Barra de ferramentas</p>
+</td><td colspan="1" rowspan="1"><p>Criar frames, formas, textos e outros elementos.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Lateral esquerda</p>
+</td><td colspan="1" rowspan="1"><p>Organizar páginas, frames e camadas.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Canvas</p>
+</td><td colspan="1" rowspan="1"><p>Área central em que os elementos são posicionados.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Lateral direita</p>
+</td><td colspan="1" rowspan="1"><p>Alterar propriedades de Design e Prototype.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Figma Design e FigJam</h2>
+<p>Figma Design é voltado à criação de interfaces. FigJam é um quadro colaborativo para ideias e dinâmicas. Neste exercício, as telas devem ser criadas em <strong>Figma Design</strong>.</p>
+<h2 is-upgraded>Critério para avançar</h2>
+<ul>
+<li>[ ] O arquivo é do tipo Figma Design.</li>
+<li>[ ] O nome é <code>Conecta Campus - Wireframe v0.2</code>.</li>
+<li>[ ] A página se chama <code>01 - Wireframes</code>.</li>
+<li>[ ] Você localizou canvas, camadas e propriedades.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="11. Criando e organizando os três frames" duration="25">
+        <h2 is-upgraded>Página, frame, camada e grupo</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Função</p>
+</td><td colspan="1" rowspan="1"><p>Exemplo</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Página</p>
+</td><td colspan="1" rowspan="1"><p>Divide grandes áreas do arquivo.</p>
+</td><td colspan="1" rowspan="1"><p><code>01 - Wireframes</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Frame</p>
+</td><td colspan="1" rowspan="1"><p>Representa uma tela e contém outras camadas.</p>
+</td><td colspan="1" rowspan="1"><p><code>01-Home-Mobile</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Camada</p>
+</td><td colspan="1" rowspan="1"><p>Elemento individual ou contêiner na hierarquia.</p>
+</td><td colspan="1" rowspan="1"><p><code>campo-busca</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Grupo</p>
+</td><td colspan="1" rowspan="1"><p>Mantém itens juntos, mas possui menos propriedades que um frame.</p>
+</td><td colspan="1" rowspan="1"><p>Conjunto temporário de ícones.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Frame não é apenas uma borda</h2>
+<p>Um frame possui:</p>
+<ul>
+<li>largura e altura;</li>
+<li>preenchimento;</li>
+<li>possibilidade de recorte;</li>
+<li>posição dos elementos internos;</li>
+<li>hierarquia própria;</li>
+<li>propriedades úteis para representar uma tela.</li>
+</ul>
+<p>Por isso, para representar uma página da aplicação, prefira <strong>frame</strong> a <strong>group</strong>.</p>
+<h2 is-upgraded>Criar o primeiro frame</h2>
+<ol type="1">
+<li>Pressione a tecla <code>F</code> ou escolha a ferramenta <strong>Frame</strong>.</li>
+<li>Na lateral de propriedades, escolha um preset de telefone disponível.</li>
+<li>Se quiser usar o tamanho indicado no projeto, configure:</li>
+</ol>
+<pre><code language="language-text" class="language-text">Largura: 390 px
+Altura: 844 px
+</code></pre>
+<ol type="1" start="4">
+<li>Clique no frame na lateral de camadas.</li>
+<li>Renomeie para <code>01-Home-Mobile</code>.</li>
+</ol>
+<h2 is-upgraded>Duplicar o frame</h2>
+<p>Com o primeiro frame selecionado:</p>
+<ul>
+<li>Windows: pressione <code>Ctrl + D</code> duas vezes;</li>
+<li>macOS: pressione <code>Cmd + D</code> duas vezes.</li>
+</ul>
+<p>Agora existem três frames com as mesmas dimensões.</p>
+<h2 is-upgraded>Renomear</h2>
+<p>Use exatamente:</p>
+<pre><code language="language-text" class="language-text">01-Home-Mobile
+02-Locais-Mobile
+03-Detalhe-Mobile
+</code></pre>
+<h2 is-upgraded>Organizar no canvas</h2>
+<ol type="1">
+<li>Posicione os frames lado a lado.</li>
+<li>Mantenha espaço suficiente entre eles.</li>
+<li>Verifique na lateral esquerda se os três estão dentro de <code>01 - Wireframes</code>.</li>
+<li>Confirme que nenhum frame ficou dentro de outro por acidente.</li>
+</ol>
+<h2 is-upgraded>Prática WP06</h2>
+<p>Classifique:</p>
+<ol type="1">
+<li><code>01 - Wireframes</code>.</li>
+<li><code>01-Home-Mobile</code>.</li>
+<li>Um texto de título.</li>
+<li>Um conjunto temporário de dois ícones sem propriedades próprias.</li>
+</ol>
+<p>Depois explique por que frame é mais adequado que grupo para representar uma tela.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="12. Construindo os wireframes em baixa fidelidade" duration="45">
+        <p>Baixa fidelidade significa concentrar-se em <strong>hierarquia, conteúdo e navegação</strong>.</p>
+<p>Use:</p>
+<ul>
+<li>retângulos simples;</li>
+<li>textos curtos;</li>
+<li>tons neutros;</li>
+<li>rótulos que expliquem a finalidade de cada bloco;</li>
+<li>alinhamento consistente;</li>
+<li>nomes compreensíveis nas camadas.</li>
+</ul>
+<p>Evite neste momento:</p>
+<ul>
+<li>fotografias definitivas;</li>
+<li>ícones detalhados;</li>
+<li>sombras complexas;</li>
+<li>gradientes decorativos;</li>
+<li>animações;</li>
+<li>preocupação excessiva com acabamento.</li>
+</ul>
+<h2 is-upgraded>Regra de organização das camadas</h2>
+<p>Nomeie cada elemento enquanto o cria. Evite nomes automáticos como <code>Rectangle 23</code> ou <code>Text 8</code>.</p>
+<p>Prefira nomes como:</p>
+<pre><code language="language-text" class="language-text">cabecalho
+titulo-aplicacao
+campo-busca
+lista-categorias
+card-local-01
+rodape
+</code></pre>
+<h2 is-upgraded>Tela 01 - Home</h2>
+<p>Selecione <code>01-Home-Mobile</code> antes de criar os elementos.</p>
+<h3 is-upgraded>Cabeçalho</h3>
+<ol type="1">
+<li>Crie um retângulo na parte superior.</li>
+<li>Confirme na lateral de camadas que ele está dentro do frame.</li>
+<li>Renomeie a camada para <code>cabecalho</code>.</li>
+<li>Crie um texto dentro do cabeçalho.</li>
+<li>Digite <code>Conecta Campus</code>.</li>
+<li>Renomeie a camada de texto para <code>titulo-aplicacao</code>.</li>
+</ol>
+<h3 is-upgraded>Campo de busca</h3>
+<ol type="1">
+<li>Crie um retângulo claro abaixo do cabeçalho.</li>
+<li>Renomeie para <code>campo-busca</code>.</li>
+<li>Dentro dele, adicione o texto <code>O que você procura?</code>.</li>
+<li>Renomeie o texto para <code>placeholder-busca</code>.</li>
+</ol>
+<h3 is-upgraded>Categorias</h3>
+<p>Crie três blocos simples, cada um com seu texto:</p>
+<pre><code language="language-text" class="language-text">Ambientes
+Serviços
+Acessibilidade
+</code></pre>
+<p>Use nomes como:</p>
+<pre><code language="language-text" class="language-text">categoria-ambientes
+categoria-servicos
+categoria-acessibilidade
+</code></pre>
+<h3 is-upgraded>Destaques e rodapé</h3>
+<ol type="1">
+<li>Crie dois blocos para destaques.</li>
+<li>Use nomes <code>destaque-01</code> e <code>destaque-02</code>.</li>
+<li>Crie um retângulo final para o rodapé.</li>
+<li>Renomeie para <code>rodape</code>.</li>
+</ol>
+<h3 is-upgraded>Conferência da Home</h3>
+<ul>
+<li>[ ] Cabeçalho identificável.</li>
+<li>[ ] Nome do produto visível.</li>
+<li>[ ] Campo de busca rotulado.</li>
+<li>[ ] Três categorias.</li>
+<li>[ ] Dois destaques.</li>
+<li>[ ] Rodapé.</li>
+<li>[ ] Camadas dentro do frame correto.</li>
+</ul>
+<h2 is-upgraded>Tela 02 - Lista de locais</h2>
+<p>Selecione <code>02-Locais-Mobile</code>.</p>
+<h3 is-upgraded>Cabeçalho e busca</h3>
+<ol type="1">
+<li>Repita o padrão de cabeçalho usado na Home.</li>
+<li>Crie um campo de busca.</li>
+<li>Crie uma área curta de filtros.</li>
+<li>Nomeie como <code>cabecalho</code>, <code>campo-busca</code> e <code>area-filtros</code>.</li>
+</ol>
+<h3 is-upgraded>Cards de locais</h3>
+<p>Crie três cards neutros. Cada card deve possuir:</p>
+<ul>
+<li>nome do local;</li>
+<li>categoria;</li>
+<li>indicação de acessibilidade.</li>
+</ul>
+<p>Exemplo de conteúdo:</p>
+<pre><code language="language-text" class="language-text">Biblioteca Central
+Categoria: ambiente
+Acessível: sim
+</code></pre>
+<p>Nomeie as camadas principais:</p>
+<pre><code language="language-text" class="language-text">card-local-01
+card-local-02
+card-local-03
+</code></pre>
+<h3 is-upgraded>Ordem das camadas</h3>
+<p>A ordem na lateral deve acompanhar a organização visual da tela. Agrupe mentalmente os elementos de cada card e mantenha nomes previsíveis.</p>
+<h3 is-upgraded>Conferência da lista</h3>
+<ul>
+<li>[ ] Cabeçalho coerente com a Home.</li>
+<li>[ ] Campo de busca.</li>
+<li>[ ] Área de filtros.</li>
+<li>[ ] Três cards.</li>
+<li>[ ] Nome, categoria e acessibilidade em cada card.</li>
+<li>[ ] Camadas organizadas na mesma ordem visual.</li>
+</ul>
+<h2 is-upgraded>Tela 03 - Detalhes do local</h2>
+<p>Selecione <code>03-Detalhe-Mobile</code>.</p>
+<h3 is-upgraded>Navegação e identificação</h3>
+<ol type="1">
+<li>Crie o cabeçalho.</li>
+<li>Acrescente uma indicação simples de voltar.</li>
+<li>Adicione um bloco para o nome do local.</li>
+<li>Reserve um retângulo para uma imagem futura.</li>
+</ol>
+<p>Use nomes como:</p>
+<pre><code language="language-text" class="language-text">acao-voltar
+nome-local
+imagem-local
+</code></pre>
+<h3 is-upgraded>Informações do local</h3>
+<p>Inclua blocos de texto para:</p>
+<ul>
+<li>prédio;</li>
+<li>andar;</li>
+<li>horário;</li>
+<li>descrição.</li>
+</ul>
+<h3 is-upgraded>Acessibilidade</h3>
+<p>Crie uma seção chamada <code>Acessibilidade</code> e represente itens como:</p>
+<ul>
+<li>elevador;</li>
+<li>rampa;</li>
+<li>banheiro acessível.</li>
+</ul>
+<h3 is-upgraded>Orientação de chegada</h3>
+<p>Adicione um bloco final reservado para mapa ou orientação de chegada. Nomeie <code>mapa-ou-orientacao</code>.</p>
+<h3 is-upgraded>Conferência dos detalhes</h3>
+<ul>
+<li>[ ] Ação de voltar.</li>
+<li>[ ] Nome do local.</li>
+<li>[ ] Área de imagem futura.</li>
+<li>[ ] Prédio, andar, horário e descrição.</li>
+<li>[ ] Seção de acessibilidade.</li>
+<li>[ ] Área de mapa ou orientação.</li>
+</ul>
+<p>Wireframe não precisa parecer bonito; precisa ser compreensível. Se alguém não consegue identificar a finalidade de um bloco, acrescente um rótulo temporário.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="13. Criando estilos e compartilhando com segurança" duration="30">
+        <p>Um estilo é um conjunto reutilizável de propriedades. Nesta introdução, você criará estilos locais simples para manter os três wireframes coerentes.</p>
+<p>Não é necessário publicar uma biblioteca.</p>
+<h2 is-upgraded>Estilos sugeridos</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Nome</p>
+</td><td colspan="1" rowspan="1"><p>Propriedades</p>
+</td><td colspan="1" rowspan="1"><p>Uso</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Texto/Titulo</code></p>
+</td><td colspan="1" rowspan="1"><p>Inter ou Arial, 24 px, negrito</p>
+</td><td colspan="1" rowspan="1"><p>Título principal de cada tela.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Texto/Corpo</code></p>
+</td><td colspan="1" rowspan="1"><p>Inter ou Arial, 16 px, regular</p>
+</td><td colspan="1" rowspan="1"><p>Rótulos e textos auxiliares.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Cor/Texto</code></p>
+</td><td colspan="1" rowspan="1"><p><code>#1F2937</code></p>
+</td><td colspan="1" rowspan="1"><p>Textos principais.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Cor/Superficie</code></p>
+</td><td colspan="1" rowspan="1"><p><code>#F3F4F6</code></p>
+</td><td colspan="1" rowspan="1"><p>Blocos e cards neutros.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Cor/Borda</code></p>
+</td><td colspan="1" rowspan="1"><p><code>#CBD5E1</code></p>
+</td><td colspan="1" rowspan="1"><p>Contornos de blocos.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Criar Texto/Titulo</h2>
+<ol type="1">
+<li>Selecione o título de uma tela.</li>
+<li>Escolha Inter ou Arial.</li>
+<li>Configure tamanho <code>24 px</code>.</li>
+<li>Configure peso negrito.</li>
+<li>Localize o controle de estilos da propriedade de texto.</li>
+<li>Escolha criar um novo estilo.</li>
+<li>Nomeie <code>Texto/Titulo</code>.</li>
+<li>Aplique o estilo aos títulos das três telas.</li>
+</ol>
+<h2 is-upgraded>Criar Texto/Corpo</h2>
+<ol type="1">
+<li>Selecione um texto comum.</li>
+<li>Escolha Inter ou Arial.</li>
+<li>Configure tamanho <code>16 px</code>.</li>
+<li>Configure peso regular.</li>
+<li>Crie o estilo <code>Texto/Corpo</code>.</li>
+<li>Aplique aos rótulos e textos auxiliares.</li>
+</ol>
+<h2 is-upgraded>Criar Cor/Texto</h2>
+<ol type="1">
+<li>Selecione um texto principal.</li>
+<li>Configure a cor <code>#1F2937</code>.</li>
+<li>Crie o estilo de cor <code>Cor/Texto</code>.</li>
+<li>Aplique-o a pelo menos um texto de cada frame.</li>
+</ol>
+<h2 is-upgraded>Criar Cor/Superficie</h2>
+<ol type="1">
+<li>Selecione um retângulo usado como card ou bloco.</li>
+<li>Configure o preenchimento <code>#F3F4F6</code>.</li>
+<li>Crie <code>Cor/Superficie</code>.</li>
+<li>Aplique-o a blocos dos três frames.</li>
+</ol>
+<h2 is-upgraded>Criar Cor/Borda</h2>
+<ol type="1">
+<li>Selecione um bloco com contorno.</li>
+<li>Configure o contorno com <code>#CBD5E1</code>.</li>
+<li>Crie <code>Cor/Borda</code>.</li>
+<li>Aplique a pelo menos um elemento de cada frame.</li>
+</ol>
+<h2 is-upgraded>Testar a reutilização</h2>
+<ol type="1">
+<li>Altere temporariamente o valor de <code>Cor/Superficie</code>.</li>
+<li>Observe quais camadas mudam juntas.</li>
+<li>Desfaça a alteração.</li>
+</ol>
+<p>Isso demonstra que as camadas estão ligadas ao mesmo estilo.</p>
+<p>Um estilo de texto não guarda todas as propriedades possíveis, como o alinhamento. Um estilo de cor não define tamanho. Sempre confira o que pertence ao tipo de estilo criado.</p>
+<h2 is-upgraded>Compartilhar com segurança</h2>
+<ol type="1">
+<li>Clique em uma área vazia do canvas para não manter um frame específico selecionado.</li>
+<li>Clique em <strong>Share</strong>.</li>
+<li>Em quem pode acessar, escolha <code>Anyone</code> ou equivalente somente se a política da conta permitir.</li>
+<li>Defina a permissão como <code>can view</code>.</li>
+<li>Nunca use <code>can edit</code> em um link público.</li>
+<li>Clique em <strong>Copy link</strong>.</li>
+<li>Abra uma janela privativa ou anônima no navegador.</li>
+<li>Cole o link e tente abrir.</li>
+<li>Confirme que o arquivo inteiro abre.</li>
+<li>Confirme que é possível visualizar, mas não editar.</li>
+</ol>
+<p>Se o compartilhamento público estiver bloqueado, convide uma pessoa autorizada com permissão de visualização.</p>
+<h2 is-upgraded>Prática WP07</h2>
+<p>Registre:</p>
+<ul>
+<li>[ ] Os cinco estilos foram criados.</li>
+<li>[ ] Os estilos aparecem nos três frames.</li>
+<li>[ ] O link foi testado fora da sessão do proprietário.</li>
+<li>[ ] O arquivo inteiro abre.</li>
+<li>[ ] A permissão é de visualização.</li>
+<li>[ ] O link não oferece edição pública.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="14. Atualizando o Pull Request com o Figma" duration="15">
+        <p>O Pull Request continua aberto. Você acrescentará outro commit ao mesmo branch; não precisa criar outro PR.</p>
+<h2 is-upgraded>Voltar ao repositório correto</h2>
+<p>No terminal, entre em <code>conecta-campus</code>.</p>
+<p>Exemplo, partindo da pasta que contém os dois projetos:</p>
+<pre><code language="language-bash" class="language-bash">cd ../conecta-campus
+</code></pre>
+<p>Confira o caminho e o branch:</p>
+<pre><code language="language-bash" class="language-bash">pwd
+git switch feature/wireframe-inicial
+git branch --show-current
+git status
+git pull
+</code></pre>
+<p>Como o branch foi publicado com <code>-u</code>, o <code>pull</code> sabe qual branch remoto acompanhar.</p>
+<p>O resultado esperado é:</p>
+<ul>
+<li>caminho do <code>conecta-campus</code>;</li>
+<li>branch <code>feature/wireframe-inicial</code>;</li>
+<li>árvore de trabalho limpa;</li>
+<li>branch atualizado.</li>
+</ul>
+<h2 is-upgraded>Atualizar a documentação</h2>
+<p>Abra <code>docs/wireframe.md</code> e localize:</p>
+<pre><code language="language-markdown" class="language-markdown">## Link do Figma
+
+O link será adicionado após a criação do wireframe.
+</code></pre>
+<p>Substitua a frase temporária por:</p>
+<pre><code language="language-markdown" class="language-markdown">## Link do Figma
+
+Arquivo no Figma: COLE-AQUI-O-LINK-DE-VISUALIZACAO
+</code></pre>
+<p>Troque o marcador pelo link copiado do Figma.</p>
+<h2 is-upgraded>Revisar antes do commit</h2>
+<pre><code language="language-bash" class="language-bash">git diff -- docs/wireframe.md
+</code></pre>
+<p>Confira:</p>
+<ul>
+<li>a frase temporária foi removida;</li>
+<li>o link correto foi acrescentado;</li>
+<li>nenhum outro conteúdo foi alterado por acidente;</li>
+<li>nenhum dado confidencial aparece no arquivo.</li>
+</ul>
+<h2 is-upgraded>Registrar e enviar</h2>
+<pre><code language="language-bash" class="language-bash">git add docs/wireframe.md
+git status
+git commit -m &#34;docs: adiciona link do wireframe&#34;
+git push
+</code></pre>
+<p>Como o upstream já foi configurado, <code>git push</code> envia o branch atual ao remoto correspondente.</p>
+<h2 is-upgraded>Conferir no GitHub</h2>
+<ol type="1">
+<li>Atualize a página do Pull Request.</li>
+<li>Confirme que o segundo commit apareceu.</li>
+<li>Abra <code>Files changed</code>.</li>
+<li>Confirme que a seção do Figma contém o link.</li>
+<li>Abra o link a partir do Markdown renderizado no GitHub.</li>
+<li>Verifique novamente a permissão.</li>
+</ol>
+<p>Um link que funciona apenas para o proprietário não atende ao objetivo de compartilhamento.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="15. Revisando, mesclando e sincronizando" duration="20">
+        <h2 is-upgraded>Revisão final do Pull Request</h2>
+<p>Antes do merge, confira:</p>
+<ul>
+<li>[ ] <code>base</code> é <code>main</code>.</li>
+<li>[ ] <code>compare</code> é <code>feature/wireframe-inicial</code>.</li>
+<li>[ ] O PR contém os dois commits esperados.</li>
+<li>[ ] <code>Files changed</code> mostra somente <code>docs/wireframe.md</code>.</li>
+<li>[ ] O objetivo e as três telas estão documentados.</li>
+<li>[ ] O link do Figma abre.</li>
+<li>[ ] A permissão do Figma é de visualização.</li>
+<li>[ ] A descrição explica o que foi feito e como verificar.</li>
+<li>[ ] Não existe senha, token, <code>.env</code> ou arquivo indevido.</li>
+<li>[ ] Não há conflito impedindo a integração.</li>
+</ul>
+<h2 is-upgraded>Fazer o merge no GitHub</h2>
+<ol type="1">
+<li>Confirme que a revisão foi concluída.</li>
+<li>Clique em <strong>Merge pull request</strong> ou use o método definido pelo repositório.</li>
+<li>Leia a mensagem de merge.</li>
+<li>Confirme a integração.</li>
+<li>Clique em <strong>Delete branch</strong> para remover o branch remoto integrado.</li>
+<li>Abra a <code>main</code> no GitHub.</li>
+<li>Confirme que <code>docs/wireframe.md</code> agora está na <code>main</code>.</li>
+</ol>
+<p>O merge no GitHub não atualiza automaticamente seu computador. Sua <code>main</code> local ainda precisa receber o resultado.</p>
+<h2 is-upgraded>Atualizar a main local</h2>
+<p>Volte ao terminal dentro de <code>conecta-campus</code> e execute um comando por vez:</p>
+<pre><code language="language-bash" class="language-bash">git switch main
+git pull
+git branch -d feature/wireframe-inicial
+git fetch --prune
+git log --graph --oneline --decorate --all -10
+git status
+</code></pre>
+<h2 is-upgraded>Entendendo cada comando</h2>
+<h3 is-upgraded>git switch main</h3>
+<p>Troca do branch de trabalho para o branch principal.</p>
+<h3 is-upgraded>git pull</h3>
+<p>Recebe o merge realizado no GitHub e atualiza a <code>main</code> local.</p>
+<h3 is-upgraded>git branch -d feature/wireframe-inicial</h3>
+<ul>
+<li><code>branch</code>: gerencia branches;</li>
+<li><code>-d</code>: exclui com verificação de integração;</li>
+<li>remove apenas o branch local;</li>
+<li>não apaga a <code>main</code> nem o histórico integrado.</li>
+</ul>
+<p>Se <code>-d</code> recusar, não troque automaticamente para <code>-D</code>. Primeiro confirme se o PR foi realmente mesclado e se <code>git pull</code> atualizou a <code>main</code>.</p>
+<h3 is-upgraded>git fetch –prune</h3>
+<ul>
+<li><code>fetch</code>: atualiza informações conhecidas sobre o remoto;</li>
+<li><code>--prune</code>: remove referências locais de branches remotos que já não existem;</li>
+<li>não apaga seus arquivos de trabalho.</li>
+</ul>
+<h3 is-upgraded>git log</h3>
+<p>Mostra o histórico e as referências após a integração.</p>
+<h3 is-upgraded>git status</h3>
+<p>Deve indicar <code>main</code> e árvore de trabalho limpa.</p>
+<h2 is-upgraded>Critérios do marco v0.2</h2>
+<ul>
+<li>[ ] <code>docs/wireframe.md</code> existe na <code>main</code>.</li>
+<li>[ ] O arquivo descreve o objetivo e as três telas.</li>
+<li>[ ] O link do Figma abre com permissão de visualização.</li>
+<li>[ ] O Figma contém três frames móveis nomeados.</li>
+<li>[ ] Os frames possuem camadas identificáveis.</li>
+<li>[ ] Os cinco estilos locais foram aplicados.</li>
+<li>[ ] O Pull Request foi revisado e mesclado.</li>
+<li>[ ] O branch remoto foi removido.</li>
+<li>[ ] O branch local foi removido.</li>
+<li>[ ] <code>git status</code> mostra árvore limpa em <code>main</code>.</li>
+</ul>
+<h2 is-upgraded>Prática WP08</h2>
+<p>Escreva de cinco a oito linhas explicando o caminho completo:</p>
+<pre><code language="language-text" class="language-text">main → branch → commits → push → Pull Request → Figma → novo commit → revisão → merge → pull
+</code></pre>
+<p>Não apenas liste os termos. Explique o papel de cada etapa.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="16. Diagnóstico, consolidação e gabarito" duration="25">
+        <h2 is-upgraded>Diagnóstico de erros comuns</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Sintoma</p>
+</td><td colspan="1" rowspan="1"><p>Causa provável</p>
+</td><td colspan="1" rowspan="1"><p>Como confirmar</p>
+</td><td colspan="1" rowspan="1"><p>Ação segura</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>branch already exists</code></p>
+</td><td colspan="1" rowspan="1"><p>O branch já existe localmente.</p>
+</td><td colspan="1" rowspan="1"><p>Execute <code>git branch</code>.</p>
+</td><td colspan="1" rowspan="1"><p>Use <code>git switch nome-do-branch</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>invalid reference</code></p>
+</td><td colspan="1" rowspan="1"><p>O nome não existe ou foi digitado incorretamente.</p>
+</td><td colspan="1" rowspan="1"><p>Execute <code>git branch -a</code>.</p>
+</td><td colspan="1" rowspan="1"><p>Copie o nome correto e tente novamente.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>local changes would be overwritten</code></p>
+</td><td colspan="1" rowspan="1"><p>Há mudança pendente incompatível com a troca.</p>
+</td><td colspan="1" rowspan="1"><p>Execute <code>git status</code>.</p>
+</td><td colspan="1" rowspan="1"><p>Conclua ou organize o trabalho antes de trocar.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>non-fast-forward</code> no push</p>
+</td><td colspan="1" rowspan="1"><p>O remoto possui commits ainda não recebidos.</p>
+</td><td colspan="1" rowspan="1"><p>Confirme branch e execute <code>git status</code>.</p>
+</td><td colspan="1" rowspan="1"><p>Faça <code>git pull</code> no branch correto e resolva antes de novo push.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>CONFLICT</code> ou <code>unmerged paths</code></p>
+</td><td colspan="1" rowspan="1"><p>O merge encontrou mudanças incompatíveis.</p>
+</td><td colspan="1" rowspan="1"><p>Execute <code>git status</code> e abra os arquivos.</p>
+</td><td colspan="1" rowspan="1"><p>Resolva marcadores, use <code>git add</code> e <code>commit</code>, ou cancele com <code>git merge --abort</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>PR sem mudanças</p>
+</td><td colspan="1" rowspan="1"><p>Base e compare são iguais, invertidos ou o branch não recebeu push.</p>
+</td><td colspan="1" rowspan="1"><p>Confira seletores e commits.</p>
+</td><td colspan="1" rowspan="1"><p>Corrija base/compare ou publique o branch correto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Link do Figma pede acesso</p>
+</td><td colspan="1" rowspan="1"><p>A permissão está limitada.</p>
+</td><td colspan="1" rowspan="1"><p>Teste em janela privativa.</p>
+</td><td colspan="1" rowspan="1"><p>Ajuste para visualização ou convide pessoa autorizada.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Elementos fora do frame</p>
+</td><td colspan="1" rowspan="1"><p>As camadas foram criadas fora do contêiner.</p>
+</td><td colspan="1" rowspan="1"><p>Observe a hierarquia no Figma.</p>
+</td><td colspan="1" rowspan="1"><p>Mova as camadas para o frame correto.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Prática WP09</h2>
+<p>Escolha três erros da tabela. Para cada um, escreva:</p>
+<ol type="1">
+<li>Sintoma observado.</li>
+<li>Comando ou painel usado para confirmar.</li>
+<li>Ação segura.</li>
+<li>Ação arriscada que deve ser evitada.</li>
+</ol>
+<h2 is-upgraded>Atividade WP10-A - Ordenar o fluxo</h2>
+<p>Coloque na ordem correta e informe onde ocorre cada ação:</p>
+<ul>
+<li>revisar <code>Files changed</code>;</li>
+<li><code>git switch -c feature/exemplo</code>;</li>
+<li><code>git push -u origin feature/exemplo</code>;</li>
+<li>criar commit;</li>
+<li>abrir Pull Request;</li>
+<li>mesclar;</li>
+<li><code>git switch main</code>;</li>
+<li><code>git pull</code>.</li>
+</ul>
+<h2 is-upgraded>Atividade WP10-B - Mudança pendente na main</h2>
+<p>Situação:</p>
+<pre><code language="language-text" class="language-text">Você está em main.
+git status mostra README.md modificado.
+Você precisa criar um novo branch.
+</code></pre>
+<p>Explique:</p>
+<ol type="1">
+<li>Por que não deve ignorar a alteração.</li>
+<li>Como prosseguir se o trabalho estiver pronto.</li>
+<li>Como prosseguir se o trabalho estiver incompleto.</li>
+<li>Por que um descarte forçado pode ser perigoso.</li>
+</ol>
+<h2 is-upgraded>Atividade WP10-C - Planejar uma quarta tela</h2>
+<p>Desenhe em papel ou descreva em texto uma tela chamada <strong>Sugestão</strong>.</p>
+<p>Informe:</p>
+<ul>
+<li>nome do frame;</li>
+<li>cinco camadas;</li>
+<li>estilos existentes que seriam reutilizados.</li>
+</ul>
+<p>Não construa a tela no Figma ainda.</p>
+<h2 is-upgraded>Atividade WP10-D - Escrever uma revisão</h2>
+<p>Analise o Pull Request do marco <code>v0.2</code> e escreva uma revisão curta contendo:</p>
+<ul>
+<li>o que foi implementado;</li>
+<li>o que você verificou;</li>
+<li>um ponto correto;</li>
+<li>um ajuste que melhoraria a clareza.</li>
+</ul>
+<h2 is-upgraded>Gabarito WP01</h2>
+<p>Branch é uma referência leve para uma linha de commits; ele não duplica todos os arquivos. Commit registra um estado. Branch organiza a sequência de commits. Pull Request propõe, no GitHub, a revisão e integração das mudanças.</p>
+<h2 is-upgraded>Gabarito WP02</h2>
+<p>O branch atual e o branch do commit devem ser <code>feature/wireframe-inicial</code>. A <code>main</code> não contém <code>wireframe.md</code> apenas porque o arquivo existe no outro branch; ela o receberá após a integração.</p>
+<h2 is-upgraded>Gabarito WP03</h2>
+<p><code>HEAD</code> aponta para <code>feature/wireframe-inicial</code>. <code>main</code> e <code>origin/main</code> permanecem no commit anterior. Após o push, <code>origin/feature/wireframe-inicial</code> aponta para o commit enviado.</p>
+<h2 is-upgraded>Gabarito WP04</h2>
+<p><code>HEAD</code> identifica a versão do branch atual; <code>=======</code> separa as versões; o nome final identifica o branch recebido. O caminho seguro é consultar <code>git status</code>, editar e remover os marcadores, executar <code>git add</code> e criar o commit que conclui o merge.</p>
+<h2 is-upgraded>Gabarito WP05</h2>
+<p><code>base</code> deve ser <code>main</code>; <code>compare</code> deve ser <code>feature/wireframe-inicial</code>. Em <code>Files changed</code>, verifique escopo, conteúdo real das linhas, ausência de segredos e coerência com a descrição.</p>
+<h2 is-upgraded>Gabarito WP06</h2>
+<ol type="1">
+<li>Página.</li>
+<li>Frame.</li>
+<li>Camada de texto.</li>
+<li>Grupo.</li>
+</ol>
+<p>Frame representa melhor uma tela porque possui dimensões e funciona como contêiner de camadas com propriedades próprias.</p>
+<h2 is-upgraded>Gabarito WP07</h2>
+<p>O arquivo deve apresentar <code>Texto/Titulo</code>, <code>Texto/Corpo</code>, <code>Cor/Texto</code>, <code>Cor/Superficie</code> e <code>Cor/Borda</code> aplicados. O link precisa abrir em janela privativa e permitir visualização sem edição pública.</p>
+<h2 is-upgraded>Gabarito WP08</h2>
+<p>A <code>main</code> foi atualizada e originou <code>feature/wireframe-inicial</code>. O documento foi registrado em commit; o branch foi publicado e usado em um Pull Request. No Figma, foram criados três wireframes, estilos e um link de visualização. O link gerou outro commit no mesmo branch. Depois da revisão, o PR foi mesclado, a <code>main</code> local recebeu <code>git pull</code> e os branches temporários foram encerrados.</p>
+<h2 is-upgraded>Gabarito WP09</h2>
+<p>Exemplo: para <code>CONFLICT</code>, confirme com <code>git status</code>, resolva o conteúdo, use <code>git add</code> e conclua com <code>commit</code>. Evite apagar o arquivo inteiro ou forçar uma troca de branch.</p>
+<p>Outro exemplo: se o link do Figma pede acesso, teste em janela privativa e ajuste a permissão para visualização. Evite liberar edição pública.</p>
+<h2 is-upgraded>Gabarito WP10-A</h2>
+<p>Ordem:</p>
+<ol type="1">
+<li><code>git switch -c feature/exemplo</code> - terminal.</li>
+<li>Criar commit - terminal.</li>
+<li><code>git push -u origin feature/exemplo</code> - terminal.</li>
+<li>Abrir Pull Request - GitHub.</li>
+<li>Revisar <code>Files changed</code> - GitHub.</li>
+<li>Mesclar - GitHub.</li>
+<li><code>git switch main</code> - terminal.</li>
+<li><code>git pull</code> - terminal.</li>
+</ol>
+<h2 is-upgraded>Gabarito WP10-B</h2>
+<p>A alteração pode ser parte de um trabalho real ou ter sido feita por engano. Se estiver pronta e coerente, revise e crie um commit antes de trocar. Se estiver incompleta, permaneça no branch e procure uma forma consciente de concluí-la ou guardá-la. Não use descarte forçado sem entender o conteúdo.</p>
+<h2 is-upgraded>Gabarito WP10-C</h2>
+<p>Exemplo:</p>
+<pre><code language="language-text" class="language-text">Frame: 04-Sugestao-Mobile
+
+Camadas:
+- cabecalho
+- titulo
+- campo-nome
+- campo-descricao
+- botao-enviar
+
+Estilos:
+- Texto/Titulo
+- Texto/Corpo
+- Cor/Texto
+- Cor/Superficie
+- Cor/Borda
+</code></pre>
+<p>Outras estruturas coerentes também são válidas.</p>
+<h2 is-upgraded>Gabarito WP10-D</h2>
+<p>A revisão deve citar o documento, o link testado, os commits e os arquivos alterados. Um bom comentário diferencia uma observação objetiva de uma sugestão e não aprova o trabalho apenas porque o Pull Request existe.</p>
+<p>Compare o raciocínio, os comandos, o estado do repositório e o resultado visual. Uma solução diferente pode estar correta se preservar segurança, escopo e resultado.</p>
+<h2 is-upgraded>Autoavaliação</h2>
+<ul>
+<li>[ ] Explico branch, commit, merge e Pull Request sem tratá-los como sinônimos.</li>
+<li>[ ] Verifico branch e <code>git status</code> antes de trocar ou integrar trabalho.</li>
+<li>[ ] Crio e publico um branch com nome relacionado à mudança.</li>
+<li>[ ] Interpreto <code>HEAD</code> no histórico e nos conflitos.</li>
+<li>[ ] Leio marcadores de conflito.</li>
+<li>[ ] Sei resolver ou cancelar um merge.</li>
+<li>[ ] Confiro <code>base</code>, <code>compare</code>, commits e <code>Files changed</code>.</li>
+<li>[ ] Crio frames e organizo camadas no Figma.</li>
+<li>[ ] Crio e aplico estilos locais.</li>
+<li>[ ] Compartilho um link apenas para visualização.</li>
+<li>[ ] Atualizo um PR aberto com um novo commit.</li>
+<li>[ ] Sincronizo a <code>main</code> depois do merge.</li>
+<li>[ ] Concluo e demonstro o marco <code>v0.2</code>.</li>
+</ul>
+<h2 is-upgraded>Continuidade do projeto</h2>
+<p>Os três wireframes orientarão a criação das primeiras páginas HTML. Nesta fase seguinte, a prioridade será a estrutura semântica e a navegação; o acabamento visual será construído gradualmente.</p>
+<h2 is-upgraded>Materiais complementares</h2>
+<ul>
+<li><a href="https://git-scm.com/docs/git-switch" target="_blank">git switch - documentação oficial</a></li>
+<li><a href="https://git-scm.com/docs/git-branch" target="_blank">git branch - documentação oficial</a></li>
+<li><a href="https://git-scm.com/docs/git-merge" target="_blank">git merge - documentação oficial</a></li>
+<li><a href="https://git-scm.com/book/pt-br/v2/Ramifica%C3%A7%C3%A3o-Branching-no-Git-Ramifica%C3%A7%C3%A3o-Branching-e-Mesclagem-Merging-B%C3%A1sicas" target="_blank">Branches e merge básicos - Pro Git</a></li>
+<li><a href="https://docs.github.com/pt/pull-requests/how-tos/create-pull-requests/creating-a-pull-request" target="_blank">Criar um Pull Request - GitHub Docs</a></li>
+<li><a href="https://docs.github.com/pt/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request" target="_blank">Revisar alterações propostas - GitHub Docs</a></li>
+<li><a href="https://docs.github.com/pt/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request" target="_blank">Mesclar um Pull Request - GitHub Docs</a></li>
+<li><a href="https://docs.github.com/pt/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-using-the-command-line" target="_blank">Resolver conflito pela linha de comando - GitHub Docs</a></li>
+<li><a href="https://help.figma.com/hc/en-us/categories/23557013073047-Courses-tutorials-projects" target="_blank">Figma Design para iniciantes</a></li>
+<li><a href="https://help.figma.com/hc/en-us/articles/360041539473-Frames-in-Figma-Design" target="_blank">Frames no Figma Design</a></li>
+<li><a href="https://help.figma.com/hc/en-us/articles/360038746534-Create-color-text-effect-and-layout-guide-styles" target="_blank">Criar estilos no Figma</a></li>
+<li><a href="https://help.figma.com/hc/en-us/articles/360040531773-Share-files-and-prototypes" target="_blank">Compartilhar arquivos e protótipos no Figma</a></li>
+<li><a href="https://skills.github.com/" target="_blank">GitHub Skills</a></li>
+</ul>
+<p>© 2026 Alexandre Carlos de Jesus. Todos os direitos reservados.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

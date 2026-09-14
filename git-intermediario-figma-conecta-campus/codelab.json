@@ -1,0 +1,31 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-09-14T00:04:44-03:00",
+  "id": "git-intermediario-figma-conecta-campus",
+  "duration": 365,
+  "title": "Git intermediário e Figma: Conecta Campus v0.2",
+  "authors": "Alexandre Carlos de Jesus",
+  "summary": "Aprenda branches, merge, conflitos, Pull Requests e Figma passo a passo enquanto conclui o marco v0.2 do Conecta Campus",
+  "source": "codelab-git-intermediario-figma-conecta-campus.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "git",
+    "github",
+    "figma",
+    "versionamento"
+  ],
+  "tags": [
+    "ads",
+    "conecta-campus",
+    "fiap",
+    "frontend",
+    "wireframe"
+  ],
+  "url": "git-intermediario-figma-conecta-campus"
+}

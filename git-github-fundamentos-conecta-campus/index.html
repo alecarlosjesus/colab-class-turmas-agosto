@@ -1,0 +1,777 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Git e GitHub: fundamentos com o projeto Conecta Campus</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="git-github-fundamentos-conecta-campus"
+                  title="Git e GitHub: fundamentos com o projeto Conecta Campus"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="1. Antes de começar" duration="10">
+        <p>Neste Codelab, você aprenderá os fundamentos de <strong>Git</strong> e <strong>GitHub</strong> enquanto cria o primeiro histórico do projeto <strong>Conecta Campus</strong>.</p>
+<p>Ao final, você terá:</p>
+<ul>
+<li>um repositório Git no seu computador;</li>
+<li>arquivos preparados e registrados em commits;</li>
+<li>um repositório conectado ao GitHub;</li>
+<li>um ciclo de <code>push</code> e <code>pull</code> concluído;</li>
+<li>o marco <code>v0.1</code> do Conecta Campus publicado;</li>
+<li>um histórico que mostra como o projeto evoluiu.</li>
+</ul>
+<h2 is-upgraded>O que você precisa</h2>
+<ul>
+<li>Conta ativa no <a href="https://github.com/" target="_blank">GitHub</a>.</li>
+<li>Permissão para instalar programas no computador.</li>
+<li>Visual Studio Code ou outro editor de texto.</li>
+<li>Navegador atualizado.</li>
+<li>Conexão com a internet para a parte do GitHub.</li>
+<li>Uma pasta conhecida para guardar seus projetos.</li>
+</ul>
+<h2 is-upgraded>Regra principal deste Codelab</h2>
+<p>Execute <strong>uma ação por vez</strong>. Depois de cada ação importante, confira o resultado antes de avançar.</p>
+<p><strong>Atenção:</strong> substitua <code>SEU-USUARIO</code>, <code>SEU NOME COMPLETO</code> e <code>SEU-EMAIL</code> pelos seus próprios dados. Nunca publique senha, token, chave de API ou arquivo <code>.env</code>.</p>
+<h2 is-upgraded>Como ler os comandos</h2>
+<p>Os comandos devem ser digitados no terminal. Se algum exemplo externo mostrar o símbolo <code>$</code>, não o digite: ele representa apenas o indicador de que o terminal está pronto.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="2. Entendendo Git, GitHub e versionamento" duration="15">
+        <p>Imagine que você salvou o mesmo trabalho com estes nomes:</p>
+<pre><code language="language-text" class="language-text">projeto-final.zip
+projeto-final-agora-vai.zip
+projeto-final-certo-2.zip
+</code></pre>
+<p>Esses nomes tentam mostrar a evolução do trabalho, mas não respondem claramente:</p>
+<ul>
+<li>o que mudou;</li>
+<li>quem realizou a mudança;</li>
+<li>quando a mudança aconteceu;</li>
+<li>por que ela foi feita;</li>
+<li>qual versão deve ser usada.</li>
+</ul>
+<p>Um <strong>sistema de controle de versões</strong> registra a evolução do projeto em um histórico consultável.</p>
+<h2 is-upgraded>O que é Git?</h2>
+<p><strong>Git</strong> é um sistema de controle de versões instalado no computador. Ele permite registrar mudanças, comparar versões e consultar o histórico mesmo sem internet.</p>
+<h2 is-upgraded>O que é GitHub?</h2>
+<p><strong>GitHub</strong> é uma plataforma on-line que hospeda repositórios Git e acrescenta recursos de compartilhamento e colaboração.</p>
+<h2 is-upgraded>Git e GitHub não são a mesma coisa</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Git</p>
+</td><td colspan="1" rowspan="1"><p>GitHub</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Funciona no computador.</p>
+</td><td colspan="1" rowspan="1"><p>Funciona como serviço on-line.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Cria commits localmente.</p>
+</td><td colspan="1" rowspan="1"><p>Hospeda o repositório remoto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Pode ser usado sem internet.</p>
+</td><td colspan="1" rowspan="1"><p>Precisa de internet para sincronização.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Controla o histórico.</p>
+</td><td colspan="1" rowspan="1"><p>Facilita compartilhamento e colaboração.</p>
+</td></tr>
+</table>
+<p>Você pode usar Git sem GitHub. Porém, para compartilhar o histórico ou acessá-lo em outro computador, normalmente utilizará um serviço remoto como o GitHub.</p>
+<h2 is-upgraded>Glossário essencial</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Termo</p>
+</td><td colspan="1" rowspan="1"><p>Explicação simples</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>CLI</p>
+</td><td colspan="1" rowspan="1"><p>Interface de Linha de Comando: uso de uma ferramenta por comandos digitados no terminal.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Commit</p>
+</td><td colspan="1" rowspan="1"><p>Registro de um estado do projeto no histórico local do Git.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Diretório</p>
+</td><td colspan="1" rowspan="1"><p>Pasta do computador.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Git</p>
+</td><td colspan="1" rowspan="1"><p>Sistema distribuído de controle de versões.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>GitHub</p>
+</td><td colspan="1" rowspan="1"><p>Plataforma on-line que hospeda repositórios Git.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Hash</p>
+</td><td colspan="1" rowspan="1"><p>Identificador calculado pelo Git para representar um objeto, como um commit.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Local</p>
+</td><td colspan="1" rowspan="1"><p>Aquilo que está no seu computador.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Markdown</p>
+</td><td colspan="1" rowspan="1"><p>Linguagem simples de marcação usada em arquivos como <code>README.md</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Push</p>
+</td><td colspan="1" rowspan="1"><p>Envio de commits locais para um repositório remoto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Pull</p>
+</td><td colspan="1" rowspan="1"><p>Recebimento e integração de alterações do repositório remoto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>README</p>
+</td><td colspan="1" rowspan="1"><p>Arquivo que apresenta e orienta o uso de um projeto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Remoto</p>
+</td><td colspan="1" rowspan="1"><p>Repositório hospedado fora do seu computador.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Repositório</p>
+</td><td colspan="1" rowspan="1"><p>Pasta cujo histórico é controlado pelo Git.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Stage</p>
+</td><td colspan="1" rowspan="1"><p>Área de preparação do próximo commit.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>VCS</p>
+</td><td colspan="1" rowspan="1"><p>Sistema de Controle de Versões.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Prática WP01</h2>
+<p>Classifique cada frase como <strong>Git</strong>, <strong>GitHub</strong> ou <strong>Ambos</strong>:</p>
+<ol type="1">
+<li>Cria commits localmente.</li>
+<li>Hospeda o repositório na internet.</li>
+<li>Trabalha com repositórios.</li>
+<li>Pode funcionar sem internet.</li>
+<li>Permite visualizar o projeto em uma página web.</li>
+</ol>
+<p>Depois, explique com suas palavras a diferença entre Git e GitHub em duas frases.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="3. Instalando e configurando o Git" duration="25">
+        <h2 is-upgraded>Instalação no Windows</h2>
+<ol type="1">
+<li>Acesse <a href="https://git-scm.com/install/windows" target="_blank">git-scm.com/install/windows</a>.</li>
+<li>Baixe o instalador <code>x64</code>, exceto se o computador usar processador ARM64.</li>
+<li>Execute o instalador.</li>
+<li>Mantenha os componentes padrão, incluindo Git Bash e Git Credential Manager, quando oferecidos.</li>
+<li>Escolha o Visual Studio Code como editor padrão somente se ele já estiver instalado.</li>
+<li>Na configuração do branch inicial, escolha <code>main</code> ou defina esse nome depois da instalação.</li>
+<li>Mantenha a opção recomendada de <code>PATH</code>, que permite usar Git no terminal e em outros programas.</li>
+<li>Conclua a instalação.</li>
+<li>Feche os terminais que estavam abertos e abra um novo terminal.</li>
+</ol>
+<p><strong>Atenção:</strong> as telas do instalador podem mudar. O objetivo é ter Git, Git Bash e autenticação HTTPS funcionando. Não escolha opções avançadas apenas porque parecem mais completas.</p>
+<h2 is-upgraded>macOS e Linux</h2>
+<ul>
+<li>macOS: consulte <a href="https://git-scm.com/install/mac" target="_blank">git-scm.com/install/mac</a>.</li>
+<li>Linux: use o gerenciador de pacotes da sua distribuição e consulte <a href="https://git-scm.com/install/linux" target="_blank">git-scm.com/install/linux</a>.</li>
+</ul>
+<p>Os comandos Git utilizados neste Codelab são os mesmos. O que muda é a forma de instalação e o terminal disponível.</p>
+<h2 is-upgraded>Verificar a instalação</h2>
+<p>Abra o Git Bash, PowerShell ou terminal integrado do Visual Studio Code e execute:</p>
+<pre><code language="language-bash" class="language-bash">git --version
+</code></pre>
+<p>Entenda o comando:</p>
+<ul>
+<li><code>git</code>: chama o programa Git;</li>
+<li><code>--version</code>: solicita a versão instalada;</li>
+<li>o comando apenas consulta uma informação e não altera arquivos.</li>
+</ul>
+<p>O resultado será parecido com:</p>
+<pre><code language="language-text" class="language-text">git version 2.x.x
+</code></pre>
+<p>A versão exata pode ser diferente. O importante é o Git responder sem erro.</p>
+<h2 is-upgraded>Configurar sua identidade</h2>
+<p>O nome e o e-mail abaixo não são sua senha. Eles identificam a autoria dos commits.</p>
+<pre><code language="language-bash" class="language-bash">git config --global user.name &#34;SEU NOME COMPLETO&#34;
+git config --global user.email &#34;SEU-EMAIL&#34;
+git config --global init.defaultBranch main
+</code></pre>
+<p>Entenda cada parte:</p>
+<ul>
+<li><code>git config</code>: altera ou consulta configurações do Git;</li>
+<li><code>--global</code>: aplica a configuração ao seu usuário nesse computador;</li>
+<li><code>user.name</code>: define o nome do autor;</li>
+<li><code>user.email</code>: define o e-mail do autor;</li>
+<li><code>init.defaultBranch main</code>: define <code>main</code> como nome padrão do primeiro branch.</li>
+</ul>
+<p>As aspas no nome preservam os espaços. Esses comandos normalmente não exibem mensagem quando funcionam.</p>
+<p><strong>Privacidade:</strong> se não quiser publicar seu e-mail pessoal nos commits, configure no GitHub um endereço <code>noreply</code> reconhecido pela sua conta.</p>
+<h2 is-upgraded>Conferir a configuração</h2>
+<pre><code language="language-bash" class="language-bash">git config --global --list
+</code></pre>
+<p>Procure as seguintes chaves na saída:</p>
+<pre><code language="language-text" class="language-text">user.name=
+user.email=
+init.defaultbranch=main
+</code></pre>
+<h2 is-upgraded>Prática WP02</h2>
+<p>Registre em suas anotações:</p>
+<ul>
+<li>versão instalada do Git;</li>
+<li>valor de <code>user.name</code>;</li>
+<li>apenas o domínio do e-mail, sem expor o endereço completo;</li>
+<li>nome do branch padrão.</li>
+</ul>
+<p>Se algo estiver incorreto, repita apenas o comando de configuração correspondente.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="4. Construindo o modelo mental do Git" duration="20">
+        <p>O Git não registra automaticamente tudo o que você digita. Uma mudança percorre três áreas principais.</p>
+<h2 is-upgraded>1. Diretório de trabalho</h2>
+<p>É a pasta visível do projeto. Nela você cria, edita e apaga arquivos.</p>
+<h2 is-upgraded>2. Área de preparação</h2>
+<p>Também chamada de <strong>stage</strong> ou <strong>index</strong>, guarda a seleção do que entrará no próximo commit.</p>
+<h2 is-upgraded>3. Repositório local</h2>
+<p>Fica na pasta oculta <code>.git</code> e guarda o histórico do projeto.</p>
+<p>O fluxo básico é:</p>
+<pre><code language="language-text" class="language-text">Editar arquivos → Preparar com git add → Registrar com git commit
+</code></pre>
+<p><strong>Atenção:</strong> não altere nem apague manualmente a pasta <code>.git</code>. Excluí-la remove o histórico local, embora os arquivos de trabalho continuem visíveis.</p>
+<h2 is-upgraded>Estados de um arquivo</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Estado</p>
+</td><td colspan="1" rowspan="1"><p>Significado</p>
+</td><td colspan="1" rowspan="1"><p>Indicação comum em <code>git status</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Untracked</p>
+</td><td colspan="1" rowspan="1"><p>Arquivo novo ainda não acompanhado.</p>
+</td><td colspan="1" rowspan="1"><p><code>Untracked files</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Modified</p>
+</td><td colspan="1" rowspan="1"><p>Arquivo acompanhado foi alterado.</p>
+</td><td colspan="1" rowspan="1"><p><code>Changes not staged for commit</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Staged</p>
+</td><td colspan="1" rowspan="1"><p>Versão selecionada para o próximo commit.</p>
+</td><td colspan="1" rowspan="1"><p><code>Changes to be committed</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Committed</p>
+</td><td colspan="1" rowspan="1"><p>Versão registrada no histórico local.</p>
+</td><td colspan="1" rowspan="1"><p><code>working tree clean</code>, quando nada mais mudou</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Prática WP03</h2>
+<p>Sem executar comandos, preveja o estado de um arquivo novo chamado <code>README.md</code>:</p>
+<ol type="1">
+<li>Logo depois de ser criado.</li>
+<li>Depois de <code>git add README.md</code>.</li>
+<li>Depois de <code>git commit</code>.</li>
+<li>Depois de ser editado novamente.</li>
+</ol>
+<p>Justifique cada resposta antes de consultar o gabarito.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="5. Criando o repositório Conecta Campus" duration="30">
+        <p>Nesta etapa, você criará o repositório local e os dois primeiros arquivos do projeto.</p>
+<h2 is-upgraded>Criar e abrir a pasta</h2>
+<p>Posicione o terminal na pasta em que você guarda seus projetos. Depois execute um comando por vez:</p>
+<pre><code language="language-bash" class="language-bash">mkdir conecta-campus
+cd conecta-campus
+code .
+</code></pre>
+<p>Entenda cada comando:</p>
+<ul>
+<li><code>mkdir conecta-campus</code>: cria uma pasta chamada <code>conecta-campus</code>;</li>
+<li><code>cd conecta-campus</code>: entra na nova pasta;</li>
+<li><code>code .</code>: abre no Visual Studio Code a pasta atual, representada pelo ponto.</li>
+</ul>
+<p>Se <code>code .</code> não funcionar, abra o Visual Studio Code pelo menu e escolha <strong>Arquivo &gt; Abrir Pasta</strong>.</p>
+<p>Evite criar o projeto dentro de uma pasta temporária ou em um local que você não consegue encontrar depois.</p>
+<h2 is-upgraded>Inicializar o Git</h2>
+<p>No terminal aberto dentro de <code>conecta-campus</code>, execute:</p>
+<pre><code language="language-bash" class="language-bash">git init -b main
+git status
+</code></pre>
+<ul>
+<li><code>git init</code>: transforma a pasta comum em um repositório Git;</li>
+<li><code>-b main</code>: cria o branch inicial com o nome <code>main</code>;</li>
+<li><code>git status</code>: mostra o estado atual sem alterar arquivos.</li>
+</ul>
+<p>O resultado deve indicar que o repositório está vazio e ainda não possui commits.</p>
+<h2 is-upgraded>Criar o README</h2>
+<p>No Visual Studio Code, crie na raiz do projeto o arquivo <code>README.md</code>.</p>
+<p>Digite:</p>
+<pre><code language="language-markdown" class="language-markdown"># Conecta Campus
+
+Guia acadêmico de serviços, ambientes e recursos de acessibilidade.
+
+## Situação do projeto
+
+Versão inicial em construção durante o primeiro semestre de ADS.
+
+## Autor
+
+Seu nome completo
+</code></pre>
+<p>O símbolo <code>#</code> cria o título principal. <code>##</code> cria um subtítulo. Linhas em branco separam os blocos.</p>
+<h2 is-upgraded>Criar o .gitignore</h2>
+<p>Crie na raiz um arquivo chamado exatamente <code>.gitignore</code>. O ponto faz parte do nome.</p>
+<p>Digite:</p>
+<pre><code language="language-text" class="language-text">.vscode/
+.DS_Store
+Thumbs.db
+*.log
+.env
+node_modules/
+dist/
+</code></pre>
+<p>Esse arquivo registra padrões que não devem entrar no histórico:</p>
+<ul>
+<li><code>/</code> no final indica uma pasta;</li>
+<li><code>*</code> é um curinga;</li>
+<li><code>*.log</code> representa qualquer arquivo terminado em <code>.log</code>;</li>
+<li><code>.env</code> protege arquivos comuns de variáveis locais;</li>
+<li><code>node_modules/</code> e <code>dist/</code> serão úteis em etapas futuras do curso.</li>
+</ul>
+<p><strong>Importante: </strong><code>.gitignore</code> não apaga arquivos e não torna seguros segredos que já foram publicados. Nunca adicione senhas, tokens, chaves de API ou <code>.env</code> ao commit.</p>
+<h2 is-upgraded>Conferir o estado</h2>
+<pre><code language="language-bash" class="language-bash">git status
+</code></pre>
+<p><code>README.md</code> e <code>.gitignore</code> devem aparecer como <strong>untracked</strong>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="6. Preparando arquivos e criando commits" duration="35">
+        <p>Agora você transformará os arquivos criados em um histórico legível.</p>
+<h2 is-upgraded>Preparar os arquivos conscientemente</h2>
+<pre><code language="language-bash" class="language-bash">git add README.md .gitignore
+git status
+</code></pre>
+<p>O primeiro comando seleciona os dois arquivos para o próximo commit. O segundo confirma o resultado.</p>
+<p>Eles devem aparecer em <code>Changes to be committed</code>, indicando o estado <strong>staged</strong>.</p>
+<h2 is-upgraded>Por que não começar com git add .?</h2>
+<p>O ponto em <code>git add .</code> prepara tudo que não estiver ignorado. Isso é útil, mas pode incluir arquivos acidentais. No primeiro commit, nomear os arquivos deixa a decisão mais clara.</p>
+<h2 is-upgraded>Criar o primeiro commit</h2>
+<pre><code language="language-bash" class="language-bash">git commit -m &#34;docs: inicia documentação do Conecta Campus&#34;
+git status
+</code></pre>
+<p>Entenda o comando:</p>
+<ul>
+<li><code>commit</code>: cria um registro no histórico;</li>
+<li><code>-m</code>: permite escrever a mensagem no próprio comando;</li>
+<li><code>docs:</code>: informa que a mudança está relacionada à documentação;</li>
+<li>a mensagem explica claramente o que foi feito.</li>
+</ul>
+<p>Se nada mudou depois do commit, <code>git status</code> deverá informar:</p>
+<pre><code language="language-text" class="language-text">working tree clean
+</code></pre>
+<p>Evite mensagens vagas como <code>update</code>, <code>teste</code>, <code>alterações</code> ou <code>coisas</code>.</p>
+<h2 is-upgraded>Consultar o histórico</h2>
+<pre><code language="language-bash" class="language-bash">git log --oneline
+</code></pre>
+<ul>
+<li><code>log</code>: consulta os commits;</li>
+<li><code>--oneline</code>: mostra cada commit em uma linha curta;</li>
+<li>o código no início da linha é uma forma curta do hash do commit.</li>
+</ul>
+<h2 is-upgraded>Comparar uma nova alteração</h2>
+<p>No primeiro parágrafo do <code>README.md</code>, acrescente esta frase:</p>
+<pre><code language="language-text" class="language-text">O projeto será desenvolvido de forma incremental.
+</code></pre>
+<p>Salve o arquivo e execute:</p>
+<pre><code language="language-bash" class="language-bash">git diff
+git status
+</code></pre>
+<p>Em <code>git diff</code>:</p>
+<ul>
+<li>linhas iniciadas por <code>-</code> representam conteúdo anterior ou removido;</li>
+<li>linhas iniciadas por <code>+</code> representam conteúdo novo ou acrescentado;</li>
+<li>o comando apenas consulta diferenças e não altera arquivos.</li>
+</ul>
+<p>Agora registre a mudança:</p>
+<pre><code language="language-bash" class="language-bash">git add README.md
+git commit -m &#34;docs: explica evolução incremental&#34;
+git log --oneline
+git status
+</code></pre>
+<p>O commit mais recente aparece primeiro no log. Ao final, o diretório de trabalho deve estar limpo.</p>
+<h2 is-upgraded>Prática WP04</h2>
+<ol type="1">
+<li>Faça uma pequena melhoria no <code>README.md</code>.</li>
+<li>Salve o arquivo.</li>
+<li>Use <code>git diff</code> antes de preparar.</li>
+<li>Prepare somente o arquivo alterado.</li>
+<li>Crie um terceiro commit com mensagem descritiva.</li>
+<li>Execute <code>git log --oneline</code>.</li>
+<li>Explique o que o <code>diff</code> ajudou você a conferir.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="7. Conectando o projeto ao GitHub" duration="25">
+        <p>Até aqui, o histórico existe somente no seu computador. Agora você criará um repositório vazio no GitHub e conectará as duas cópias.</p>
+<h2 is-upgraded>Criar o repositório remoto</h2>
+<ol type="1">
+<li>Acesse <a href="https://github.com/" target="_blank">github.com</a> e entre em sua conta.</li>
+<li>Clique na opção de criação e escolha <strong>New repository</strong>.</li>
+<li>Em <strong>Repository name</strong>, digite <code>conecta-campus</code>.</li>
+<li>Na descrição, digite <code>Guia acadêmico de serviços e acessibilidade</code>.</li>
+<li>Escolha a visibilidade indicada pelo professor.</li>
+<li><strong>Não</strong> marque README, <code>.gitignore</code> ou licença, porque esses arquivos já existem no computador.</li>
+<li>Clique em <strong>Create repository</strong>.</li>
+<li>Mantenha aberta a página de configuração rápida.</li>
+</ol>
+<p>Se você criar arquivos localmente e também no GitHub antes da primeira sincronização, produzirá dois históricos separados. Neste roteiro, o repositório remoto deve começar vazio.</p>
+<h2 is-upgraded>Adicionar o remoto</h2>
+<p>No terminal do projeto, execute:</p>
+<pre><code language="language-bash" class="language-bash">git remote add origin https://github.com/SEU-USUARIO/conecta-campus.git
+git remote -v
+</code></pre>
+<p>Entenda o primeiro comando:</p>
+<ul>
+<li><code>remote</code>: gerencia repositórios remotos;</li>
+<li><code>add</code>: cria uma associação;</li>
+<li><code>origin</code>: apelido convencional dado ao remoto principal;</li>
+<li>a URL aponta para o repositório criado na sua conta.</li>
+</ul>
+<p>O comando <code>git remote -v</code> deve mostrar duas linhas para <code>origin</code>: uma para receber (<code>fetch</code>) e outra para enviar (<code>push</code>).</p>
+<h2 is-upgraded>Enviar o histórico</h2>
+<pre><code language="language-bash" class="language-bash">git push -u origin main
+</code></pre>
+<p>Entenda cada parte:</p>
+<ul>
+<li><code>push</code>: envia commits;</li>
+<li><code>-u</code>: registra a relação de acompanhamento entre os branches;</li>
+<li><code>origin</code>: é o apelido do remoto;</li>
+<li><code>main</code>: é o branch enviado.</li>
+</ul>
+<p>Na primeira vez, o Git Credential Manager pode abrir o navegador para autenticação.</p>
+<p><strong>Segurança:</strong> o GitHub não usa a senha comum da conta como senha do Git no terminal. Nunca envie tokens por mensagem e nunca coloque credenciais em comandos, arquivos ou capturas de tela.</p>
+<h2 is-upgraded>Conferir no navegador</h2>
+<p>Atualize a página do repositório e verifique:</p>
+<ul>
+<li>[ ] <code>README.md</code> aparece renderizado.</li>
+<li>[ ] <code>.gitignore</code> aparece na lista de arquivos.</li>
+<li>[ ] A quantidade esperada de commits é mostrada.</li>
+<li>[ ] O branch exibido é <code>main</code>.</li>
+<li>[ ] Nenhum arquivo confidencial foi publicado.</li>
+</ul>
+<h2 is-upgraded>Prática WP05</h2>
+<p>Se algum item estiver diferente, não execute comandos aleatórios. Use:</p>
+<pre><code language="language-bash" class="language-bash">git status
+git log --oneline
+git remote -v
+</code></pre>
+<p>Identifique se o problema está nos arquivos, no histórico ou na conexão remota.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="8. Recebendo alterações com pull" duration="20">
+        <p>O GitHub também pode receber alterações. Nesta etapa, você fará uma pequena edição remota e a trará para o computador.</p>
+<h2 is-upgraded>Confirmar que o trabalho local está limpo</h2>
+<pre><code language="language-bash" class="language-bash">git status
+</code></pre>
+<p>Continue somente se aparecer <code>working tree clean</code>.</p>
+<h2 is-upgraded>Editar no GitHub</h2>
+<ol type="1">
+<li>No GitHub, abra <code>README.md</code>.</li>
+<li>Use o botão de edição.</li>
+<li>Acrescente ao final:</li>
+</ol>
+<pre><code language="language-text" class="language-text">Repositório acadêmico criado na primeira semana do curso.
+</code></pre>
+<ol type="1" start="4">
+<li>Na mensagem, escreva <code>docs: registra início do curso</code>.</li>
+<li>Confirme o commit diretamente em <code>main</code> somente para este exercício inicial.</li>
+</ol>
+<p>Em um fluxo de equipe, não devemos transformar edições diretas em <code>main</code> no padrão de trabalho. Aqui, a ação serve apenas para demonstrar o <code>pull</code>. Branches e Pull Requests serão estudados depois.</p>
+<h2 is-upgraded>Trazer a mudança para o computador</h2>
+<p>Volte ao terminal e execute:</p>
+<pre><code language="language-bash" class="language-bash">git status
+git pull
+git log --oneline
+</code></pre>
+<ul>
+<li><code>git pull</code>: recebe e integra a alteração remota;</li>
+<li>o novo commit deve aparecer no topo do histórico;</li>
+<li>o <code>README.md</code> local deve conter a frase adicionada no GitHub.</li>
+</ul>
+<h2 is-upgraded>Quando usar clone</h2>
+<p>Use <code>clone</code> quando um repositório remoto já existe e você precisa criar uma cópia local completa.</p>
+<p>Não execute o comando dentro do repositório atual. Em outra pasta, como estudo opcional, seria possível usar:</p>
+<pre><code language="language-bash" class="language-bash">git clone https://github.com/SEU-USUARIO/conecta-campus.git
+</code></pre>
+<p>O clone cria uma nova pasta com arquivos, histórico e <code>origin</code> configurado.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="9. Publicando o marco Conecta Campus v0.1" duration="30">
+        <p>O repositório deve guardar mais do que comandos executados. Ele iniciará um <strong>documento vivo</strong>, atualizado ao longo do curso.</p>
+<h2 is-upgraded>Estrutura esperada</h2>
+<pre><code language="language-text" class="language-text">conecta-campus/
+├── docs/
+│   └── tema-do-projeto.md
+├── .gitignore
+└── README.md
+</code></pre>
+<p>Esse bloco representa a estrutura; não deve ser executado no terminal.</p>
+<h2 is-upgraded>Criar o documento vivo</h2>
+<p>No Visual Studio Code:</p>
+<ol type="1">
+<li>Crie a pasta <code>docs</code>.</li>
+<li>Dentro dela, crie <code>tema-do-projeto.md</code>.</li>
+<li>Digite o conteúdo abaixo.</li>
+</ol>
+<pre><code language="language-markdown" class="language-markdown"># Conecta Campus
+
+## Problema
+
+Alunos ingressantes nem sempre encontram rapidamente ambientes, serviços, horários e recursos de acessibilidade do campus.
+
+## Público-alvo
+
+- Estudantes ingressantes
+- Pessoas que precisam localizar recursos acessíveis
+- Visitantes em atividades acadêmicas
+
+## Objetivo geral
+
+Criar um guia web simples, responsivo e acessível para consultar locais e serviços acadêmicos.
+
+## Primeira versão
+
+A versão 1.0 usará HTML, CSS e JavaScript, com pesquisa, filtros e favoritos armazenados no navegador.
+
+## Continuidade
+
+No segundo semestre, a solução evoluirá para Node.js, React, TypeScript, Tailwind CSS e publicação na Vercel.
+</code></pre>
+<p>Não invente agora funcionalidades que pertencem a etapas futuras.</p>
+<h2 is-upgraded>Registrar e publicar o documento</h2>
+<p>Execute um comando por vez:</p>
+<pre><code language="language-bash" class="language-bash">git status
+git add docs/tema-do-projeto.md
+git commit -m &#34;docs: registra tema do Conecta Campus&#34;
+git push
+git log --oneline
+</code></pre>
+<p>Depois do primeiro <code>push -u</code>, o comando <code>git push</code> pode omitir <code>origin main</code>, pois a relação de acompanhamento já foi configurada.</p>
+<h2 is-upgraded>Critérios de aceite</h2>
+<ul>
+<li>[ ] O repositório local utiliza o branch <code>main</code>.</li>
+<li>[ ] <code>README.md</code> apresenta tema, situação e autoria.</li>
+<li>[ ] <code>.gitignore</code> contém regras para <code>.env</code>, logs, <code>node_modules</code> e <code>dist</code>.</li>
+<li>[ ] <code>docs/tema-do-projeto.md</code> contém problema, público, objetivo, primeira versão e continuidade.</li>
+<li>[ ] O histórico contém pelo menos três commits com mensagens descritivas.</li>
+<li>[ ] O remoto <code>origin</code> aponta para o repositório correto.</li>
+<li>[ ] GitHub e computador mostram o mesmo commit mais recente.</li>
+<li>[ ] Nenhuma senha, token, chave, <code>.env</code> ou informação pessoal desnecessária foi publicada.</li>
+</ul>
+<h2 is-upgraded>Prática WP06</h2>
+<p>Conclua o marco <code>v0.1</code> e escreva de três a cinco linhas respondendo:</p>
+<p>Por que o histórico de commits permite compreender melhor a construção do projeto do que o envio de uma única pasta compactada?</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="10. Diagnosticando erros comuns" duration="20">
+        <p>Quando surgir um erro, leia a mensagem e consulte o estado antes de tentar corrigir.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Sintoma</p>
+</td><td colspan="1" rowspan="1"><p>Causa provável</p>
+</td><td colspan="1" rowspan="1"><p>Como confirmar e agir</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>git</code> não é reconhecido</p>
+</td><td colspan="1" rowspan="1"><p>Terminal antigo ou <code>PATH</code> não configurado.</p>
+</td><td colspan="1" rowspan="1"><p>Reabra o terminal, execute <code>git --version</code> e confirme a instalação.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>not a git repository</code></p>
+</td><td colspan="1" rowspan="1"><p>O terminal está fora da pasta correta ou <code>git init</code> não foi executado.</p>
+</td><td colspan="1" rowspan="1"><p>Use <code>pwd</code> e <code>ls</code>, entre em <code>conecta-campus</code> e confirme a existência de <code>.git</code> sem alterá-la.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>nothing to commit</code></p>
+</td><td colspan="1" rowspan="1"><p>Não há mudança preparada ou o conteúdo já foi registrado.</p>
+</td><td colspan="1" rowspan="1"><p>Execute <code>git status</code>. Não force um commit vazio.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Author identity unknown</code></p>
+</td><td colspan="1" rowspan="1"><p><code>user.name</code> ou <code>user.email</code> não foi configurado.</p>
+</td><td colspan="1" rowspan="1"><p>Configure os dois valores e repita o commit.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>remote origin already exists</code></p>
+</td><td colspan="1" rowspan="1"><p>Já existe um remoto chamado <code>origin</code>.</p>
+</td><td colspan="1" rowspan="1"><p>Execute <code>git remote -v</code>. Mantenha se estiver correto ou altere somente a URL errada.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>rejected / non-fast-forward</code></p>
+</td><td colspan="1" rowspan="1"><p>O remoto tem commits que o computador ainda não recebeu.</p>
+</td><td colspan="1" rowspan="1"><p>Com o trabalho local limpo, faça <code>git pull</code>, leia a saída e só depois tente <code>push</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Authentication failed</code></p>
+</td><td colspan="1" rowspan="1"><p>Autorização expirada, cancelada ou incorreta.</p>
+</td><td colspan="1" rowspan="1"><p>Refaça o login pelo navegador ou Git Credential Manager. Não use a senha comum como solução.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Corrigir a URL de origin</h2>
+<p>Execute estes comandos somente se <code>git remote -v</code> mostrar uma URL incorreta:</p>
+<pre><code language="language-bash" class="language-bash">git remote -v
+git remote set-url origin https://github.com/SEU-USUARIO/conecta-campus.git
+git remote -v
+</code></pre>
+<p><code>set-url</code> altera a associação existente. Ele não cria um segundo <code>origin</code>.</p>
+<h2 is-upgraded>Prática WP07</h2>
+<p>Escolha dois erros da tabela. Para cada erro, registre:</p>
+<ol type="1">
+<li>O sintoma observado.</li>
+<li>A informação que você consultaria antes de agir.</li>
+<li>A ação segura que realizaria.</li>
+</ol>
+<p>Não vale responder apenas &#34;reinstalar&#34; ou &#34;apagar tudo&#34;.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="11. Consolidação, gabarito e entrega" duration="10">
+        <h2 is-upgraded>Atividade WP08-A</h2>
+<p>Coloque os comandos na ordem correta para criar o primeiro registro:</p>
+<ul>
+<li><code>git status</code></li>
+<li><code>git commit -m "mensagem"</code></li>
+<li><code>git init -b main</code></li>
+<li><code>git add ARQUIVO</code></li>
+<li><code>git log --oneline</code></li>
+</ul>
+<p>Indique quais apenas consultam e quais alteram o estado do repositório.</p>
+<h2 is-upgraded>Atividade WP08-B</h2>
+<p>Considere esta saída resumida:</p>
+<pre><code language="language-text" class="language-text">Changes not staged for commit:
+  modified: README.md
+
+Untracked files:
+  docs/anotacoes.md
+</code></pre>
+<p>Explique o estado de cada arquivo e escreva os comandos para registrar apenas <code>README.md</code>.</p>
+<h2 is-upgraded>Atividade WP08-C</h2>
+<p>Escolha a melhor mensagem de commit e justifique:</p>
+<ol type="1">
+<li><code>update</code></li>
+<li><code>coisas</code></li>
+<li><code>docs: registra público-alvo do projeto</code></li>
+<li><code>commit final</code></li>
+</ol>
+<p>Considere ação clara, conteúdo registrado e facilidade para entender o histórico.</p>
+<h2 is-upgraded>Atividade WP08-D</h2>
+<p>Sem copiar um exemplo palavra por palavra:</p>
+<ol type="1">
+<li>Acrescente ao documento vivo uma seção chamada <code>Critérios de sucesso</code>.</li>
+<li>Escreva três itens verificáveis.</li>
+<li>Registre a mudança em um commit próprio.</li>
+<li>Envie o commit ao GitHub.</li>
+</ol>
+<h2 is-upgraded>Confira suas respostas</h2>
+<h3 is-upgraded>WP01</h3>
+<ol type="1">
+<li>Git.</li>
+<li>GitHub.</li>
+<li>Ambos.</li>
+<li>Git.</li>
+<li>GitHub.</li>
+</ol>
+<p>Resposta-modelo: Git é o sistema instalado no computador que registra versões localmente. GitHub é a plataforma on-line que hospeda repositórios Git e acrescenta recursos de compartilhamento e colaboração.</p>
+<h3 is-upgraded>WP02</h3>
+<p>A versão varia de acordo com o computador. Em <code>git config --global --list</code>, <code>user.name</code> e <code>user.email</code> devem corresponder à identidade planejada, e <code>init.defaultbranch</code> deve ser <code>main</code>.</p>
+<h3 is-upgraded>WP03</h3>
+<ol type="1">
+<li><strong>Untracked</strong>, porque o arquivo é novo.</li>
+<li><strong>Staged</strong>, porque <code>git add</code> selecionou sua versão atual.</li>
+<li><strong>Committed</strong>, porque a versão preparada entrou no histórico.</li>
+<li><strong>Modified</strong>, porque o arquivo acompanhado mudou depois do commit.</li>
+</ol>
+<h3 is-upgraded>WP04</h3>
+<p>Uma solução adequada mostra a alteração em <code>git diff</code>, prepara somente o arquivo desejado, cria um commit descritivo e apresenta pelo menos três registros no log. O <code>diff</code> permite revisar o que foi acrescentado ou removido antes do commit.</p>
+<h3 is-upgraded>WP05</h3>
+<p><code>git status</code> verifica arquivos e preparação; <code>git log --oneline</code> verifica commits locais; <code>git remote -v</code> verifica a URL remota. Cada comando investiga uma dimensão diferente do problema.</p>
+<h3 is-upgraded>WP06</h3>
+<p>Commits dividem o trabalho em marcos identificados por autor, data e mensagem. Isso permite comparar mudanças, localizar quando uma decisão apareceu e compreender a sequência de construção. Uma única pasta compactada mostra principalmente o estado final.</p>
+<h3 is-upgraded>WP07</h3>
+<p>Exemplo 1: em <code>remote origin already exists</code>, consulte <code>git remote -v</code>. Se a URL estiver correta, não faça nada; se estiver errada, use <code>git remote set-url</code>.</p>
+<p>Exemplo 2: em <code>not a git repository</code>, consulte o diretório com <code>pwd</code> e seus itens com <code>ls</code>. Entre na pasta correta antes de considerar um novo <code>git init</code>.</p>
+<h3 is-upgraded>WP08-A</h3>
+<p>Ordem correta:</p>
+<pre><code language="language-bash" class="language-bash">git init -b main
+git status
+git add ARQUIVO
+git commit -m &#34;mensagem&#34;
+git log --oneline
+</code></pre>
+<p><code>status</code> e <code>log</code> apenas consultam. <code>init</code> cria a estrutura do repositório, <code>add</code> altera a área de preparação e <code>commit</code> cria um registro.</p>
+<h3 is-upgraded>WP08-B</h3>
+<p><code>README.md</code> está modificado e ainda não preparado. <code>docs/anotacoes.md</code> é novo e não rastreado.</p>
+<p>Para registrar apenas o README:</p>
+<pre><code language="language-bash" class="language-bash">git add README.md
+git commit -m &#34;docs: atualiza apresentação do projeto&#34;
+</code></pre>
+<h3 is-upgraded>WP08-C</h3>
+<p>A melhor mensagem é <code>docs: registra público-alvo do projeto</code>, pois informa o tipo e o conteúdo da mudança.</p>
+<h3 is-upgraded>WP08-D</h3>
+<p>Os critérios precisam ser testáveis, como localizar um ambiente pelo nome, identificar o horário de um serviço e consultar recursos de acessibilidade. Uma mensagem possível é:</p>
+<pre><code language="language-bash" class="language-bash">git commit -m &#34;docs: define critérios de sucesso&#34;
+</code></pre>
+<p>Use o gabarito para comparar o raciocínio, os comandos e o resultado. Uma solução diferente pode estar correta se preservar o escopo, a segurança e os resultados esperados.</p>
+<h2 is-upgraded>Autoavaliação</h2>
+<ul>
+<li>[ ] Explico a diferença entre Git e GitHub.</li>
+<li>[ ] Localizo a pasta correta antes de executar Git.</li>
+<li>[ ] Entendo <code>untracked</code>, <code>modified</code>, <code>staged</code> e <code>committed</code>.</li>
+<li>[ ] Uso <code>git status</code> antes e depois de operações importantes.</li>
+<li>[ ] Crio commits pequenos com mensagens claras.</li>
+<li>[ ] Verifico o remoto antes de corrigir <code>origin</code>.</li>
+<li>[ ] Sei por que senhas, tokens, chaves e <code>.env</code> não podem ser publicados.</li>
+<li>[ ] Consigo demonstrar o marco <code>v0.1</code> do Conecta Campus.</li>
+</ul>
+<h2 is-upgraded>Itens para entrega</h2>
+<ul>
+<li>Link do repositório no GitHub.</li>
+<li>Saída de <code>git log --oneline</code> em texto ou captura.</li>
+<li><code>README.md</code> renderizado.</li>
+<li>Arquivo <code>docs/tema-do-projeto.md</code>.</li>
+<li>Checklist dos critérios de aceite.</li>
+</ul>
+<p>Não envie senha, token ou arquivo de credencial.</p>
+<h2 is-upgraded>Próximo passo</h2>
+<p>O mesmo repositório poderá ser usado para estudar branches, merge, conflitos e Pull Requests. Não crie estruturas avançadas antes da orientação da próxima etapa.</p>
+<h2 is-upgraded>Materiais complementares</h2>
+<ul>
+<li><a href="https://git-scm.com/" target="_blank">Página oficial do Git</a></li>
+<li><a href="https://git-scm.com/book/pt-br/v2" target="_blank">Livro Pro Git em português</a></li>
+<li><a href="https://docs.github.com/pt/get-started/git-basics/set-up-git" target="_blank">Configurar o Git - GitHub Docs</a></li>
+<li><a href="https://docs.github.com/pt/repositories/creating-and-managing-repositories/creating-a-new-repository" target="_blank">Criar um repositório - GitHub Docs</a></li>
+<li><a href="https://docs.github.com/pt/get-started/git-basics/managing-remote-repositories" target="_blank">Gerenciar repositórios remotos - GitHub Docs</a></li>
+<li><a href="https://docs.github.com/pt/get-started/git-basics/ignoring-files" target="_blank">Ignorar arquivos - GitHub Docs</a></li>
+<li><a href="https://docs.github.com/pt/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes" target="_blank">Sobre arquivos README - GitHub Docs</a></li>
+<li><a href="https://skills.github.com/" target="_blank">GitHub Skills - prática guiada</a></li>
+</ul>
+<p>© 2026 Alexandre Carlos de Jesus. Todos os direitos reservados.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
