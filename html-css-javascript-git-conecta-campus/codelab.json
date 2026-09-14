@@ -1,0 +1,33 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-09-14T00:27:40-03:00",
+  "id": "html-css-javascript-git-conecta-campus",
+  "duration": 835,
+  "title": "Do wireframe ao primeiro site: Conecta Campus v0.3",
+  "authors": "Alexandre Carlos de Jesus",
+  "summary": "Transforme os wireframes do Conecta Campus em um site navegável com HTML, CSS, JavaScript, acessibilidade, Git e GitHub",
+  "source": "codelab-html-css-javascript-git-conecta-campus.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "html",
+    "css",
+    "javascript",
+    "git",
+    "github"
+  ],
+  "tags": [
+    "acessibilidade",
+    "ads",
+    "conecta-campus",
+    "fiap",
+    "frontend",
+    "mobile-first"
+  ],
+  "url": "html-css-javascript-git-conecta-campus"
+}

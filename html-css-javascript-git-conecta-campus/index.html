@@ -1,0 +1,2190 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Do wireframe ao primeiro site: Conecta Campus v0.3</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="html-css-javascript-git-conecta-campus"
+                  title="Do wireframe ao primeiro site: Conecta Campus v0.3"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="1. Apresentação e ponto de partida" duration="20">
+        <p>Neste Codelab, você transformará os wireframes do <strong>Conecta Campus v0.2</strong> em um site real, navegável e responsivo.</p>
+<p>As tecnologias trabalhadas serão:</p>
+<ul>
+<li>HTML5</li>
+<li>CSS</li>
+<li>JavaScript</li>
+<li>Git</li>
+<li>GitHub</li>
+</ul>
+<h2 is-upgraded>Não crie outro repositório</h2>
+<p>Este trabalho continua no mesmo repositório <code>conecta-campus</code> usado nos Codelabs anteriores. A continuidade do histórico faz parte do projeto.</p>
+<p>Você partirá do marco <code>v0.2</code>, que possui:</p>
+<ul>
+<li>repositório local e remoto;</li>
+<li>branch principal <code>main</code>;</li>
+<li>arquivo <code>docs/wireframe.md</code>;</li>
+<li>wireframes das telas Home, Locais e Detalhes;</li>
+<li>Pull Request do marco anterior já integrado.</li>
+</ul>
+<h2 is-upgraded>O que ficará pronto</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Arquivo</p>
+</td><td colspan="1" rowspan="1"><p>Responsabilidade</p>
+</td><td colspan="1" rowspan="1"><p>Como conferir</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>index.html</code></p>
+</td><td colspan="1" rowspan="1"><p>Página inicial e destaques.</p>
+</td><td colspan="1" rowspan="1"><p>Abre primeiro e leva às outras páginas.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>locais.html</code></p>
+</td><td colspan="1" rowspan="1"><p>Lista de espaços e serviços.</p>
+</td><td colspan="1" rowspan="1"><p>Exibe três cartões com informações.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>detalhes.html</code></p>
+</td><td colspan="1" rowspan="1"><p>Detalhes e orientação de chegada.</p>
+</td><td colspan="1" rowspan="1"><p>Botão mostra e oculta a orientação.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>css/style.css</code></p>
+</td><td colspan="1" rowspan="1"><p>Identidade visual e responsividade.</p>
+</td><td colspan="1" rowspan="1"><p>As três páginas usam o mesmo estilo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>js/script.js</code></p>
+</td><td colspan="1" rowspan="1"><p>Interação e atualização do rodapé.</p>
+</td><td colspan="1" rowspan="1"><p>Clique e estado acessível funcionam.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>img/</code></p>
+</td><td colspan="1" rowspan="1"><p>Imagens locais do projeto.</p>
+</td><td colspan="1" rowspan="1"><p>Três arquivos carregam sem erro.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>README.md</code></p>
+</td><td colspan="1" rowspan="1"><p>Instruções e descrição técnica.</p>
+</td><td colspan="1" rowspan="1"><p>Explica como abrir e testar o site.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Pré-requisitos</h2>
+<ul>
+<li>[ ] Repositório <code>conecta-campus</code> existente.</li>
+<li>[ ] <code>main</code> sincronizada.</li>
+<li>[ ] <code>docs/wireframe.md</code> presente no histórico.</li>
+<li>[ ] Wireframes disponíveis para consulta.</li>
+<li>[ ] Visual Studio Code instalado.</li>
+<li>[ ] Navegador atualizado.</li>
+<li>[ ] Git funcionando no terminal.</li>
+<li>[ ] Acesso ao repositório no GitHub.</li>
+</ul>
+<h2 is-upgraded>Como estudar</h2>
+<p>Em cada etapa:</p>
+<ol type="1">
+<li>Leia a ideia antes do código.</li>
+<li>Identifique em qual arquivo trabalhar.</li>
+<li>Digite o código.</li>
+<li>Salve o arquivo.</li>
+<li>Abra ou atualize a página no navegador.</li>
+<li>Compare com o resultado esperado.</li>
+<li>Consulte <code>git diff</code> antes do commit.</li>
+</ol>
+<p><strong>Importante:</strong> não copie apenas o resultado final. O objetivo é conseguir explicar por que cada elemento existe e como as tecnologias trabalham juntas.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="2. Entendendo o marco v0.3" duration="20">
+        <p>O wireframe registra a intenção da interface. O site acrescenta conteúdo real, estrutura, aparência, comportamento e navegação.</p>
+<h2 is-upgraded>Do desenho ao navegador</h2>
+<pre><code language="language-text" class="language-text">WIREFRAME
+Planeja a organização visual
+        ↓
+HTML
+Cria estrutura e conteúdo
+        ↓
+CSS
+Apresenta e adapta o conteúdo
+        ↓
+JAVASCRIPT
+Adiciona comportamento
+        ↓
+GIT E GITHUB
+Registram e revisam a evolução
+</code></pre>
+<p>Um navegador não recebe uma imagem pronta da página. Ele:</p>
+<ol type="1">
+<li>lê o HTML;</li>
+<li>identifica os recursos externos;</li>
+<li>carrega CSS, JavaScript e imagens;</li>
+<li>constrói representações em memória;</li>
+<li>calcula tamanhos e posições;</li>
+<li>desenha o resultado na tela;</li>
+<li>reage às interações do usuário.</li>
+</ol>
+<h2 is-upgraded>Responsabilidade de cada tecnologia</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Tecnologia</p>
+</td><td colspan="1" rowspan="1"><p>Pergunta que responde</p>
+</td><td colspan="1" rowspan="1"><p>Exemplo no projeto</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>HTML</p>
+</td><td colspan="1" rowspan="1"><p>Qual é o conteúdo e qual é a função de cada parte?</p>
+</td><td colspan="1" rowspan="1"><p>Cabeçalho, navegação, cartões, imagens e rodapé.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>CSS</p>
+</td><td colspan="1" rowspan="1"><p>Como o conteúdo deve ser apresentado?</p>
+</td><td colspan="1" rowspan="1"><p>Cores, espaços, grade e tamanhos de tela.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>JavaScript</p>
+</td><td colspan="1" rowspan="1"><p>O que acontece quando o usuário interage?</p>
+</td><td colspan="1" rowspan="1"><p>Mostrar ou ocultar a orientação.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Git</p>
+</td><td colspan="1" rowspan="1"><p>Como a evolução será registrada?</p>
+</td><td colspan="1" rowspan="1"><p>Commits pequenos e histórico consultável.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>GitHub</p>
+</td><td colspan="1" rowspan="1"><p>Como a proposta será compartilhada e revisada?</p>
+</td><td colspan="1" rowspan="1"><p>Branch remoto e Pull Request.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Escolher a tecnologia correta</h2>
+<p>Exemplos:</p>
+<ul>
+<li>texto alternativo pertence ao <strong>HTML</strong>, porque comunica o conteúdo;</li>
+<li>cor do cabeçalho pertence ao <strong>CSS</strong>, porque controla apresentação;</li>
+<li>reação ao clique pertence ao <strong>JavaScript</strong>, porque representa comportamento;</li>
+<li>mensagem de commit pertence ao <strong>Git</strong>, porque explica o histórico.</li>
+</ul>
+<p>A página deve continuar compreensível sem CSS. JavaScript não deve substituir um link simples por uma interação desnecessária.</p>
+<h2 is-upgraded>Prática WP01</h2>
+<p>Explique o que muda entre o wireframe <code>v0.2</code> e o site <code>v0.3</code>. Cite uma contribuição de HTML, CSS, JavaScript e Git.</p>
+<h2 is-upgraded>Prática WP02</h2>
+<p>Classifique como HTML, CSS ou JavaScript:</p>
+<ol type="1">
+<li>Texto alternativo de uma imagem.</li>
+<li>Cor do cabeçalho.</li>
+<li>Reação ao clique.</li>
+<li>Lista de locais.</li>
+<li>Grade de cartões.</li>
+<li>Atualização do texto de um botão.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="3. Preparando o trabalho com Git" duration="20">
+        <p>O branch do site deve nascer da versão mais recente e integrada do projeto.</p>
+<h2 is-upgraded>Abrir a pasta correta</h2>
+<p>No terminal, entre no repositório:</p>
+<pre><code language="language-bash" class="language-bash">cd caminho/para/conecta-campus
+</code></pre>
+<p>Confira o local:</p>
+<pre><code language="language-bash" class="language-bash">pwd
+</code></pre>
+<p>O final do caminho deve indicar <code>conecta-campus</code>.</p>
+<h2 is-upgraded>Atualizar a main</h2>
+<p>Execute um comando por vez:</p>
+<pre><code language="language-bash" class="language-bash">git switch main
+git pull
+git status
+</code></pre>
+<p>Entenda os comandos:</p>
+<ul>
+<li><code>git switch main</code>: muda para o branch principal;</li>
+<li><code>git pull</code>: recebe e integra alterações do remoto acompanhado;</li>
+<li><code>git status</code>: mostra branch, alterações e estado de sincronização.</li>
+</ul>
+<h2 is-upgraded>Critério para continuar</h2>
+<ul>
+<li>[ ] O branch atual é <code>main</code>.</li>
+<li>[ ] O <code>pull</code> terminou sem conflito.</li>
+<li>[ ] <code>git status</code> mostra <code>working tree clean</code>.</li>
+</ul>
+<p>Se <code>git status</code> mostrar alterações, pare. Descubra a origem dos arquivos antes de continuar. Não use descarte forçado para esconder trabalho desconhecido.</p>
+<h2 is-upgraded>Criar o branch do site</h2>
+<pre><code language="language-bash" class="language-bash">git switch -c feature/site-inicial
+git branch --show-current
+git status
+</code></pre>
+<p>Entenda:</p>
+<ul>
+<li><code>switch</code>: troca de branch;</li>
+<li><code>-c</code>: cria um novo branch;</li>
+<li><code>feature/site-inicial</code>: descreve uma evolução funcional;</li>
+<li>os arquivos HTML, CSS, JavaScript e imagens pertencem ao mesmo conjunto funcional.</li>
+</ul>
+<p>O resultado esperado é:</p>
+<pre><code language="language-text" class="language-text">feature/site-inicial
+</code></pre>
+<h2 is-upgraded>Prática WP03</h2>
+<p>Registre:</p>
+<ol type="1">
+<li>A saída de <code>git status</code> antes da criação do branch.</li>
+<li>Por que o branch deve nascer de uma <code>main</code> atualizada.</li>
+<li>O que aconteceria se os novos commits fossem feitos diretamente em <code>main</code>.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="4. Organizando pastas, arquivos e caminhos" duration="30">
+        <p>Antes de escrever código, organize a estrutura do projeto.</p>
+<h2 is-upgraded>Estrutura final esperada</h2>
+<pre><code language="language-text" class="language-text">conecta-campus/
+├── css/
+│   └── style.css
+├── docs/
+│   ├── tema-do-projeto.md
+│   └── wireframe.md
+├── img/
+│   ├── biblioteca-campus.png
+│   ├── laboratorio-informatica.png
+│   └── rota-acessivel.png
+├── js/
+│   └── script.js
+├── .gitignore
+├── detalhes.html
+├── index.html
+├── locais.html
+└── README.md
+</code></pre>
+<p>Esse bloco representa uma árvore. Não o execute no terminal.</p>
+<h2 is-upgraded>Criar os arquivos</h2>
+<p>No explorador do Visual Studio Code:</p>
+<ol type="1">
+<li>Crie a pasta <code>css</code>.</li>
+<li>Dentro dela, crie <code>style.css</code>.</li>
+<li>Crie a pasta <code>js</code>.</li>
+<li>Dentro dela, crie <code>script.js</code>.</li>
+<li>Crie a pasta <code>img</code>.</li>
+<li>Na raiz, crie <code>index.html</code>.</li>
+<li>Na raiz, crie <code>locais.html</code>.</li>
+<li>Na raiz, crie <code>detalhes.html</code>.</li>
+</ol>
+<h2 is-upgraded>Como ler um caminho relativo</h2>
+<p>Um caminho relativo parte do arquivo que está sendo lido.</p>
+<p>Partindo de <code>index.html</code>:</p>
+<pre><code language="language-text" class="language-text">css/style.css
+</code></pre>
+<p>significa:</p>
+<ol type="1">
+<li>entre na pasta <code>css</code>;</li>
+<li>carregue o arquivo <code>style.css</code>.</li>
+</ol>
+<p>Partindo de <code>index.html</code>:</p>
+<pre><code language="language-text" class="language-text">img/biblioteca-campus.png
+</code></pre>
+<p>significa:</p>
+<ol type="1">
+<li>entre na pasta <code>img</code>;</li>
+<li>carregue <code>biblioteca-campus.png</code>.</li>
+</ol>
+<h2 is-upgraded>Caminho relativo e caminho iniciado por barra</h2>
+<pre><code language="language-html" class="language-html">&lt;link rel=&#34;stylesheet&#34; href=&#34;css/style.css&#34; /&gt;
+</code></pre>
+<p>O caminho acima parte do documento HTML.</p>
+<p>Já:</p>
+<pre><code language="language-html" class="language-html">&lt;link rel=&#34;stylesheet&#34; href=&#34;/css/style.css&#34; /&gt;
+</code></pre>
+<p>parte da raiz do site servido. Essa raiz pode não coincidir com a pasta do projeto quando a página é aberta localmente ou publicada em um subcaminho.</p>
+<h2 is-upgraded>Pastas vazias e Git</h2>
+<p>Git registra arquivos, não pastas vazias. Uma pasta passa a aparecer no histórico quando contém pelo menos um arquivo rastreado.</p>
+<h2 is-upgraded>Prática WP04</h2>
+<p>Partindo de <code>detalhes.html</code>, escreva os caminhos relativos para:</p>
+<ul>
+<li><code>style.css</code>;</li>
+<li><code>script.js</code>;</li>
+<li><code>biblioteca-campus.png</code>.</li>
+</ul>
+<p>Depois explique por que <code>/css/style.css</code> pode falhar fora da raiz de um servidor.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="5. Preparando as imagens locais do site" duration="30">
+        <h2 is-upgraded>Por que as imagens do projeto serão locais?</h2>
+<p>O Codelab não incorpora imagens remotas. Já o site Conecta Campus deve possuir suas próprias imagens armazenadas na pasta <code>img</code>.</p>
+<p>Isso permite:</p>
+<ul>
+<li>controlar os nomes dos arquivos;</li>
+<li>evitar dependência de um endereço externo;</li>
+<li>testar caminhos relativos;</li>
+<li>registrar os recursos no Git;</li>
+<li>garantir que o site continue completo quando publicado.</li>
+</ul>
+<h2 is-upgraded>Arquivos necessários</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Arquivo</p>
+</td><td colspan="1" rowspan="1"><p>Uso</p>
+</td><td colspan="1" rowspan="1"><p>Descrição alternativa esperada</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>biblioteca-campus.png</code></p>
+</td><td colspan="1" rowspan="1"><p>Home, Locais e Detalhes.</p>
+</td><td colspan="1" rowspan="1"><p>Estantes, mesas de estudo e corredor.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>laboratorio-informatica.png</code></p>
+</td><td colspan="1" rowspan="1"><p>Home e Locais.</p>
+</td><td colspan="1" rowspan="1"><p>Computadores e área de circulação.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>rota-acessivel.png</code></p>
+</td><td colspan="1" rowspan="1"><p>Home e Locais.</p>
+</td><td colspan="1" rowspan="1"><p>Rampa e corrimãos.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Regras de nomeação</h2>
+<p>Use:</p>
+<ul>
+<li>letras minúsculas;</li>
+<li>palavras separadas por hífen;</li>
+<li>extensão real do arquivo;</li>
+<li>nomes que expliquem o conteúdo;</li>
+<li>nenhum espaço ou acento.</li>
+</ul>
+<p>Evite:</p>
+<pre><code language="language-text" class="language-text">IMG_0023.PNG
+foto final.png
+ImagemNova(2).jpg
+Rota Acessível.PNG
+</code></pre>
+<h2 is-upgraded>Colocar as imagens no projeto</h2>
+<ol type="1">
+<li>Prepare ou receba as três imagens indicadas pelo professor.</li>
+<li>Confirme o formato real de cada arquivo.</li>
+<li>Renomeie exatamente conforme a tabela.</li>
+<li>Mova os arquivos para <code>conecta-campus/img/</code>.</li>
+<li>Confira maiúsculas e minúsculas.</li>
+<li>Não altere apenas a extensão para fingir uma conversão de formato.</li>
+</ol>
+<h2 is-upgraded>Imagem com HTML acessível</h2>
+<pre><code language="language-html" class="language-html">&lt;img
+  src=&#34;img/biblioteca-campus.png&#34;
+  alt=&#34;Interior da biblioteca com estantes, mesas de estudo e corredor central&#34;
+  width=&#34;1536&#34;
+  height=&#34;1024&#34;
+/&gt;
+</code></pre>
+<p>Entenda cada atributo:</p>
+<ul>
+<li><code>src</code>: caminho do arquivo;</li>
+<li><code>alt</code>: descrição relevante para o contexto;</li>
+<li><code>width</code>: largura intrínseca da imagem;</li>
+<li><code>height</code>: altura intrínseca;</li>
+<li>as dimensões ajudam o navegador a reservar espaço antes do carregamento.</li>
+</ul>
+<h2 is-upgraded>Como escrever um bom alt</h2>
+<p>Um bom texto alternativo:</p>
+<ul>
+<li>descreve o conteúdo necessário;</li>
+<li>considera o contexto em que a imagem aparece;</li>
+<li>não repete o nome do arquivo;</li>
+<li>não começa obrigatoriamente com &#34;imagem de&#34;;</li>
+<li>não inclui informações inexistentes.</li>
+</ul>
+<p>Exemplo ruim:</p>
+<pre><code language="language-html" class="language-html">&lt;img src=&#34;img/biblioteca-campus.png&#34; alt=&#34;imagem&#34; /&gt;
+</code></pre>
+<p>Exemplo melhor:</p>
+<pre><code language="language-html" class="language-html">&lt;img
+  src=&#34;img/biblioteca-campus.png&#34;
+  alt=&#34;Interior da biblioteca com estantes, mesas de estudo e corredor central&#34;
+/&gt;
+</code></pre>
+<p>Se uma imagem fosse puramente decorativa, <code>alt=""</code> poderia ser adequado. Neste projeto, as imagens identificam os locais e precisam de descrição.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="6. Entendendo a anatomia do HTML" duration="30">
+        <p>HTML é uma linguagem de marcação. Ele descreve a estrutura e o significado do conteúdo.</p>
+<h2 is-upgraded>Elemento, tag e atributo</h2>
+<p>Observe:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;locais.html&#34;&gt;Explorar locais&lt;/a&gt;
+</code></pre>
+<ul>
+<li><code><a></code> é a tag de abertura;</li>
+<li><code>href="locais.html"</code> é um atributo;</li>
+<li><code>Explorar locais</code> é o conteúdo;</li>
+<li><code></a></code> é a tag de fechamento;</li>
+<li>o conjunto forma um elemento.</li>
+</ul>
+<h2 is-upgraded>Documento base</h2>
+<p>Cada página começará com esta estrutura:</p>
+<pre><code language="language-html" class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34; /&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34; /&gt;
+    &lt;title&gt;Conecta Campus | Início&lt;/title&gt;
+    &lt;link rel=&#34;stylesheet&#34; href=&#34;css/style.css&#34; /&gt;
+    &lt;script src=&#34;js/script.js&#34; defer&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- O conteúdo visível será escrito aqui. --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 is-upgraded>Explicação linha por linha</h2>
+<h3 is-upgraded>DOCTYPE</h3>
+<pre><code language="language-html" class="language-html">&lt;!DOCTYPE html&gt;
+</code></pre>
+<p>Informa ao navegador que o documento utiliza o modo moderno do HTML.</p>
+<h3 is-upgraded>Idioma</h3>
+<pre><code language="language-html" class="language-html">&lt;html lang=&#34;pt-BR&#34;&gt;
+</code></pre>
+<p>Informa que o conteúdo principal está em português do Brasil. Leitores de tela podem usar essa informação para escolher a pronúncia.</p>
+<h3 is-upgraded>Codificação</h3>
+<pre><code language="language-html" class="language-html">&lt;meta charset=&#34;UTF-8&#34; /&gt;
+</code></pre>
+<p>Permite representar acentos e uma grande variedade de caracteres.</p>
+<h3 is-upgraded>Viewport</h3>
+<pre><code language="language-html" class="language-html">&lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34; /&gt;
+</code></pre>
+<p>Orienta o navegador móvel a considerar a largura real do dispositivo.</p>
+<h3 is-upgraded>Título</h3>
+<pre><code language="language-html" class="language-html">&lt;title&gt;Conecta Campus | Início&lt;/title&gt;
+</code></pre>
+<p>Nomeia a aba e ajuda o usuário a identificar a página.</p>
+<p>Cada página terá um título diferente:</p>
+<pre><code language="language-text" class="language-text">Conecta Campus | Início
+Conecta Campus | Locais
+Conecta Campus | Biblioteca Central
+</code></pre>
+<h3 is-upgraded>CSS externo</h3>
+<pre><code language="language-html" class="language-html">&lt;link rel=&#34;stylesheet&#34; href=&#34;css/style.css&#34; /&gt;
+</code></pre>
+<p>Conecta o mesmo arquivo CSS às três páginas.</p>
+<h3 is-upgraded>JavaScript externo</h3>
+<pre><code language="language-html" class="language-html">&lt;script src=&#34;js/script.js&#34; defer&gt;&lt;/script&gt;
+</code></pre>
+<p><code>defer</code> faz o navegador analisar o HTML antes de executar o script.</p>
+<h2 is-upgraded>Regras do projeto</h2>
+<ul>
+<li>Não use CSS em <code>style=""</code>.</li>
+<li>Não use JavaScript em <code>onclick=""</code>.</li>
+<li>Não coloque <code><button></code> dentro de <code><a></code>.</li>
+<li>Use <code><li></code> somente dentro de listas.</li>
+<li>Use arquivos externos compartilhados.</li>
+</ul>
+<h2 is-upgraded>Prática WP05</h2>
+<p>Explique a função de:</p>
+<ul>
+<li><code>doctype</code>;</li>
+<li><code>lang</code>;</li>
+<li><code>charset</code>;</li>
+<li><code>viewport</code>;</li>
+<li><code>title</code>;</li>
+<li><code>link</code>;</li>
+<li><code>defer</code>.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="7. Criando cabeçalho, navegação e rodapé" duration="40">
+        <p>Elementos semânticos comunicam a finalidade de cada região.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Finalidade</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>header</code></p>
+</td><td colspan="1" rowspan="1"><p>Conteúdo introdutório da página ou de uma região.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>nav</code></p>
+</td><td colspan="1" rowspan="1"><p>Conjunto de links de navegação.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>main</code></p>
+</td><td colspan="1" rowspan="1"><p>Conteúdo principal único da página.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>section</code></p>
+</td><td colspan="1" rowspan="1"><p>Agrupamento de um assunto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>article</code></p>
+</td><td colspan="1" rowspan="1"><p>Conteúdo que mantém sentido como unidade.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>footer</code></p>
+</td><td colspan="1" rowspan="1"><p>Encerramento da página ou de uma região.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Cabeçalho da Home</h2>
+<p>Dentro do <code><body></code> de <code>index.html</code>, substitua o comentário por:</p>
+<pre><code language="language-html" class="language-html">&lt;header class=&#34;cabecalho&#34;&gt;
+  &lt;div class=&#34;container cabecalho-conteudo&#34;&gt;
+    &lt;a
+      class=&#34;marca&#34;
+      href=&#34;index.html&#34;
+      aria-label=&#34;Conecta Campus - página inicial&#34;
+    &gt;
+      Conecta Campus
+    &lt;/a&gt;
+
+    &lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+      &lt;ul class=&#34;menu&#34;&gt;
+        &lt;li&gt;&lt;a aria-current=&#34;page&#34; href=&#34;index.html&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;locais.html&#34;&gt;Locais&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;detalhes.html&#34;&gt;Acessibilidade&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main id=&#34;inicio&#34;&gt;
+  &lt;!-- O conteúdo principal será criado nas próximas etapas. --&gt;
+&lt;/main&gt;
+
+&lt;footer class=&#34;rodape&#34;&gt;
+  &lt;div class=&#34;container&#34;&gt;
+    &lt;p&gt;
+      Conecta Campus · versão 0.3 ·
+      &lt;span data-ano-atual&gt;2026&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;
+</code></pre>
+<h2 is-upgraded>Entendendo a navegação</h2>
+<ul>
+<li>a marca é um link para a página inicial;</li>
+<li><code>nav</code> recebe um nome por <code>aria-label</code>;</li>
+<li>os links formam uma lista real;</li>
+<li><code>aria-current="page"</code> identifica o link da página atual;</li>
+<li><code>main</code> guarda o conteúdo principal;</li>
+<li>o rodapé possui um ano inicial mesmo sem JavaScript.</li>
+</ul>
+<h2 is-upgraded>Ajustar nas outras páginas</h2>
+<p>Em <code>locais.html</code>, somente o link <strong>Locais</strong> recebe:</p>
+<pre><code language="language-html" class="language-html">aria-current=&#34;page&#34;
+</code></pre>
+<p>Em <code>detalhes.html</code>, somente <strong>Acessibilidade</strong> recebe o atributo.</p>
+<h2 is-upgraded>Regra importante</h2>
+<p>Use:</p>
+<ul>
+<li><code><a></code> para levar a outro endereço;</li>
+<li><code><button></code> para executar uma ação na página.</li>
+</ul>
+<p>Não faça:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;locais.html&#34;&gt;&lt;button&gt;Locais&lt;/button&gt;&lt;/a&gt;
+</code></pre>
+<p>Elementos interativos aninhados produzem comportamento e foco confusos.</p>
+<h2 is-upgraded>Testar agora</h2>
+<p>Mesmo antes do conteúdo final:</p>
+<ol type="1">
+<li>Abra <code>index.html</code>.</li>
+<li>Clique em Locais.</li>
+<li>Clique em Acessibilidade.</li>
+<li>Volte para Início.</li>
+<li>Observe o título de cada aba.</li>
+<li>Confirme que apenas o link correspondente possui <code>aria-current</code>.</li>
+</ol>
+<h2 is-upgraded>Prática WP06</h2>
+<p>Registre para cada página:</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Arquivo aberto</p>
+</td><td colspan="1" rowspan="1"><p>Link atual</p>
+</td><td colspan="1" rowspan="1"><p>Título da aba</p>
+</td></tr>
+<tr><td colspan="3" rowspan="1"><p><code>index.html</code></p>
+</td><td colspan="2" rowspan="1"></td><td colspan="1" rowspan="1"></td></tr>
+<tr><td colspan="3" rowspan="1"><p><code>locais.html</code></p>
+</td><td colspan="2" rowspan="1"></td><td colspan="1" rowspan="1"></td></tr>
+<tr><td colspan="3" rowspan="1"><p><code>detalhes.html</code></p>
+</td><td colspan="2" rowspan="1"></td><td colspan="1" rowspan="1"></td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="8. Construindo a Home completa" duration="50">
+        <h2 is-upgraded>Criar a seção principal</h2>
+<p>Em <code>index.html</code>, substitua o comentário dentro de <code><main></code> por:</p>
+<pre><code language="language-html" class="language-html">&lt;section class=&#34;hero&#34; aria-labelledby=&#34;titulo-principal&#34;&gt;
+  &lt;div class=&#34;container hero-conteudo&#34;&gt;
+    &lt;p class=&#34;etiqueta&#34;&gt;Informação para circular com autonomia&lt;/p&gt;
+
+    &lt;h1 id=&#34;titulo-principal&#34;&gt;
+      Encontre espaços e serviços do campus
+    &lt;/h1&gt;
+
+    &lt;p class=&#34;hero-texto&#34;&gt;
+      Consulte localização, horário e recursos de acessibilidade antes de sair.
+    &lt;/p&gt;
+
+    &lt;a class=&#34;botao&#34; href=&#34;locais.html&#34;&gt;Explorar locais&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+<h2 is-upgraded>Por que existe apenas um h1?</h2>
+<p>O <code>h1</code> identifica o assunto principal da página. As seções internas serão introduzidas por <code>h2</code>, e os títulos dos cartões por <code>h3</code>.</p>
+<h2 is-upgraded>Criar a seção de destaques</h2>
+<p>Ainda dentro de <code><main></code>, depois da <code>hero</code>, acrescente:</p>
+<pre><code language="language-html" class="language-html">&lt;section class=&#34;secao&#34; aria-labelledby=&#34;titulo-destaques&#34;&gt;
+  &lt;div class=&#34;container&#34;&gt;
+    &lt;header class=&#34;secao-cabecalho&#34;&gt;
+      &lt;div&gt;
+        &lt;p class=&#34;etiqueta&#34;&gt;Locais em destaque&lt;/p&gt;
+        &lt;h2 id=&#34;titulo-destaques&#34;&gt;Comece sua consulta&lt;/h2&gt;
+      &lt;/div&gt;
+
+      &lt;a href=&#34;locais.html&#34;&gt;Ver todos os locais&lt;/a&gt;
+    &lt;/header&gt;
+
+    &lt;div class=&#34;grade-locais&#34;&gt;
+      &lt;!-- Os três cartões serão inseridos aqui. --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+<h2 is-upgraded>Cartão 1 - Biblioteca</h2>
+<p>Substitua o comentário da grade por:</p>
+<pre><code language="language-html" class="language-html">&lt;article class=&#34;cartao&#34;&gt;
+  &lt;img
+    src=&#34;img/biblioteca-campus.png&#34;
+    alt=&#34;Interior da biblioteca com estantes, mesas de estudo e corredor central&#34;
+    width=&#34;1536&#34;
+    height=&#34;1024&#34;
+  /&gt;
+
+  &lt;div class=&#34;cartao-conteudo&#34;&gt;
+    &lt;p class=&#34;cartao-tipo&#34;&gt;Estudo&lt;/p&gt;
+    &lt;h3&gt;Biblioteca Central&lt;/h3&gt;
+    &lt;p&gt;Bloco B, térreo · 8h às 21h&lt;/p&gt;
+    &lt;a href=&#34;detalhes.html&#34;&gt;Ver detalhes da Biblioteca Central&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/article&gt;
+</code></pre>
+<h2 is-upgraded>Cartão 2 - Laboratório</h2>
+<p>Depois do primeiro cartão, acrescente:</p>
+<pre><code language="language-html" class="language-html">&lt;article class=&#34;cartao&#34;&gt;
+  &lt;img
+    src=&#34;img/laboratorio-informatica.png&#34;
+    alt=&#34;Laboratório com computadores organizados e espaço livre para circulação&#34;
+    width=&#34;1536&#34;
+    height=&#34;1024&#34;
+  /&gt;
+
+  &lt;div class=&#34;cartao-conteudo&#34;&gt;
+    &lt;p class=&#34;cartao-tipo&#34;&gt;Tecnologia&lt;/p&gt;
+    &lt;h3&gt;Laboratório de Informática&lt;/h3&gt;
+    &lt;p&gt;Bloco C, primeiro andar · 7h às 22h&lt;/p&gt;
+    &lt;a href=&#34;detalhes.html&#34;&gt;Ver informações de acessibilidade&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/article&gt;
+</code></pre>
+<h2 is-upgraded>Cartão 3 - Rota acessível</h2>
+<p>Depois do segundo cartão, acrescente:</p>
+<pre><code language="language-html" class="language-html">&lt;article class=&#34;cartao&#34;&gt;
+  &lt;img
+    src=&#34;img/rota-acessivel.png&#34;
+    alt=&#34;Rota acessível com rampa, piso regular e corrimãos laterais&#34;
+    width=&#34;1536&#34;
+    height=&#34;1024&#34;
+  /&gt;
+
+  &lt;div class=&#34;cartao-conteudo&#34;&gt;
+    &lt;p class=&#34;cartao-tipo&#34;&gt;Acessibilidade&lt;/p&gt;
+    &lt;h3&gt;Rota acessível&lt;/h3&gt;
+    &lt;p&gt;Entrada principal até o Bloco B&lt;/p&gt;
+    &lt;a href=&#34;detalhes.html&#34;&gt;Consultar orientação da rota&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/article&gt;
+</code></pre>
+<h2 is-upgraded>Por que usar article?</h2>
+<p>Cada cartão representa uma unidade compreensível: possui imagem, categoria, título, resumo e destino.</p>
+<h2 is-upgraded>Class e id</h2>
+<p>Use <code>class</code> quando o estilo pode ser reutilizado:</p>
+<pre><code language="language-html" class="language-html">&lt;article class=&#34;cartao&#34;&gt;
+</code></pre>
+<p>Use <code>id</code> quando o identificador precisa ser único:</p>
+<pre><code language="language-html" class="language-html">&lt;h2 id=&#34;titulo-destaques&#34;&gt;
+</code></pre>
+<p>Não duplique IDs entre cartões.</p>
+<h2 is-upgraded>Prática WP07</h2>
+<p>Abra <code>index.html</code> sem CSS e confirme:</p>
+<ul>
+<li>[ ] Existe apenas um <code>h1</code>.</li>
+<li>[ ] Os títulos seguem ordem lógica.</li>
+<li>[ ] O link principal informa o destino.</li>
+<li>[ ] Os cartões continuam compreensíveis.</li>
+<li>[ ] Cada imagem possui <code>alt</code> contextual.</li>
+<li>[ ] Nenhum <code><li></code> está fora de uma lista.</li>
+</ul>
+<p>Corrija problemas semânticos antes de estilizar.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="9. Construindo a página de Locais" duration="40">
+        <p>Em <code>locais.html</code>, mantenha o documento base, o cabeçalho e o rodapé. Ajuste:</p>
+<pre><code language="language-html" class="language-html">&lt;title&gt;Conecta Campus | Locais&lt;/title&gt;
+</code></pre>
+<p>No menu, mova <code>aria-current="page"</code> para Locais.</p>
+<h2 is-upgraded>Conteúdo principal</h2>
+<p>Dentro de <code><main></code>, use:</p>
+<pre><code language="language-html" class="language-html">&lt;section class=&#34;secao&#34; aria-labelledby=&#34;titulo-locais&#34;&gt;
+  &lt;div class=&#34;container&#34;&gt;
+    &lt;header class=&#34;secao-cabecalho&#34;&gt;
+      &lt;div&gt;
+        &lt;p class=&#34;etiqueta&#34;&gt;Guia do campus&lt;/p&gt;
+        &lt;h1 id=&#34;titulo-locais&#34;&gt;Locais e serviços&lt;/h1&gt;
+        &lt;p&gt;
+          Consulte localização, horário e informações básicas de acessibilidade.
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;div class=&#34;grade-locais&#34;&gt;
+      &lt;article class=&#34;cartao&#34;&gt;
+        &lt;img
+          src=&#34;img/biblioteca-campus.png&#34;
+          alt=&#34;Interior da biblioteca com estantes, mesas de estudo e corredor central&#34;
+          width=&#34;1536&#34;
+          height=&#34;1024&#34;
+        /&gt;
+
+        &lt;div class=&#34;cartao-conteudo&#34;&gt;
+          &lt;p class=&#34;cartao-tipo&#34;&gt;Estudo&lt;/p&gt;
+          &lt;h2&gt;Biblioteca Central&lt;/h2&gt;
+          &lt;p&gt;Bloco B, térreo · 8h às 21h&lt;/p&gt;
+          &lt;p&gt;Acesso por rampa e elevador próximo.&lt;/p&gt;
+          &lt;a href=&#34;detalhes.html&#34;&gt;Ver detalhes da Biblioteca Central&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class=&#34;cartao&#34;&gt;
+        &lt;img
+          src=&#34;img/laboratorio-informatica.png&#34;
+          alt=&#34;Laboratório com computadores organizados e espaço livre para circulação&#34;
+          width=&#34;1536&#34;
+          height=&#34;1024&#34;
+        /&gt;
+
+        &lt;div class=&#34;cartao-conteudo&#34;&gt;
+          &lt;p class=&#34;cartao-tipo&#34;&gt;Tecnologia&lt;/p&gt;
+          &lt;h2&gt;Laboratório de Informática&lt;/h2&gt;
+          &lt;p&gt;Bloco C, primeiro andar · 7h às 22h&lt;/p&gt;
+          &lt;p&gt;Estações com área de circulação ampliada.&lt;/p&gt;
+          &lt;a href=&#34;detalhes.html&#34;&gt;Ver informações de acessibilidade&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class=&#34;cartao&#34;&gt;
+        &lt;img
+          src=&#34;img/rota-acessivel.png&#34;
+          alt=&#34;Rota acessível com rampa, piso regular e corrimãos laterais&#34;
+          width=&#34;1536&#34;
+          height=&#34;1024&#34;
+        /&gt;
+
+        &lt;div class=&#34;cartao-conteudo&#34;&gt;
+          &lt;p class=&#34;cartao-tipo&#34;&gt;Acessibilidade&lt;/p&gt;
+          &lt;h2&gt;Rota acessível&lt;/h2&gt;
+          &lt;p&gt;Entrada principal até o Bloco B&lt;/p&gt;
+          &lt;p&gt;Trajeto com rampa, corrimãos e piso regular.&lt;/p&gt;
+          &lt;a href=&#34;detalhes.html&#34;&gt;Consultar orientação da rota&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+<h2 is-upgraded>Diferença entre Home e Locais</h2>
+<p>A Home apresenta destaques e uma chamada de entrada. A página Locais concentra a listagem e pode oferecer mais contexto em cada cartão.</p>
+<h2 is-upgraded>Conferir</h2>
+<ul>
+<li>[ ] O título da aba contém Locais.</li>
+<li>[ ] O <code>h1</code> descreve a página.</li>
+<li>[ ] Locais possui <code>aria-current="page"</code>.</li>
+<li>[ ] Existem três cartões.</li>
+<li>[ ] Todos possuem título, resumo e link.</li>
+<li>[ ] As imagens carregam a partir de <code>img/</code>.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="10. Construindo a página de Detalhes" duration="45">
+        <p>Em <code>detalhes.html</code>, ajuste o título:</p>
+<pre><code language="language-html" class="language-html">&lt;title&gt;Conecta Campus | Biblioteca Central&lt;/title&gt;
+</code></pre>
+<p>No menu, coloque <code>aria-current="page"</code> em Acessibilidade.</p>
+<h2 is-upgraded>Conteúdo completo</h2>
+<p>Dentro de <code><main></code>, use:</p>
+<pre><code language="language-html" class="language-html">&lt;article class=&#34;detalhe container&#34;&gt;
+  &lt;a class=&#34;link-voltar&#34; href=&#34;locais.html&#34;&gt;← Voltar para locais&lt;/a&gt;
+
+  &lt;header class=&#34;detalhe-cabecalho&#34;&gt;
+    &lt;div&gt;
+      &lt;p class=&#34;etiqueta&#34;&gt;Estudo&lt;/p&gt;
+      &lt;h1&gt;Biblioteca Central&lt;/h1&gt;
+      &lt;p&gt;Bloco B, térreo · segunda a sexta, das 8h às 21h&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;img
+      src=&#34;img/biblioteca-campus.png&#34;
+      alt=&#34;Interior da biblioteca com estantes, mesas de estudo e corredor central&#34;
+      width=&#34;1536&#34;
+      height=&#34;1024&#34;
+    /&gt;
+  &lt;/header&gt;
+
+  &lt;section class=&#34;bloco-detalhe&#34; aria-labelledby=&#34;titulo-informacoes&#34;&gt;
+    &lt;h2 id=&#34;titulo-informacoes&#34;&gt;Informações do local&lt;/h2&gt;
+
+    &lt;dl class=&#34;lista-dados&#34;&gt;
+      &lt;div&gt;
+        &lt;dt&gt;Prédio&lt;/dt&gt;
+        &lt;dd&gt;Bloco B&lt;/dd&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;dt&gt;Andar&lt;/dt&gt;
+        &lt;dd&gt;Térreo&lt;/dd&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;dt&gt;Horário&lt;/dt&gt;
+        &lt;dd&gt;Segunda a sexta, das 8h às 21h&lt;/dd&gt;
+      &lt;/div&gt;
+    &lt;/dl&gt;
+
+    &lt;p&gt;
+      A Biblioteca Central oferece acervo físico, mesas de estudo individual,
+      espaços para trabalho em grupo e atendimento de apoio à pesquisa.
+    &lt;/p&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&#34;bloco-detalhe&#34; aria-labelledby=&#34;titulo-acessibilidade&#34;&gt;
+    &lt;h2 id=&#34;titulo-acessibilidade&#34;&gt;Recursos de acessibilidade&lt;/h2&gt;
+
+    &lt;ul class=&#34;lista-recursos&#34;&gt;
+      &lt;li&gt;Acesso por rampa na entrada norte&lt;/li&gt;
+      &lt;li&gt;Elevador próximo ao corredor principal&lt;/li&gt;
+      &lt;li&gt;Banheiro acessível no mesmo andar&lt;/li&gt;
+      &lt;li&gt;Espaço de circulação entre mesas&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&#34;bloco-detalhe&#34; aria-labelledby=&#34;titulo-orientacao&#34;&gt;
+    &lt;h2 id=&#34;titulo-orientacao&#34;&gt;Orientação de chegada&lt;/h2&gt;
+
+    &lt;button
+      class=&#34;botao&#34;
+      id=&#34;botao-orientacao&#34;
+      type=&#34;button&#34;
+      aria-expanded=&#34;false&#34;
+      aria-controls=&#34;painel-orientacao&#34;
+    &gt;
+      Mostrar orientação
+    &lt;/button&gt;
+
+    &lt;div class=&#34;orientacao&#34; id=&#34;painel-orientacao&#34; hidden&gt;
+      &lt;p&gt;
+        Entre pelo portão principal, siga até o Bloco B e use a rampa do
+        corredor norte.
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/article&gt;
+</code></pre>
+<h2 is-upgraded>Por que usar article?</h2>
+<p>O conteúdo representa um local completo e compreensível como unidade.</p>
+<h2 is-upgraded>Por que usar dl, dt e dd?</h2>
+<ul>
+<li><code>dl</code>: lista de descrições;</li>
+<li><code>dt</code>: termo, como Prédio;</li>
+<li><code>dd</code>: valor ou descrição, como Bloco B.</li>
+</ul>
+<h2 is-upgraded>Relação entre botão e painel</h2>
+<pre><code language="language-text" class="language-text">botao-orientacao
+        │
+        └── aria-controls=&#34;painel-orientacao&#34;
+                              │
+                              └── id=&#34;painel-orientacao&#34;
+</code></pre>
+<p><code>aria-controls</code> informa qual região é controlada pelo botão.</p>
+<p>O estado inicial é:</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Parte</p>
+</td><td colspan="1" rowspan="1"><p>Valor inicial</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Painel</p>
+</td><td colspan="1" rowspan="1"><p><code>hidden</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Botão</p>
+</td><td colspan="1" rowspan="1"><p><code>aria-expanded="false"</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Texto</p>
+</td><td colspan="1" rowspan="1"><p>Mostrar orientação</p>
+</td></tr>
+</table>
+<p>O JavaScript será adicionado depois.</p>
+<h2 is-upgraded>Conferir sem JavaScript</h2>
+<ul>
+<li>[ ] O link Voltar abre Locais.</li>
+<li>[ ] A página possui um <code>h1</code>.</li>
+<li>[ ] As seções possuem <code>h2</code>.</li>
+<li>[ ] A lista de recursos usa <code>ul</code> e <code>li</code>.</li>
+<li>[ ] O botão aparece.</li>
+<li>[ ] O painel começa oculto.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="11. Criando as variáveis e a base do CSS" duration="40">
+        <p>CSS é formado por regras. Cada regra possui seletor e declarações.</p>
+<pre><code language="language-css" class="language-css">.cartao {
+  background: #ffffff;
+}
+</code></pre>
+<p>Nesse exemplo:</p>
+<ul>
+<li><code>.cartao</code> é o seletor;</li>
+<li><code>background</code> é a propriedade;</li>
+<li><code>#ffffff</code> é o valor;</li>
+<li>chaves delimitam a regra;</li>
+<li>ponto e vírgula encerra a declaração.</li>
+</ul>
+<h2 is-upgraded>Criar as variáveis</h2>
+<p>No início de <code>css/style.css</code>, escreva:</p>
+<pre><code language="language-css" class="language-css">:root {
+  --cor-fundo: #f4f7fb;
+  --cor-superficie: #ffffff;
+  --cor-texto: #172033;
+  --cor-texto-suave: #516079;
+  --cor-primaria: #1457c5;
+  --cor-primaria-escura: #0b2f6b;
+  --cor-destaque: #00a7b5;
+  --cor-borda: #d8e2ee;
+  --cor-foco: #f2b705;
+  --largura-conteudo: 70rem;
+  --sombra-cartao: 0 0.75rem 2rem rgba(23, 32, 51, 0.08);
+}
+</code></pre>
+<p>Variáveis começam com <code>--</code> e são usadas com <code>var(...)</code>.</p>
+<p>Exemplo:</p>
+<pre><code language="language-css" class="language-css">color: var(--cor-texto);
+</code></pre>
+<h2 is-upgraded>Modelo de caixa</h2>
+<pre><code language="language-css" class="language-css">* {
+  box-sizing: border-box;
+}
+</code></pre>
+<p>Com <code>border-box</code>, borda e espaçamento interno entram no cálculo da largura e da altura.</p>
+<h2 is-upgraded>Base do documento</h2>
+<p>Acrescente:</p>
+<pre><code language="language-css" class="language-css">html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+a {
+  color: var(--cor-primaria);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--cor-primaria-escura);
+}
+
+button {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  width: min(100% - 2rem, var(--largura-conteudo));
+  margin-inline: auto;
+}
+</code></pre>
+<h2 is-upgraded>Entendendo width: min(...)</h2>
+<pre><code language="language-css" class="language-css">width: min(100% - 2rem, var(--largura-conteudo));
+</code></pre>
+<p>O navegador escolhe o menor valor:</p>
+<ul>
+<li>em tela estreita: largura disponível menos margens;</li>
+<li>em tela larga: no máximo <code>70rem</code>.</li>
+</ul>
+<h2 is-upgraded>Testar a conexão do CSS</h2>
+<p>Confirme no <code><head></code> de cada página:</p>
+<pre><code language="language-html" class="language-html">&lt;link rel=&#34;stylesheet&#34; href=&#34;css/style.css&#34; /&gt;
+</code></pre>
+<p>Se o CSS não aparecer:</p>
+<ol type="1">
+<li>salve <code>style.css</code>;</li>
+<li>confira o caminho do <code>href</code>;</li>
+<li>confira a extensão;</li>
+<li>confira se a classe do HTML é igual ao seletor;</li>
+<li>abra as ferramentas do desenvolvedor;</li>
+<li>não use <code>!important</code> como primeira tentativa.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="12. Estilizando cabeçalho, navegação e foco" duration="35">
+        <p>Acrescente ao CSS:</p>
+<pre><code language="language-css" class="language-css">.cabecalho {
+  border-bottom: 0.0625rem solid var(--cor-borda);
+  background: var(--cor-superficie);
+}
+
+.cabecalho-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+
+.marca {
+  color: var(--cor-primaria-escura);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu a {
+  color: var(--cor-texto);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  color: var(--cor-primaria);
+}
+
+.menu a[aria-current=&#34;page&#34;] {
+  color: var(--cor-primaria);
+  text-decoration: underline;
+}
+</code></pre>
+<h2 is-upgraded>Entendendo Flexbox</h2>
+<p><code>display: flex</code> organiza os filhos diretos em uma dimensão.</p>
+<p>Na base móvel:</p>
+<pre><code language="language-css" class="language-css">flex-direction: column;
+</code></pre>
+<p>empilha marca e navegação.</p>
+<p><code>flex-wrap: wrap</code> permite que itens do menu quebrem linha quando falta espaço.</p>
+<h2 is-upgraded>Seletor de atributo</h2>
+<pre><code language="language-css" class="language-css">.menu a[aria-current=&#34;page&#34;]
+</code></pre>
+<p>seleciona o link dentro de <code>.menu</code> que possui exatamente <code>aria-current="page"</code>.</p>
+<h2 is-upgraded>Criar foco visível</h2>
+<pre><code language="language-css" class="language-css">a:focus-visible,
+button:focus-visible {
+  outline: 0.2rem solid var(--cor-foco);
+  outline-offset: 0.2rem;
+}
+</code></pre>
+<p>O contorno ajuda quem navega com teclado a localizar o elemento ativo.</p>
+<p><code>outline</code> não altera o tamanho da caixa como uma borda poderia fazer.</p>
+<h2 is-upgraded>Prática WP08</h2>
+<p>Use somente <code>Tab</code> e <code>Shift + Tab</code>.</p>
+<p>Percorra:</p>
+<ul>
+<li>marca;</li>
+<li>Início;</li>
+<li>Locais;</li>
+<li>Acessibilidade;</li>
+<li>chamada da Home;</li>
+<li>links dos cartões;</li>
+<li>link Voltar;</li>
+<li>botão de orientação.</li>
+</ul>
+<p>Registre a ordem. Todo controle deve possuir foco visível e não pode estar coberto.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="13. Estilizando Home, cartões e detalhes" duration="50">
+        <h2 is-upgraded>Hero da Home</h2>
+<pre><code language="language-css" class="language-css">.hero {
+  padding-block: 4rem;
+  background: linear-gradient(
+    135deg,
+    var(--cor-primaria-escura),
+    var(--cor-primaria)
+  );
+  color: var(--cor-superficie);
+}
+
+.hero-conteudo {
+  max-width: 48rem;
+}
+
+.hero h1 {
+  max-width: 18ch;
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 8vw, 4rem);
+  line-height: 1.1;
+}
+
+.hero-texto {
+  max-width: 55ch;
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+
+.etiqueta {
+  margin-bottom: 0.5rem;
+  color: var(--cor-destaque);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero .etiqueta {
+  color: #7ce7ef;
+}
+</code></pre>
+<h2 is-upgraded>Botão visual</h2>
+<p>O mesmo visual será usado em um link e em um botão, mas cada elemento preserva sua função semântica.</p>
+<pre><code language="language-css" class="language-css">.botao {
+  display: inline-block;
+  border: 0;
+  border-radius: 0.625rem;
+  padding: 0.75rem 1rem;
+  background: var(--cor-destaque);
+  color: #062f35;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.botao:hover {
+  background: #6ce2ea;
+  color: #062f35;
+}
+</code></pre>
+<h2 is-upgraded>Seções</h2>
+<pre><code language="language-css" class="language-css">.secao {
+  padding-block: 3rem;
+}
+
+.secao-cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.secao-cabecalho h1,
+.secao-cabecalho h2 {
+  margin-bottom: 0.5rem;
+}
+</code></pre>
+<h2 is-upgraded>Grade móvel</h2>
+<pre><code language="language-css" class="language-css">.grade-locais {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+</code></pre>
+<p>Na base móvel, existe uma coluna.</p>
+<p><code>1fr</code> significa uma fração do espaço disponível.</p>
+<h2 is-upgraded>Cartões</h2>
+<pre><code language="language-css" class="language-css">.cartao {
+  overflow: hidden;
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: 1rem;
+  background: var(--cor-superficie);
+  box-shadow: var(--sombra-cartao);
+}
+
+.cartao img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.cartao-conteudo {
+  padding: 1.25rem;
+}
+
+.cartao-conteudo h2,
+.cartao-conteudo h3 {
+  margin-bottom: 0.5rem;
+}
+
+.cartao-tipo {
+  margin-bottom: 0.25rem;
+  color: var(--cor-primaria);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+</code></pre>
+<h2 is-upgraded>aspect-ratio e object-fit</h2>
+<p><code>aspect-ratio: 3 / 2</code> cria caixas com proporção consistente.</p>
+<p><code>object-fit: cover</code> preenche a caixa sem deformar a imagem. Uma parte pode ser recortada.</p>
+<p>Isso não remove a necessidade do <code>alt</code>, pois aparência e descrição possuem papéis diferentes.</p>
+<h2 is-upgraded>Página de detalhes</h2>
+<pre><code language="language-css" class="language-css">.detalhe {
+  padding-block: 2rem 4rem;
+}
+
+.link-voltar {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.detalhe-cabecalho {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.detalhe-cabecalho img {
+  width: 100%;
+  border-radius: 1rem;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.bloco-detalhe {
+  margin-top: 1.5rem;
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: var(--cor-superficie);
+}
+
+.lista-dados {
+  display: grid;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+
+.lista-dados div {
+  border-left: 0.25rem solid var(--cor-destaque);
+  padding-left: 0.75rem;
+}
+
+.lista-dados dt {
+  font-weight: 700;
+}
+
+.lista-dados dd {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+.lista-recursos {
+  padding-left: 1.25rem;
+}
+
+.orientacao {
+  margin-top: 1rem;
+  border-left: 0.25rem solid var(--cor-destaque);
+  padding: 1rem;
+  background: var(--cor-fundo);
+}
+
+.orientacao p {
+  margin: 0;
+}
+
+.rodape {
+  border-top: 0.0625rem solid var(--cor-borda);
+  padding-block: 1.5rem;
+  background: var(--cor-superficie);
+  color: var(--cor-texto-suave);
+}
+
+.rodape p {
+  margin: 0;
+}
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="14. Aplicando mobile-first e responsividade" duration="35">
+        <p><strong>Mobile-first</strong> significa criar primeiro a base para telas estreitas e modificar somente o necessário quando houver mais espaço.</p>
+<p>Até agora:</p>
+<ul>
+<li>cabeçalho está empilhado;</li>
+<li>grade possui uma coluna;</li>
+<li>detalhes possuem uma coluna;</li>
+<li>imagens respeitam a largura disponível.</li>
+</ul>
+<h2 is-upgraded>Media query</h2>
+<p>Ao final de <code>css/style.css</code>, acrescente:</p>
+<pre><code language="language-css" class="language-css">@media (min-width: 48rem) {
+  .cabecalho-conteudo,
+  .secao-cabecalho {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .grade-locais {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .detalhe-cabecalho {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .lista-dados {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+</code></pre>
+<h2 is-upgraded>Como ler</h2>
+<pre><code language="language-css" class="language-css">@media (min-width: 48rem)
+</code></pre>
+<p>aplica as regras internas quando a viewport possui pelo menos <code>48rem</code>.</p>
+<pre><code language="language-css" class="language-css">repeat(3, 1fr)
+</code></pre>
+<p>cria três colunas iguais.</p>
+<h2 is-upgraded>O que muda em tela larga</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Tela estreita</p>
+</td><td colspan="1" rowspan="1"><p>Tela larga</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Cabeçalho</p>
+</td><td colspan="1" rowspan="1"><p>Marca e menu empilhados.</p>
+</td><td colspan="1" rowspan="1"><p>Marca e menu lado a lado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Cartões</p>
+</td><td colspan="1" rowspan="1"><p>Uma coluna.</p>
+</td><td colspan="1" rowspan="1"><p>Três colunas.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Detalhes</p>
+</td><td colspan="1" rowspan="1"><p>Texto e imagem empilhados.</p>
+</td><td colspan="1" rowspan="1"><p>Duas colunas.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Lista de dados</p>
+</td><td colspan="1" rowspan="1"><p>Uma coluna.</p>
+</td><td colspan="1" rowspan="1"><p>Três colunas.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Como testar corretamente</h2>
+<ol type="1">
+<li>Abra as ferramentas do desenvolvedor.</li>
+<li>Ative o modo responsivo.</li>
+<li>Teste uma largura próxima de <code>390px</code>.</li>
+<li>Teste uma largura próxima de <code>768px</code>.</li>
+<li>Teste uma largura de desktop.</li>
+<li>Verifique se há rolagem horizontal.</li>
+<li>Verifique se os textos continuam legíveis.</li>
+<li>Navegue com Tab em todas as larguras.</li>
+<li>Confirme que as imagens não deformam.</li>
+</ol>
+<p>Responsividade não significa apenas diminuir fontes. Ela envolve organização, largura, imagens, foco, conteúdo e ausência de rolagem horizontal indevida.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="15. Inspecionando o resultado visual" duration="25">
+        <p>Uma captura de tela comprova aparência, mas não comprova navegação, semântica, <code>alt</code> ou comportamento.</p>
+<h2 is-upgraded>Verificação visual</h2>
+<ol type="1">
+<li>Abra <code>index.html</code>.</li>
+<li>Confirme cabeçalho, chamada e três cartões.</li>
+<li>Abra <code>locais.html</code> pelos links.</li>
+<li>Confirme a lista de três cartões.</li>
+<li>Abra <code>detalhes.html</code> por um link.</li>
+<li>Use o link Voltar.</li>
+<li>Reduza e amplie a janela.</li>
+<li>Confirme que não há rolagem horizontal.</li>
+<li>Confirme que as imagens mantêm proporção.</li>
+</ol>
+<h2 is-upgraded>Verificação de caminhos</h2>
+<p>Abra as ferramentas do desenvolvedor:</p>
+<ul>
+<li>procure erros no Console;</li>
+<li>abra a aba Network ou Rede;</li>
+<li>atualize a página;</li>
+<li>procure arquivos com erro <code>404</code>;</li>
+<li>confira <code>css/style.css</code>;</li>
+<li>confira <code>js/script.js</code>;</li>
+<li>confira as três imagens.</li>
+</ul>
+<h2 is-upgraded>Verificação semântica</h2>
+<ul>
+<li>[ ] <code>lang="pt-BR"</code> nas três páginas.</li>
+<li>[ ] Um <code>main</code> por página.</li>
+<li>[ ] Um <code>h1</code> principal por página.</li>
+<li>[ ] Títulos em ordem lógica.</li>
+<li>[ ] Links com textos compreensíveis.</li>
+<li>[ ] <code>li</code> somente em listas.</li>
+<li>[ ] <code>alt</code> em todas as imagens informativas.</li>
+<li>[ ] <code>aria-current</code> no link correto.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="16. Entendendo JavaScript e DOM" duration="30">
+        <p>Depois de analisar o HTML, o navegador cria o <strong>DOM</strong>, uma representação do documento em forma de objetos conectados.</p>
+<p>JavaScript pode:</p>
+<ol type="1">
+<li>selecionar um elemento;</li>
+<li>observar um evento;</li>
+<li>ler o estado atual;</li>
+<li>alterar propriedades;</li>
+<li>atualizar o que o usuário percebe.</li>
+</ol>
+<h2 is-upgraded>Fluxo da interação</h2>
+<pre><code language="language-text" class="language-text">1. SELECIONAR
+querySelector encontra botão e painel
+        ↓
+2. OUVIR
+addEventListener observa o clique
+        ↓
+3. ALTERAR
+hidden, aria-expanded e texto mudam
+        ↓
+4. EXIBIR
+o navegador redesenha o resultado
+</code></pre>
+<p>O arquivo HTML no disco não é reescrito. O JavaScript altera o DOM carregado na memória.</p>
+<h2 is-upgraded>Preparar o arquivo externo</h2>
+<p>Confirme nas três páginas:</p>
+<pre><code language="language-html" class="language-html">&lt;script src=&#34;js/script.js&#34; defer&gt;&lt;/script&gt;
+</code></pre>
+<p>Não use:</p>
+<pre><code language="language-html" class="language-html">&lt;button onclick=&#34;mostrarOrientacao()&#34;&gt;Mostrar&lt;/button&gt;
+</code></pre>
+<p>O evento será registrado no arquivo <code>js/script.js</code>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="17. Selecionando elementos com segurança" duration="30">
+        <p>No início de <code>js/script.js</code>, digite:</p>
+<pre><code language="language-javascript" class="language-javascript">&#34;use strict&#34;;
+
+// Procura o botão pelo id único definido no HTML.
+const botaoOrientacao = document.querySelector(&#34;#botao-orientacao&#34;);
+
+// Procura o painel controlado pelo botão.
+const painelOrientacao = document.querySelector(&#34;#painel-orientacao&#34;);
+
+// O mesmo script é carregado nas três páginas.
+// A interação só será configurada quando os dois elementos existirem.
+if (botaoOrientacao &amp;&amp; painelOrientacao) {
+  // O evento de clique será registrado na próxima etapa.
+}
+</code></pre>
+<h2 is-upgraded>Entendendo querySelector</h2>
+<pre><code language="language-javascript" class="language-javascript">document.querySelector(&#34;#botao-orientacao&#34;)
+</code></pre>
+<ul>
+<li><code>document</code>: representa o documento carregado;</li>
+<li><code>querySelector</code>: procura o primeiro elemento correspondente;</li>
+<li><code>#botao-orientacao</code>: seletor CSS de ID;</li>
+<li>o retorno será o elemento ou <code>null</code>.</li>
+</ul>
+<h2 is-upgraded>Por que pode retornar null?</h2>
+<p>O mesmo script está nas três páginas. O botão existe apenas em <code>detalhes.html</code>.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Página</p>
+</td><td colspan="1" rowspan="1"><p>Resultado da seleção do botão</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>index.html</code></p>
+</td><td colspan="1" rowspan="1"><p><code>null</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>locais.html</code></p>
+</td><td colspan="1" rowspan="1"><p><code>null</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>detalhes.html</code></p>
+</td><td colspan="1" rowspan="1"><p>Elemento <code>button</code></p>
+</td></tr>
+</table>
+<h2 is-upgraded>Por que usar a condição?</h2>
+<pre><code language="language-javascript" class="language-javascript">if (botaoOrientacao &amp;&amp; painelOrientacao)
+</code></pre>
+<p>O código interno somente executa quando os dois elementos existem.</p>
+<p>Sem essa verificação, tentar usar um método de <code>null</code> poderia produzir:</p>
+<pre><code language="language-text" class="language-text">Cannot read properties of null
+</code></pre>
+<h2 is-upgraded>const não torna o elemento imutável</h2>
+<p><code>const</code> impede reatribuir a variável, mas as propriedades do elemento ainda podem mudar.</p>
+<p>Podemos alterar:</p>
+<pre><code language="language-javascript" class="language-javascript">painelOrientacao.hidden
+botaoOrientacao.textContent
+</code></pre>
+<h2 is-upgraded>Prática WP09</h2>
+<p>Preveja o valor de <code>botaoOrientacao</code> em <code>index.html</code> e <code>detalhes.html</code>. Explique por que a condição evita o erro relacionado a <code>null</code>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="18. Implementando o clique e sincronizando estados" duration="40">
+        <p>Dentro do <code>if</code>, substitua o comentário pelo evento:</p>
+<pre><code language="language-javascript" class="language-javascript">if (botaoOrientacao &amp;&amp; painelOrientacao) {
+  botaoOrientacao.addEventListener(&#34;click&#34;, () =&gt; {
+    // Guarda o estado existente antes da mudança.
+    // true significa que o painel estava oculto.
+    const estavaOculto = painelOrientacao.hidden;
+
+    // O operador ! inverte true e false.
+    painelOrientacao.hidden = !estavaOculto;
+
+    // Se estava oculto, agora foi expandido.
+    // O atributo precisa receber texto: &#34;true&#34; ou &#34;false&#34;.
+    botaoOrientacao.setAttribute(
+      &#34;aria-expanded&#34;,
+      String(estavaOculto)
+    );
+
+    // O texto sempre anuncia a próxima ação possível.
+    botaoOrientacao.textContent = estavaOculto
+      ? &#34;Ocultar orientação&#34;
+      : &#34;Mostrar orientação&#34;;
+  });
+}
+</code></pre>
+<h2 is-upgraded>O que addEventListener faz?</h2>
+<pre><code language="language-javascript" class="language-javascript">botaoOrientacao.addEventListener(&#34;click&#34;, () =&gt; {})
+</code></pre>
+<ul>
+<li>registra um ouvinte no botão;</li>
+<li>aguarda o evento <code>click</code>;</li>
+<li>executa a função quando o evento acontece;</li>
+<li>funciona com mouse e com teclado em um <code><button></code> nativo.</li>
+</ul>
+<h2 is-upgraded>Ler o estado antes de mudar</h2>
+<pre><code language="language-javascript" class="language-javascript">const estavaOculto = painelOrientacao.hidden;
+</code></pre>
+<p>Se o painel possui <code>hidden</code>, a propriedade é <code>true</code>.</p>
+<h2 is-upgraded>Inverter o estado visual</h2>
+<pre><code language="language-javascript" class="language-javascript">painelOrientacao.hidden = !estavaOculto;
+</code></pre>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Antes</p>
+</td><td colspan="1" rowspan="1"><p>Operador <code>!</code></p>
+</td><td colspan="1" rowspan="1"><p>Depois</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>true</code></p>
+</td><td colspan="1" rowspan="1"><p><code>!true</code></p>
+</td><td colspan="1" rowspan="1"><p><code>false</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>false</code></p>
+</td><td colspan="1" rowspan="1"><p><code>!false</code></p>
+</td><td colspan="1" rowspan="1"><p><code>true</code></p>
+</td></tr>
+</table>
+<h2 is-upgraded>Atualizar aria-expanded</h2>
+<p>Se o painel estava oculto e foi exibido, o novo estado expandido é verdadeiro.</p>
+<pre><code language="language-javascript" class="language-javascript">String(estavaOculto)
+</code></pre>
+<p>converte o booleano para o texto exigido pelo atributo.</p>
+<h2 is-upgraded>Atualizar o texto</h2>
+<pre><code language="language-javascript" class="language-javascript">botaoOrientacao.textContent = estavaOculto
+  ? &#34;Ocultar orientação&#34;
+  : &#34;Mostrar orientação&#34;;
+</code></pre>
+<p>O operador ternário escolhe entre dois textos.</p>
+<h2 is-upgraded>Tabela completa de estados</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Momento</p>
+</td><td colspan="1" rowspan="1"><p><code>hidden</code></p>
+</td><td colspan="1" rowspan="1"><p><code>aria-expanded</code></p>
+</td><td colspan="1" rowspan="1"><p>Texto do botão</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Inicial</p>
+</td><td colspan="1" rowspan="1"><p><code>true</code></p>
+</td><td colspan="1" rowspan="1"><p><code>false</code></p>
+</td><td colspan="1" rowspan="1"><p>Mostrar orientação</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Após um clique</p>
+</td><td colspan="1" rowspan="1"><p><code>false</code></p>
+</td><td colspan="1" rowspan="1"><p><code>true</code></p>
+</td><td colspan="1" rowspan="1"><p>Ocultar orientação</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Após dois cliques</p>
+</td><td colspan="1" rowspan="1"><p><code>true</code></p>
+</td><td colspan="1" rowspan="1"><p><code>false</code></p>
+</td><td colspan="1" rowspan="1"><p>Mostrar orientação</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Testar</h2>
+<ol type="1">
+<li>Abra <code>detalhes.html</code>.</li>
+<li>Abra o Console.</li>
+<li>Clique em Mostrar orientação.</li>
+<li>Confirme que o painel aparece.</li>
+<li>Confirme o texto Ocultar orientação.</li>
+<li>Inspecione <code>aria-expanded="true"</code>.</li>
+<li>Clique novamente.</li>
+<li>Confirme o retorno ao estado inicial.</li>
+<li>Pressione Tab até o botão.</li>
+<li>Acione com Enter e Espaço.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="19. Atualizando o ano e testando a integração" duration="35">
+        <h2 is-upgraded>HTML do rodapé</h2>
+<p>As três páginas já possuem:</p>
+<pre><code language="language-html" class="language-html">&lt;p&gt;
+  Conecta Campus · versão 0.3 ·
+  &lt;span data-ano-atual&gt;2026&lt;/span&gt;
+&lt;/p&gt;
+</code></pre>
+<p><code>data-ano-atual</code> é um atributo personalizado usado como seletor.</p>
+<p>O valor <code>2026</code> mantém o rodapé legível mesmo antes do JavaScript.</p>
+<h2 is-upgraded>JavaScript do ano</h2>
+<p>Ao final de <code>js/script.js</code>, depois do bloco da orientação, acrescente:</p>
+<pre><code language="language-javascript" class="language-javascript">// Procura o elemento marcado no rodapé.
+const anoAtual = document.querySelector(&#34;[data-ano-atual]&#34;);
+
+// Atualiza somente quando o elemento existe.
+if (anoAtual) {
+  anoAtual.textContent = new Date().getFullYear();
+}
+</code></pre>
+<h2 is-upgraded>Entendendo cada parte</h2>
+<ul>
+<li><code>[data-ano-atual]</code>: seletor CSS de atributo;</li>
+<li><code>new Date()</code>: cria um objeto que representa uma data;</li>
+<li><code>getFullYear()</code>: obtém o ano com quatro dígitos;</li>
+<li><code>textContent</code>: substitui o conteúdo textual do <code>span</code>.</li>
+</ul>
+<p>A data do dispositivo pode estar incorreta. Use essa técnica para conveniência visual, não para regras financeiras, jurídicas ou de segurança.</p>
+<h2 is-upgraded>Checklist funcional completo</h2>
+<ul>
+<li>[ ] Todas as páginas abrem sem arquivo ausente.</li>
+<li>[ ] O menu indica a página atual.</li>
+<li>[ ] Todos os destinos dos links existem.</li>
+<li>[ ] As três imagens carregam.</li>
+<li>[ ] Todas as imagens informativas possuem <code>alt</code>.</li>
+<li>[ ] A Home possui um <code>h1</code>.</li>
+<li>[ ] A interface não cria rolagem horizontal no celular.</li>
+<li>[ ] O foco é visível.</li>
+<li>[ ] O botão alterna painel, texto e <code>aria-expanded</code>.</li>
+<li>[ ] Dois cliques retornam ao estado inicial.</li>
+<li>[ ] O Console não mostra erro.</li>
+<li>[ ] O ano do rodapé possui quatro dígitos.</li>
+</ul>
+<h2 is-upgraded>Conferir o Git</h2>
+<pre><code language="language-bash" class="language-bash">git status
+git diff
+git diff --stat
+</code></pre>
+<ul>
+<li><code>status</code>: lista estados dos arquivos;</li>
+<li><code>diff</code>: mostra alterações textuais não preparadas;</li>
+<li><code>diff --stat</code>: resume arquivos e quantidade de linhas.</li>
+</ul>
+<p>Somente arquivos do site devem aparecer. Nenhuma credencial ou arquivo temporário pode ser incluído.</p>
+<h2 is-upgraded>Prática WP10</h2>
+<p>Registre uma evidência para cada item do checklist. Para o botão, anote <code>hidden</code>, <code>aria-expanded</code> e texto antes e depois de dois cliques.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="20. Criando commits pequenos e explicáveis" duration="30">
+        <p>Não crie um único commit chamado &#34;site pronto&#34;. Separe o trabalho por responsabilidade.</p>
+<h2 is-upgraded>Commit 1 - HTML</h2>
+<pre><code language="language-bash" class="language-bash">git status
+git add index.html locais.html detalhes.html
+git diff --staged
+git commit -m &#34;feat: cria páginas semânticas do site&#34;
+</code></pre>
+<p><code>git diff --staged</code> mostra o conteúdo preparado para o próximo commit.</p>
+<p>Confira:</p>
+<ul>
+<li>três páginas preparadas;</li>
+<li>sem CSS inline;</li>
+<li>sem JavaScript inline;</li>
+<li>caminhos coerentes;</li>
+<li>sem arquivos indevidos.</li>
+</ul>
+<h2 is-upgraded>Commit 2 - Imagens</h2>
+<pre><code language="language-bash" class="language-bash">git add img/
+git status
+git commit -m &#34;feat: adiciona imagens dos locais&#34;
+</code></pre>
+<p>Imagens são arquivos binários. O diff não mostra seus pixels como texto. Confirme:</p>
+<ul>
+<li>nomes;</li>
+<li>extensões;</li>
+<li>tamanhos;</li>
+<li>uso real no HTML;</li>
+<li>ausência de arquivo duplicado.</li>
+</ul>
+<h2 is-upgraded>Commit 3 - CSS</h2>
+<pre><code language="language-bash" class="language-bash">git add css/style.css
+git diff --staged
+git commit -m &#34;style: define identidade visual inicial&#34;
+</code></pre>
+<h2 is-upgraded>Commit 4 - JavaScript</h2>
+<pre><code language="language-bash" class="language-bash">git add js/script.js
+git diff --staged
+git commit -m &#34;feat: adiciona interação de orientação&#34;
+</code></pre>
+<h2 is-upgraded>Atualizar o README</h2>
+<p>Acrescente ao <code>README.md</code>:</p>
+<pre><code language="language-markdown" class="language-markdown">## Marco v0.3
+
+O projeto possui três páginas HTML navegáveis, CSS externo compartilhado,
+imagens locais e JavaScript externo para controlar a orientação acessível.
+
+### Como abrir
+
+1. Faça o clone ou baixe o repositório.
+2. Abra a pasta no Visual Studio Code.
+3. Abra `index.html` no navegador.
+4. Navegue pelos links entre as três páginas.
+
+### Tecnologias
+
+- HTML: estrutura e conteúdo
+- CSS: apresentação e responsividade
+- JavaScript: comportamento
+- Git e GitHub: histórico e revisão
+
+### Teste principal
+
+Em `detalhes.html`, acione duas vezes o botão de orientação e confirme que
+painel, texto e `aria-expanded` permanecem sincronizados.
+</code></pre>
+<h2 is-upgraded>Commit 5 - Documentação</h2>
+<pre><code language="language-bash" class="language-bash">git add README.md
+git diff --staged
+git commit -m &#34;docs: atualiza instruções do projeto&#34;
+</code></pre>
+<h2 is-upgraded>Conferir o histórico</h2>
+<pre><code language="language-bash" class="language-bash">git log --oneline -5
+git status
+</code></pre>
+<p>O histórico deve mostrar cinco mudanças coerentes e <code>git status</code> deve informar árvore limpa.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="21. Publicando e abrindo o Pull Request" duration="30">
+        <h2 is-upgraded>Publicar o branch</h2>
+<pre><code language="language-bash" class="language-bash">git branch --show-current
+git log --oneline -5
+git status
+git push -u origin feature/site-inicial
+</code></pre>
+<p>Antes do push, confirme:</p>
+<ul>
+<li>branch atual <code>feature/site-inicial</code>;</li>
+<li>cinco commits;</li>
+<li>árvore limpa.</li>
+</ul>
+<p><code>-u</code> configura o acompanhamento entre o branch local e o remoto.</p>
+<h2 is-upgraded>Abrir o Pull Request</h2>
+<p>No GitHub:</p>
+<ol type="1">
+<li>Abra o repositório.</li>
+<li>Acesse <strong>Pull requests</strong>.</li>
+<li>Clique em <strong>New pull request</strong>.</li>
+<li>Defina <code>base: main</code>.</li>
+<li>Defina <code>compare: feature/site-inicial</code>.</li>
+<li>Confira a lista de commits.</li>
+<li>Abra <strong>Files changed</strong>.</li>
+<li>Confira todos os arquivos.</li>
+</ol>
+<h2 is-upgraded>Título sugerido</h2>
+<pre><code language="language-text" class="language-text">feat: transforma wireframes no site inicial do Conecta Campus
+</code></pre>
+<h2 is-upgraded>Descrição sugerida</h2>
+<pre><code language="language-markdown" class="language-markdown">## O que foi feito
+
+- transforma os três wireframes em páginas HTML
+- adiciona CSS compartilhado e responsivo
+- registra três imagens locais com texto alternativo
+- implementa orientação interativa com estado acessível
+- atualiza a documentação do projeto
+
+## Como verificar
+
+- abrir index.html e navegar pelas três páginas
+- testar o layout em tela estreita e larga
+- percorrer os controles usando Tab
+- clicar duas vezes em Mostrar orientação
+- conferir hidden, aria-expanded e texto do botão
+- verificar Console, caminhos e textos alternativos
+
+## Critérios observados
+
+- HTML semântico
+- CSS externo
+- JavaScript externo com defer
+- navegação por links
+- foco visível
+- commits separados por responsabilidade
+</code></pre>
+<h2 is-upgraded>Revisar além do diff</h2>
+<p><code>Files changed</code> mostra código, mas não executa o site.</p>
+<p>O revisor deve:</p>
+<ul>
+<li>ler o diff;</li>
+<li>abrir o site localmente;</li>
+<li>testar navegação;</li>
+<li>testar responsividade;</li>
+<li>testar teclado;</li>
+<li>testar o botão;</li>
+<li>observar Console e Rede.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="22. Revisando, mesclando e sincronizando" duration="25">
+        <h2 is-upgraded>Checklist do Pull Request</h2>
+<ul>
+<li>[ ] Base é <code>main</code>.</li>
+<li>[ ] Compare é <code>feature/site-inicial</code>.</li>
+<li>[ ] Descrição corresponde aos arquivos.</li>
+<li>[ ] Nenhum caminho está incorreto.</li>
+<li>[ ] Todo <code>alt</code> é contextual.</li>
+<li>[ ] IDs necessários são únicos.</li>
+<li>[ ] <code>href</code> aponta para arquivo existente.</li>
+<li>[ ] CSS não contém correção temporária inexplicada.</li>
+<li>[ ] JavaScript não contém <code>onclick</code>.</li>
+<li>[ ] Seleções são verificadas antes de usar elementos opcionais.</li>
+<li>[ ] Cinco commits possuem escopo compreensível.</li>
+<li>[ ] Não existe senha, token, <code>.env</code> ou arquivo do editor.</li>
+</ul>
+<h2 is-upgraded>Fazer o merge</h2>
+<ol type="1">
+<li>Confirme que a revisão foi concluída.</li>
+<li>Clique em <strong>Merge pull request</strong>.</li>
+<li>Confirme a mensagem.</li>
+<li>Finalize o merge.</li>
+<li>Exclua o branch remoto integrado.</li>
+<li>Abra a <code>main</code> no GitHub.</li>
+<li>Confirme que o site está no branch principal.</li>
+</ol>
+<h2 is-upgraded>Sincronizar o computador</h2>
+<p>No terminal:</p>
+<pre><code language="language-bash" class="language-bash">git switch main
+git pull
+git branch -d feature/site-inicial
+git fetch --prune
+git status
+</code></pre>
+<p>Entenda:</p>
+<ul>
+<li><code>switch main</code>: volta para o branch principal;</li>
+<li><code>pull</code>: recebe o merge;</li>
+<li><code>branch -d</code>: exclui o branch local com verificação;</li>
+<li><code>fetch --prune</code>: remove referências remotas obsoletas;</li>
+<li><code>status</code>: confirma o estado final.</li>
+</ul>
+<p>Não substitua <code>-d</code> por <code>-D</code> automaticamente se houver recusa. Primeiro confirme que o trabalho foi integrado.</p>
+<h2 is-upgraded>Prática WP11</h2>
+<p>Escreva uma revisão do PR com:</p>
+<ul>
+<li>dois pontos corretos;</li>
+<li>um risco verificado;</li>
+<li>um teste funcional executado;</li>
+<li>uma melhoria futura que não deve entrar neste escopo.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="23. Diagnosticando erros comuns" duration="35">
+        <table>
+<tr><td colspan="1" rowspan="1"><p>Sintoma</p>
+</td><td colspan="1" rowspan="1"><p>Causa provável</p>
+</td><td colspan="1" rowspan="1"><p>Como confirmar</p>
+</td><td colspan="1" rowspan="1"><p>Ação segura</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Página sem estilo</p>
+</td><td colspan="1" rowspan="1"><p><code>href</code> incorreto ou CSS não salvo.</p>
+</td><td colspan="1" rowspan="1"><p>Confira Rede, <code>css/style.css</code> e a classe.</p>
+</td><td colspan="1" rowspan="1"><p>Corrija caminho ou seletor.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Imagem quebrada</p>
+</td><td colspan="1" rowspan="1"><p>Nome, extensão ou letras diferentes.</p>
+</td><td colspan="1" rowspan="1"><p>Compare <code>src</code> com o arquivo em <code>img/</code>.</p>
+</td><td colspan="1" rowspan="1"><p>Use o nome exato.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Link abre arquivo inexistente</p>
+</td><td colspan="1" rowspan="1"><p><code>href</code> aponta para nome não criado.</p>
+</td><td colspan="1" rowspan="1"><p>Confira o explorador e o endereço.</p>
+</td><td colspan="1" rowspan="1"><p>Ajuste o caminho relativo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Cartão deforma imagem</p>
+</td><td colspan="1" rowspan="1"><p>Falta de <code>aspect-ratio</code> ou <code>object-fit</code>.</p>
+</td><td colspan="1" rowspan="1"><p>Inspecione a caixa da imagem.</p>
+</td><td colspan="1" rowspan="1"><p>Use <code>cover</code> sem remover o <code>alt</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Rolagem horizontal</p>
+</td><td colspan="1" rowspan="1"><p>Elemento mais largo que a viewport.</p>
+</td><td colspan="1" rowspan="1"><p>Inspecione largura, padding e conteúdo.</p>
+</td><td colspan="1" rowspan="1"><p>Corrija a regra que excede o espaço.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Botão não responde</p>
+</td><td colspan="1" rowspan="1"><p>Script não carregou, ID diverge ou existe erro anterior.</p>
+</td><td colspan="1" rowspan="1"><p>Confira <code>defer</code>, caminho e Console.</p>
+</td><td colspan="1" rowspan="1"><p>Corrija a primeira causa real.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Cannot read properties of null</code></p>
+</td><td colspan="1" rowspan="1"><p>Elemento não existe na página.</p>
+</td><td colspan="1" rowspan="1"><p>Examine o seletor e a página atual.</p>
+</td><td colspan="1" rowspan="1"><p>Verifique a seleção antes do evento.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>aria-expanded</code> não muda</p>
+</td><td colspan="1" rowspan="1"><p>Estado visual e acessível foram separados.</p>
+</td><td colspan="1" rowspan="1"><p>Inspecione o atributo após o clique.</p>
+</td><td colspan="1" rowspan="1"><p>Atualize-o junto com <code>hidden</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Arquivo não entra no commit</p>
+</td><td colspan="1" rowspan="1"><p>Não foi preparado ou a pasta está vazia.</p>
+</td><td colspan="1" rowspan="1"><p>Use <code>git status</code>.</p>
+</td><td colspan="1" rowspan="1"><p>Execute <code>git add</code> no caminho correto.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Roteiro geral de diagnóstico</h2>
+<ol type="1">
+<li>Reproduza o erro.</li>
+<li>Leia a mensagem completa.</li>
+<li>Identifique o arquivo envolvido.</li>
+<li>Confira o caminho.</li>
+<li>Use Console ou Rede quando necessário.</li>
+<li>Faça uma alteração pequena.</li>
+<li>Teste novamente.</li>
+<li>Use <code>git diff</code> para conferir a correção.</li>
+</ol>
+<h2 is-upgraded>Prática WP12</h2>
+<p>Escolha quatro sintomas. Para cada um, escreva:</p>
+<ul>
+<li>hipótese;</li>
+<li>evidência que confirmaria a hipótese;</li>
+<li>ação segura;</li>
+<li>resultado esperado.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="24. Consolidação e desafios" duration="35">
+        <h2 is-upgraded>WP13-A - Árvore e caminhos</h2>
+<p>Sem consultar o código, desenhe a árvore do projeto e indique de onde partem:</p>
+<pre><code language="language-text" class="language-text">css/style.css
+js/script.js
+img/rota-acessivel.png
+</code></pre>
+<h2 is-upgraded>WP13-B - Sequência do clique</h2>
+<p>Explique a sequência completa usando:</p>
+<pre><code language="language-text" class="language-text">button → querySelector → addEventListener → hidden → aria-expanded → textContent
+</code></pre>
+<h2 is-upgraded>WP13-C - Class e id</h2>
+<p>Explique a diferença entre <code>class</code> e <code>id</code>.</p>
+<p>Dê dois exemplos corretos de cada no projeto e explique por que duplicar ID pode gerar seleção incorreta.</p>
+<h2 is-upgraded>WP13-D - Quarto cartão</h2>
+<p>Crie a proposta de um quarto cartão com:</p>
+<ul>
+<li><code>article</code>;</li>
+<li>imagem;</li>
+<li><code>alt</code> contextual;</li>
+<li>categoria;</li>
+<li>título;</li>
+<li>resumo;</li>
+<li>link válido.</li>
+</ul>
+<h2 is-upgraded>WP13-E - Ordem do projeto</h2>
+<p>Organize:</p>
+<ol type="1">
+<li>Criar branch.</li>
+<li>Escrever HTML.</li>
+<li>Adicionar imagens.</li>
+<li>Estilizar.</li>
+<li>Implementar JavaScript.</li>
+<li>Testar.</li>
+<li>Criar commits.</li>
+<li>Fazer push.</li>
+<li>Abrir Pull Request.</li>
+<li>Fazer merge.</li>
+<li>Atualizar a <code>main</code> com pull.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="25. Gabarito e marco v0.3" duration="35">
+        <h2 is-upgraded>Resposta WP01</h2>
+<p>O wireframe registra a organização visual. O marco <code>v0.3</code> possui documentos navegáveis. HTML fornece estrutura e conteúdo; CSS apresenta e adapta; JavaScript reage ao clique; Git registra a evolução revisável.</p>
+<h2 is-upgraded>Resposta WP02</h2>
+<ol type="1">
+<li>HTML.</li>
+<li>CSS.</li>
+<li>JavaScript.</li>
+<li>HTML.</li>
+<li>CSS.</li>
+<li>JavaScript.</li>
+</ol>
+<h2 is-upgraded>Resposta WP03</h2>
+<p>A <code>main</code> atualizada garante que o branch nasce do último estado integrado. Trabalhar diretamente em <code>main</code> mistura versão estável com trabalho em andamento e dificulta revisão e retorno.</p>
+<h2 is-upgraded>Resposta WP04</h2>
+<p>Os caminhos são:</p>
+<pre><code language="language-text" class="language-text">css/style.css
+js/script.js
+img/biblioteca-campus.png
+</code></pre>
+<p>A barra inicial representa a raiz do site servido, que pode não coincidir com a pasta quando o arquivo é aberto localmente ou publicado em subcaminho.</p>
+<h2 is-upgraded>Resposta WP05</h2>
+<ul>
+<li><code>doctype</code>: ativa o modo moderno;</li>
+<li><code>lang</code>: informa português do Brasil;</li>
+<li><code>charset</code>: permite UTF-8;</li>
+<li><code>viewport</code>: ajusta a largura ao dispositivo;</li>
+<li><code>title</code>: nomeia a aba;</li>
+<li><code>link</code>: carrega CSS;</li>
+<li><code>defer</code>: executa o script depois da análise do HTML.</li>
+</ul>
+<h2 is-upgraded>Resposta WP06</h2>
+<p>Em cada arquivo, apenas o link correspondente deve receber <code>aria-current="page"</code>. O teste válido navega pelo link e confirma arquivo, conteúdo e título da aba.</p>
+<h2 is-upgraded>Resposta WP07</h2>
+<p>A Home deve possuir um <code>h1</code>, textos em ordem lógica e links descritivos. Sem CSS, o conteúdo continua estruturado. Problemas semânticos devem ser corrigidos no HTML.</p>
+<h2 is-upgraded>Resposta WP08</h2>
+<p>A ordem acompanha o documento: marca, itens do menu, links principais, links dos cartões, retorno e botão. Todo controle precisa de contorno visível.</p>
+<h2 is-upgraded>Resposta WP09</h2>
+<p>Em <code>index.html</code>, o seletor retorna <code>null</code>. Em <code>detalhes.html</code>, retorna o botão. A condição exige botão e painel antes de registrar o evento.</p>
+<h2 is-upgraded>Resposta WP10</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Momento</p>
+</td><td colspan="1" rowspan="1"><p><code>hidden</code></p>
+</td><td colspan="1" rowspan="1"><p><code>aria-expanded</code></p>
+</td><td colspan="1" rowspan="1"><p>Texto</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Antes</p>
+</td><td colspan="1" rowspan="1"><p><code>true</code></p>
+</td><td colspan="1" rowspan="1"><p><code>false</code></p>
+</td><td colspan="1" rowspan="1"><p>Mostrar orientação</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>1º clique</p>
+</td><td colspan="1" rowspan="1"><p><code>false</code></p>
+</td><td colspan="1" rowspan="1"><p><code>true</code></p>
+</td><td colspan="1" rowspan="1"><p>Ocultar orientação</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>2º clique</p>
+</td><td colspan="1" rowspan="1"><p><code>true</code></p>
+</td><td colspan="1" rowspan="1"><p><code>false</code></p>
+</td><td colspan="1" rowspan="1"><p>Mostrar orientação</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Resposta WP11</h2>
+<p>A revisão deve se apoiar em arquivos e testes reais. Um filtro de busca é uma melhoria futura possível, mas não pertence ao primeiro marco navegável.</p>
+<h2 is-upgraded>Resposta WP12</h2>
+<p>Exemplo: imagem quebrada. Hipótese: <code>src</code> diferente do nome do arquivo. Evidência: comparação do caminho com a pasta <code>img</code> e erro na Rede. Ação: corrigir o caminho exato. Resultado: imagem carrega sem erro.</p>
+<h2 is-upgraded>Resposta WP13-A</h2>
+<p>Os três HTML ficam na raiz. <code>style.css</code> fica em <code>css</code>, <code>script.js</code> em <code>js</code> e imagens em <code>img</code>. Os caminhos citados partem dos documentos HTML.</p>
+<h2 is-upgraded>Resposta WP13-B</h2>
+<p>O botão existe no HTML; <code>querySelector</code> encontra botão e painel; <code>addEventListener</code> registra o clique; <code>hidden</code> é invertido; <code>aria-expanded</code> recebe o novo estado; <code>textContent</code> informa a próxima ação.</p>
+<h2 is-upgraded>Resposta WP13-C</h2>
+<p><code>class</code> é reutilizável, como <code>cartao</code> e <code>container</code>. <code>id</code> é único, como <code>botao-orientacao</code> e <code>painel-orientacao</code>. IDs repetidos tornam relações e seleções ambíguas.</p>
+<h2 is-upgraded>Resposta WP13-D</h2>
+<p>A resposta precisa usar <code>article</code>, imagem com caminho existente, <code>alt</code> contextual, categoria, título, resumo e link válido.</p>
+<h2 is-upgraded>Resposta WP13-E</h2>
+<p>Ordem esperada:</p>
+<pre><code language="language-text" class="language-text">branch → HTML → imagens → CSS → JavaScript → testes → commits → push → PR → merge → pull
+</code></pre>
+<p>Os commits devem ser criados durante as etapas coerentes, e não somente no fim.</p>
+<h2 is-upgraded>Checklist do marco Conecta Campus v0.3</h2>
+<ul>
+<li>[ ] Três páginas HTML reais e conectadas.</li>
+<li>[ ] <code>lang="pt-BR"</code> nas páginas.</li>
+<li>[ ] Cabeçalho, conteúdo principal e rodapé.</li>
+<li>[ ] Títulos em ordem lógica.</li>
+<li>[ ] Links, listas e imagens semanticamente corretos.</li>
+<li>[ ] Imagens com <code>alt</code> contextual.</li>
+<li>[ ] CSS externo compartilhado.</li>
+<li>[ ] Base mobile-first.</li>
+<li>[ ] Ajuste para telas maiores.</li>
+<li>[ ] Foco visível.</li>
+<li>[ ] JavaScript externo com <code>defer</code>.</li>
+<li>[ ] Seleção segura.</li>
+<li>[ ] Evento registrado com <code>addEventListener</code>.</li>
+<li>[ ] Painel, texto e <code>aria-expanded</code> sincronizados.</li>
+<li>[ ] Três imagens locais com nomes compreensíveis.</li>
+<li>[ ] Cinco commits coerentes.</li>
+<li>[ ] Pull Request revisado e mesclado.</li>
+<li>[ ] <code>main</code> local sincronizada.</li>
+<li>[ ] README atualizado.</li>
+</ul>
+<h2 is-upgraded>Próxima evolução</h2>
+<p>O marco <code>v0.3</code> oferece uma base estável. A lista poderá receber filtros e dados em arrays e objetos; preferências poderão ser mantidas no navegador. Cada evolução deve nascer em novo branch e Pull Request.</p>
+<h2 is-upgraded>Referências técnicas</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/pt-BR/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax" target="_blank">Sintaxe básica do HTML - MDN</a></li>
+<li><a href="https://developer.mozilla.org/pt-BR/docs/Web/HTML/Reference/Elements" target="_blank">Elementos HTML - MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Getting_started" target="_blank">Primeiros passos com CSS - MDN</a></li>
+<li><a href="https://developer.mozilla.org/pt-BR/docs/Learn_web_development/Core/Scripting" target="_blank">Primeiros passos com JavaScript - MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_browsers_load_websites" target="_blank">Como navegadores carregam sites - MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector" target="_blank">Document.querySelector - MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener" target="_blank">addEventListener - MDN</a></li>
+<li><a href="https://developer.mozilla.org/pt-BR/docs/Web/HTML/Reference/Global_attributes/hidden" target="_blank">Atributo hidden - MDN</a></li>
+<li><a href="https://git-scm.com/docs/git-switch/pt_BR" target="_blank">git switch</a></li>
+<li><a href="https://git-scm.com/docs/git-status/pt_BR" target="_blank">git status</a></li>
+<li><a href="https://git-scm.com/docs/git-add/pt_BR" target="_blank">git add</a></li>
+<li><a href="https://git-scm.com/docs/git-commit" target="_blank">git commit</a></li>
+<li><a href="https://git-scm.com/docs/git-push" target="_blank">git push</a></li>
+<li><a href="https://docs.github.com/pt/pull-requests/how-tos/create-pull-requests/creating-a-pull-request" target="_blank">Criar um Pull Request - GitHub Docs</a></li>
+<li><a href="https://skills.github.com/" target="_blank">GitHub Skills</a></li>
+</ul>
+<p>© 2026 Alexandre Carlos de Jesus. Todos os direitos reservados.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
