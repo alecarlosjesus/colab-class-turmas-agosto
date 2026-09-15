@@ -14,6 +14,10 @@ Os guias abaixo foram desenvolvidos no formato Google Codelabs para facilitar o 
 * [Git e GitHub: fundamentos com o projeto Conecta Campus](https://alecarlosjesus.github.io/colab-class-turmas-agosto/git-github-fundamentos-conecta-campus/)
 * [Git intermediário e Figma: Conecta Campus v0.2](https://alecarlosjesus.github.io/colab-class-turmas-agosto/git-intermediario-figma-conecta-campus/)
 * [Do wireframe ao primeiro site: Conecta Campus v0.3](https://alecarlosjesus.github.io/colab-class-turmas-agosto/html-css-javascript-git-conecta-campus/)
+* [Tags semânticas HTML: estrutura, significado e boas práticas](https://alecarlosjesus.github.io/colab-class-turmas-agosto/codelab-tags-semanticas-html/)
+* [Formulários HTML e input: estrutura, utilização e boas práticas](https://alecarlosjesus.github.io/colab-class-turmas-agosto/codelab-formularios-html-input/)
+* [Tag a, âncoras e links: navegação segura e acessível](https://alecarlosjesus.github.io/colab-class-turmas-agosto/codelab-tag-a-ancoras-links/)
+
 * *(Novas aulas serão adicionadas aqui...)*
 
 ---
