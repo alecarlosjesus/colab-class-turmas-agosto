@@ -1,0 +1,35 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-09-15T17:09:36-03:00",
+  "id": "codelab-formularios-html-input",
+  "duration": 970,
+  "title": "Formulários HTML e input: estrutura, utilização e boas práticas",
+  "authors": "Alexandre Carlos de Jesus",
+  "summary": "Aprenda a construir formulários HTML completos, acessíveis e seguros, dominando form, input, label, tipos de campo, validação, agrupamentos, envio por GET e POST e boas práticas.",
+  "source": "codelab-formularios-html-input.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "web",
+    "html",
+    "front-end",
+    "formulários",
+    "acessibilidade"
+  ],
+  "tags": [
+    "acessibilidade",
+    "form",
+    "get",
+    "html",
+    "input",
+    "label",
+    "post",
+    "validacao"
+  ],
+  "url": "codelab-formularios-html-input"
+}

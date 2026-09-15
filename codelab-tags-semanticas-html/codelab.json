@@ -1,0 +1,32 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-09-15T17:09:30-03:00",
+  "id": "codelab-tags-semanticas-html",
+  "duration": 635,
+  "title": "Tags semânticas HTML: estrutura, significado e boas práticas",
+  "authors": "Alexandre Carlos de Jesus",
+  "summary": "Aprenda a estruturar páginas com tags semânticas HTML, escolhendo o elemento correto para cada tipo de conteúdo e melhorando acessibilidade, manutenção e compreensão do documento.",
+  "source": "codelab-tags-semanticas-html.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "web",
+    "html",
+    "front-end",
+    "acessibilidade"
+  ],
+  "tags": [
+    "acessibilidade",
+    "estrutura",
+    "front-end",
+    "html",
+    "html5",
+    "semântica"
+  ],
+  "url": "codelab-tags-semanticas-html"
+}

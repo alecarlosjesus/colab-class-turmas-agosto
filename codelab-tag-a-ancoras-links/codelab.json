@@ -1,0 +1,34 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-09-15T17:09:33-03:00",
+  "id": "codelab-tag-a-ancoras-links",
+  "duration": 575,
+  "title": "Tag a, âncoras e links: navegação segura e acessível",
+  "authors": "Alexandre Carlos de Jesus",
+  "summary": "Aprenda a criar links e âncoras HTML seguros e acessíveis, trabalhar com caminhos relativos, fragmentos, protocolos, targets, downloads e boas práticas de navegação.",
+  "source": "codelab-tag-a-ancoras-links.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "web",
+    "html",
+    "front-end",
+    "acessibilidade",
+    "segurança"
+  ],
+  "tags": [
+    "acessibilidade",
+    "ancora",
+    "caminhos-relativos",
+    "href",
+    "html",
+    "links",
+    "target"
+  ],
+  "url": "codelab-tag-a-ancoras-links"
+}

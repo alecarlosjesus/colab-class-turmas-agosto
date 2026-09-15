@@ -1,0 +1,1422 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Formulários HTML e input: estrutura, utilização e boas práticas</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="codelab-formularios-html-input"
+                  title="Formulários HTML e input: estrutura, utilização e boas práticas"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="1. Visão geral e preparação" duration="20">
+        <aside class="special"><p> 📝 <strong>Ideia central:</strong> um formulário é uma conversa estruturada. O <code>label</code> apresenta a pergunta, o controle recebe a resposta, o <code>name</code> identifica o dado e o servidor decide como processá-lo.</p>
+</aside>
+<p>Formulários permitem que pessoas enviem dados: pesquisa, login, cadastro, contato, pagamento, filtros, upload e muitas outras interações. Um formulário bem construído precisa ser compreensível, operável por teclado, validado e processado com segurança no servidor.</p>
+<h2 is-upgraded>Objetivos</h2>
+<p>Ao concluir, você conseguirá:</p>
+<ul>
+<li>explicar o fluxo de envio de um formulário;</li>
+<li>configurar <code>form</code>, <code>action</code>, <code>method</code> e <code>enctype</code>;</li>
+<li>relacionar <code>label</code> e campo corretamente;</li>
+<li>usar todos os tipos principais de <code>input</code>;</li>
+<li>escolher entre <code>input</code>, <code>textarea</code>, <code>select</code> e <code>datalist</code>;</li>
+<li>agrupar controles com <code>fieldset</code> e <code>legend</code>;</li>
+<li>configurar validação nativa;</li>
+<li>diferenciar <code>disabled</code> de <code>readonly</code>;</li>
+<li>decidir entre GET e POST;</li>
+<li>reconhecer limites de segurança e validação do front-end;</li>
+<li>testar os pares nome–valor enviados.</li>
+</ul>
+<h2 is-upgraded>Estrutura do projeto</h2>
+<pre><code language="language-text" class="language-text">formulario-campus/
+├── index.html
+├── css/
+│   └── estilos.css
+└── js/
+    └── validacao.js
+</code></pre>
+<p>O foco será o HTML. CSS e JavaScript são opcionais e aparecerão apenas quando ajudarem a testar o comportamento.</p>
+<h2 is-upgraded>Glossário</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Termo</p>
+</td><td colspan="1" rowspan="1"><p>Significado</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Controle</p>
+</td><td colspan="1" rowspan="1"><p>Campo, botão ou outro elemento associado ao formulário.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Rótulo</p>
+</td><td colspan="1" rowspan="1"><p>Texto que identifica o propósito de um controle.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Par nome–valor</p>
+</td><td colspan="1" rowspan="1"><p>Unidade enviada, como <code>email=ana@example.com</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Validação</p>
+</td><td colspan="1" rowspan="1"><p>Verificação de formato e regras antes de aceitar dados.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Endpoint</p>
+</td><td colspan="1" rowspan="1"><p>Endereço do servidor que recebe a requisição.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Payload</p>
+</td><td colspan="1" rowspan="1"><p>Conjunto de dados enviado na requisição.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Codificação</p>
+</td><td colspan="1" rowspan="1"><p>Forma usada para representar os dados durante o envio.</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="2. Como um formulário funciona" duration="35">
+        <p>O elemento <code>form</code> agrupa controles que participam de uma operação de envio.</p>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/contatos&#34; method=&#34;post&#34;&gt;
+  &lt;label for=&#34;nome&#34;&gt;Nome&lt;/label&gt;
+  &lt;input id=&#34;nome&#34; name=&#34;nome&#34; type=&#34;text&#34;&gt;
+
+  &lt;button type=&#34;submit&#34;&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Quando a pessoa envia:</p>
+<ol type="1">
+<li>o navegador verifica as regras nativas de validação;</li>
+<li>identifica os controles participantes;</li>
+<li>monta pares usando <code>name</code> e o valor de cada controle;</li>
+<li>codifica os dados;</li>
+<li>envia uma requisição ao endereço em <code>action</code>;</li>
+<li>o servidor valida, processa e devolve uma resposta.</li>
+</ol>
+<p>No exemplo, uma entrada possível seria:</p>
+<pre><code language="language-text" class="language-text">nome=Ana
+</code></pre>
+<h2 is-upgraded><code>id</code> e <code>name</code> não são a mesma coisa</h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;email-contato&#34;&gt;E-mail&lt;/label&gt;
+&lt;input
+  id=&#34;email-contato&#34;
+  name=&#34;email&#34;
+  type=&#34;email&#34;&gt;
+</code></pre>
+<ul>
+<li><code>id</code> identifica o elemento no documento e o conecta ao <code>label</code>.</li>
+<li><code>name</code> define a chave usada no envio.</li>
+</ul>
+<p>Sem <code>name</code>, o valor do campo normalmente não é incluído nos dados enviados.</p>
+<h2 is-upgraded>O formulário não cria um backend</h2>
+<p><code>action="/contatos"</code> pressupõe que exista uma aplicação no servidor preparada para receber esse endereço. Abrir um HTML local e clicar em enviar não cria armazenamento, e-mail ou banco de dados automaticamente.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="3. A tag form e seus atributos" duration="50">
+        <h2 is-upgraded><code>action</code></h2>
+<p>Define a URL que receberá os dados.</p>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/inscricoes&#34; method=&#34;post&#34;&gt;
+  ...
+&lt;/form&gt;
+</code></pre>
+<p>Se <code>action</code> for omitido, o envio ocorre para a URL atual. Mesmo assim, prefira ser explícito quando isso melhorar a clareza do projeto.</p>
+<h2 is-upgraded><code>method</code></h2>
+<p>Os valores mais usados são <code>get</code> e <code>post</code>.</p>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/buscar&#34; method=&#34;get&#34;&gt;...&lt;/form&gt;
+&lt;form action=&#34;/contatos&#34; method=&#34;post&#34;&gt;...&lt;/form&gt;
+</code></pre>
+<table>
+<tr><td colspan="1" rowspan="1"><p>GET</p>
+</td><td colspan="1" rowspan="1"><p>POST</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Dados aparecem na URL como consulta.</p>
+</td><td colspan="1" rowspan="1"><p>Dados são enviados no corpo da requisição.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Bom para busca, filtro e leitura.</p>
+</td><td colspan="1" rowspan="1"><p>Bom para criar ou alterar dados.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>URL pode ser compartilhada e favoritada.</p>
+</td><td colspan="1" rowspan="1"><p>Dados não ficam normalmente na URL.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Limitado por tamanho prático da URL.</p>
+</td><td colspan="1" rowspan="1"><p>Aceita payloads maiores, conforme servidor.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Não use para senhas ou ações com efeito.</p>
+</td><td colspan="1" rowspan="1"><p>Não é criptografia; exige HTTPS.</p>
+</td></tr>
+</table>
+<p>Exemplo GET:</p>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/buscar&#34; method=&#34;get&#34;&gt;
+  &lt;label for=&#34;termo&#34;&gt;O que deseja buscar?&lt;/label&gt;
+  &lt;input id=&#34;termo&#34; name=&#34;q&#34; type=&#34;search&#34;&gt;
+  &lt;button type=&#34;submit&#34;&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Uma busca por HTML pode gerar:</p>
+<pre><code language="language-text" class="language-text">/buscar?q=HTML
+</code></pre>
+<h2 is-upgraded><code>enctype</code></h2>
+<p>Define a codificação quando o método é POST.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Valor</p>
+</td><td colspan="1" rowspan="1"><p>Quando usar</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>application/x-www-form-urlencoded</code></p>
+</td><td colspan="1" rowspan="1"><p>Padrão para campos textuais comuns.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>multipart/form-data</code></p>
+</td><td colspan="1" rowspan="1"><p>Necessário quando existe upload de arquivo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>text/plain</code></p>
+</td><td colspan="1" rowspan="1"><p>Principalmente diagnóstico; não é apropriado para aplicações comuns.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/documentos&#34; method=&#34;post&#34; enctype=&#34;multipart/form-data&#34;&gt;
+  &lt;label for=&#34;arquivo&#34;&gt;Documento&lt;/label&gt;
+  &lt;input id=&#34;arquivo&#34; name=&#34;arquivo&#34; type=&#34;file&#34;&gt;
+  &lt;button type=&#34;submit&#34;&gt;Enviar documento&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<h2 is-upgraded>Outros atributos do <code>form</code></h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Atributo</p>
+</td><td colspan="1" rowspan="1"><p>Finalidade</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>autocomplete</code></p>
+</td><td colspan="1" rowspan="1"><p>Indica se o navegador pode auxiliar no preenchimento.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>novalidate</code></p>
+</td><td colspan="1" rowspan="1"><p>Desativa a validação nativa no envio; use apenas com motivo claro.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>target</code></p>
+</td><td colspan="1" rowspan="1"><p>Define onde a resposta será exibida. Evite abrir respostas inesperadamente.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>name</code></p>
+</td><td colspan="1" rowspan="1"><p>Nomeia o formulário para scripts e APIs.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>accept-charset</code></p>
+</td><td colspan="1" rowspan="1"><p>Em HTML moderno, use UTF-8.</p>
+</td></tr>
+</table>
+<aside class="warning"><p> Não adicione <code>novalidate</code> só para &#34;sumir com os erros&#34;. Ele desativa uma camada útil de feedback e não substitui uma estratégia de validação acessível.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="4. label, id, name e descrição do campo" duration="50">
+        <p>Todo campo precisa de um rótulo compreensível.</p>
+<h2 is-upgraded>Associação explícita</h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;nome-completo&#34;&gt;Nome completo&lt;/label&gt;
+&lt;input id=&#34;nome-completo&#34; name=&#34;nome&#34; type=&#34;text&#34;&gt;
+</code></pre>
+<p>O valor de <code>for</code> deve ser exatamente igual ao <code>id</code>.</p>
+<p>Benefícios:</p>
+<ul>
+<li>leitores de tela anunciam o rótulo com o campo;</li>
+<li>clicar no rótulo posiciona o foco no campo;</li>
+<li>a área de interação fica maior;</li>
+<li>mensagens e instruções ficam mais fáceis de relacionar.</li>
+</ul>
+<h2 is-upgraded>Associação por envolvimento</h2>
+<p>Também é possível envolver o controle:</p>
+<pre><code language="language-html" class="language-html">&lt;label&gt;
+  Nome completo
+  &lt;input name=&#34;nome&#34; type=&#34;text&#34;&gt;
+&lt;/label&gt;
+</code></pre>
+<p>A associação explícita com <code>for</code> e <code>id</code> costuma ser mais fácil de manter em layouts complexos.</p>
+<h2 is-upgraded>Placeholder não substitui label</h2>
+<pre><code language="language-html" class="language-html">&lt;!-- Inadequado: não há rótulo persistente. --&gt;
+&lt;input name=&#34;email&#34; type=&#34;email&#34; placeholder=&#34;Digite seu e-mail&#34;&gt;
+
+&lt;!-- Melhor. --&gt;
+&lt;label for=&#34;email&#34;&gt;E-mail&lt;/label&gt;
+&lt;input
+  id=&#34;email&#34;
+  name=&#34;email&#34;
+  type=&#34;email&#34;
+  placeholder=&#34;nome@example.com&#34;&gt;
+</code></pre>
+<p>O placeholder desaparece durante a digitação, pode ter contraste insuficiente e costuma ser confundido com valor preenchido.</p>
+<h2 is-upgraded>Instrução e erro relacionados</h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;senha&#34;&gt;Senha&lt;/label&gt;
+&lt;p id=&#34;ajuda-senha&#34;&gt;Use pelo menos 12 caracteres.&lt;/p&gt;
+&lt;input
+  id=&#34;senha&#34;
+  name=&#34;senha&#34;
+  type=&#34;password&#34;
+  minlength=&#34;12&#34;
+  aria-describedby=&#34;ajuda-senha&#34;
+  required&gt;
+</code></pre>
+<p><code>aria-describedby</code> permite que tecnologias assistivas associem a instrução ao campo.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="5. input: estrutura e atributos fundamentais" duration="50">
+        <p><code>input</code> é um elemento vazio: em HTML, ele não possui conteúdo nem tag de fechamento.</p>
+<pre><code language="language-html" class="language-html">&lt;input id=&#34;usuario&#34; name=&#34;usuario&#34; type=&#34;text&#34;&gt;
+</code></pre>
+<p>Não escreva:</p>
+<pre><code language="language-html" class="language-html">&lt;!-- Incorreto em HTML. --&gt;
+&lt;input&gt;valor&lt;/input&gt;
+</code></pre>
+<h2 is-upgraded>Atributos fundamentais</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Atributo</p>
+</td><td colspan="1" rowspan="1"><p>Função</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>type</code></p>
+</td><td colspan="1" rowspan="1"><p>Define o tipo e o comportamento do controle.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>id</code></p>
+</td><td colspan="1" rowspan="1"><p>Identifica o elemento no documento.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>name</code></p>
+</td><td colspan="1" rowspan="1"><p>Nome da chave enviada.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>value</code></p>
+</td><td colspan="1" rowspan="1"><p>Valor inicial ou valor submetido em alguns controles.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>required</code></p>
+</td><td colspan="1" rowspan="1"><p>Exige preenchimento antes do envio.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>disabled</code></p>
+</td><td colspan="1" rowspan="1"><p>Desativa o controle; geralmente ele não é enviado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>readonly</code></p>
+</td><td colspan="1" rowspan="1"><p>Impede edição; o valor continua sendo enviado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>placeholder</code></p>
+</td><td colspan="1" rowspan="1"><p>Exemplo curto, nunca substituto do rótulo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>autocomplete</code></p>
+</td><td colspan="1" rowspan="1"><p>Informa a finalidade do dado para preenchimento assistido.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>autofocus</code></p>
+</td><td colspan="1" rowspan="1"><p>Solicita foco ao carregar; use com muita moderação.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>list</code></p>
+</td><td colspan="1" rowspan="1"><p>Liga o campo a um <code>datalist</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>form</code></p>
+</td><td colspan="1" rowspan="1"><p>Associa o controle a um <code>form</code> pelo <code>id</code>, mesmo fora dele.</p>
+</td></tr>
+</table>
+<h2 is-upgraded><code>disabled</code> versus <code>readonly</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;codigo&#34;&gt;Código&lt;/label&gt;
+&lt;input id=&#34;codigo&#34; name=&#34;codigo&#34; value=&#34;ALU-1024&#34; readonly&gt;
+
+&lt;label for=&#34;plano&#34;&gt;Plano indisponível&lt;/label&gt;
+&lt;input id=&#34;plano&#34; name=&#34;plano&#34; value=&#34;Premium&#34; disabled&gt;
+</code></pre>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Estado</p>
+</td><td colspan="1" rowspan="1"><p>Editável?</p>
+</td><td colspan="1" rowspan="1"><p>Focável normalmente?</p>
+</td><td colspan="1" rowspan="1"><p>Enviado?</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>readonly</code></p>
+</td><td colspan="1" rowspan="1"><p>Não</p>
+</td><td colspan="1" rowspan="1"><p>Sim</p>
+</td><td colspan="1" rowspan="1"><p>Sim</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>disabled</code></p>
+</td><td colspan="1" rowspan="1"><p>Não</p>
+</td><td colspan="1" rowspan="1"><p>Não</p>
+</td><td colspan="1" rowspan="1"><p>Não</p>
+</td></tr>
+</table>
+<p>Não use um campo desabilitado como única forma de enviar um dado indispensável ao servidor.</p>
+<h2 is-upgraded>Tipo desconhecido</h2>
+<p>Se um navegador não reconhecer o valor de <code>type</code>, ele normalmente o trata como <code>text</code>. Isso favorece compatibilidade progressiva, mas não dispensa testes.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="6. Campos textuais e de contato" duration="60">
+        <h2 is-upgraded><code>text</code></h2>
+<p>Para texto curto e genérico.</p>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;nome&#34;&gt;Nome completo&lt;/label&gt;
+&lt;input
+  id=&#34;nome&#34;
+  name=&#34;nome&#34;
+  type=&#34;text&#34;
+  autocomplete=&#34;name&#34;
+  minlength=&#34;3&#34;
+  maxlength=&#34;120&#34;
+  required&gt;
+</code></pre>
+<h2 is-upgraded><code>email</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;email&#34;&gt;E-mail&lt;/label&gt;
+&lt;input
+  id=&#34;email&#34;
+  name=&#34;email&#34;
+  type=&#34;email&#34;
+  autocomplete=&#34;email&#34;
+  required&gt;
+</code></pre>
+<p>O navegador pode mostrar teclado adequado em dispositivos móveis e verificar uma estrutura básica. Isso não comprova que a caixa postal existe.</p>
+<p>Para vários endereços:</p>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;participantes&#34;&gt;E-mails dos participantes&lt;/label&gt;
+&lt;input id=&#34;participantes&#34; name=&#34;participantes&#34; type=&#34;email&#34; multiple&gt;
+</code></pre>
+<h2 is-upgraded><code>password</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;senha&#34;&gt;Senha&lt;/label&gt;
+&lt;input
+  id=&#34;senha&#34;
+  name=&#34;senha&#34;
+  type=&#34;password&#34;
+  autocomplete=&#34;new-password&#34;
+  minlength=&#34;12&#34;
+  required&gt;
+</code></pre>
+<p>Ocultar visualmente os caracteres não criptografa a senha. Use HTTPS, processamento seguro e armazenamento com hash apropriado no servidor.</p>
+<p>Tokens úteis:</p>
+<ul>
+<li><code>autocomplete="current-password"</code> para senha atual;</li>
+<li><code>autocomplete="new-password"</code> para criação ou troca de senha;</li>
+<li><code>autocomplete="username"</code> para identificador da conta.</li>
+</ul>
+<h2 is-upgraded><code>tel</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;telefone&#34;&gt;Telefone&lt;/label&gt;
+&lt;input
+  id=&#34;telefone&#34;
+  name=&#34;telefone&#34;
+  type=&#34;tel&#34;
+  autocomplete=&#34;tel&#34;
+  inputmode=&#34;tel&#34;&gt;
+</code></pre>
+<p><code>tel</code> não impõe um formato universal porque números variam entre países. Valide conforme os requisitos reais do sistema.</p>
+<h2 is-upgraded><code>url</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;portfolio&#34;&gt;Portfólio&lt;/label&gt;
+&lt;input
+  id=&#34;portfolio&#34;
+  name=&#34;portfolio&#34;
+  type=&#34;url&#34;
+  placeholder=&#34;https://example.com&#34;&gt;
+</code></pre>
+<h2 is-upgraded><code>search</code></h2>
+<pre><code language="language-html" class="language-html">&lt;search&gt;
+  &lt;form action=&#34;/buscar&#34; method=&#34;get&#34;&gt;
+    &lt;label for=&#34;busca&#34;&gt;Buscar cursos&lt;/label&gt;
+    &lt;input id=&#34;busca&#34; name=&#34;q&#34; type=&#34;search&#34;&gt;
+    &lt;button type=&#34;submit&#34;&gt;Buscar&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/search&gt;
+</code></pre>
+<p>O tipo <code>search</code> expressa a finalidade e pode receber comportamentos visuais específicos do navegador.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="7. Números, intervalos, cores e datas" duration="55">
+        <h2 is-upgraded><code>number</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;quantidade&#34;&gt;Quantidade de ingressos&lt;/label&gt;
+&lt;input
+  id=&#34;quantidade&#34;
+  name=&#34;quantidade&#34;
+  type=&#34;number&#34;
+  min=&#34;1&#34;
+  max=&#34;5&#34;
+  step=&#34;1&#34;
+  value=&#34;1&#34;&gt;
+</code></pre>
+<p>Use <code>number</code> quando o valor será tratado como número e controles de incremento fizerem sentido. CPF, CEP, matrícula e cartão não são quantidades matemáticas; geralmente devem ser texto.</p>
+<h2 is-upgraded><code>range</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;satisfacao&#34;&gt;Satisfação de 0 a 10&lt;/label&gt;
+&lt;input
+  id=&#34;satisfacao&#34;
+  name=&#34;satisfacao&#34;
+  type=&#34;range&#34;
+  min=&#34;0&#34;
+  max=&#34;10&#34;
+  step=&#34;1&#34;
+  value=&#34;5&#34;&gt;
+&lt;output for=&#34;satisfacao&#34;&gt;5&lt;/output&gt;
+</code></pre>
+<p>O valor atual deve ficar perceptível. JavaScript pode sincronizar o <code>output</code> durante a interação.</p>
+<h2 is-upgraded><code>color</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;cor&#34;&gt;Cor do perfil&lt;/label&gt;
+&lt;input id=&#34;cor&#34; name=&#34;cor&#34; type=&#34;color&#34; value=&#34;#e34f26&#34;&gt;
+</code></pre>
+<h2 is-upgraded>Datas e horas</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Tipo</p>
+</td><td colspan="1" rowspan="1"><p>Exemplo de finalidade</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>date</code></p>
+</td><td colspan="1" rowspan="1"><p>Data sem horário.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>time</code></p>
+</td><td colspan="1" rowspan="1"><p>Horário sem data.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>datetime-local</code></p>
+</td><td colspan="1" rowspan="1"><p>Data e hora local, sem fuso incorporado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>month</code></p>
+</td><td colspan="1" rowspan="1"><p>Mês e ano.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>week</code></p>
+</td><td colspan="1" rowspan="1"><p>Semana e ano.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;data-nascimento&#34;&gt;Data de nascimento&lt;/label&gt;
+&lt;input id=&#34;data-nascimento&#34; name=&#34;data_nascimento&#34; type=&#34;date&#34;&gt;
+
+&lt;label for=&#34;horario&#34;&gt;Horário preferido&lt;/label&gt;
+&lt;input id=&#34;horario&#34; name=&#34;horario&#34; type=&#34;time&#34; min=&#34;08:00&#34; max=&#34;22:00&#34;&gt;
+
+&lt;label for=&#34;encontro&#34;&gt;Data e hora do encontro&lt;/label&gt;
+&lt;input id=&#34;encontro&#34; name=&#34;encontro&#34; type=&#34;datetime-local&#34;&gt;
+</code></pre>
+<p>A interface visual varia por navegador e sistema. O servidor deve interpretar formato e fuso horário conforme a regra do negócio.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="8. Checkbox e radio" duration="50">
+        <h2 is-upgraded>Checkbox: zero, uma ou várias escolhas</h2>
+<pre><code language="language-html" class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;Assuntos de interesse&lt;/legend&gt;
+
+  &lt;div&gt;
+    &lt;input id=&#34;interesse-html&#34; name=&#34;interesses&#34; type=&#34;checkbox&#34; value=&#34;html&#34;&gt;
+    &lt;label for=&#34;interesse-html&#34;&gt;HTML&lt;/label&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;input id=&#34;interesse-css&#34; name=&#34;interesses&#34; type=&#34;checkbox&#34; value=&#34;css&#34;&gt;
+    &lt;label for=&#34;interesse-css&#34;&gt;CSS&lt;/label&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;input id=&#34;interesse-js&#34; name=&#34;interesses&#34; type=&#34;checkbox&#34; value=&#34;javascript&#34;&gt;
+    &lt;label for=&#34;interesse-js&#34;&gt;JavaScript&lt;/label&gt;
+  &lt;/div&gt;
+&lt;/fieldset&gt;
+</code></pre>
+<p>Um checkbox desmarcado normalmente não envia par nome–valor. O servidor deve lidar com a ausência.</p>
+<p>Para uma confirmação obrigatória:</p>
+<pre><code language="language-html" class="language-html">&lt;input id=&#34;termos&#34; name=&#34;aceitou_termos&#34; type=&#34;checkbox&#34; value=&#34;sim&#34; required&gt;
+&lt;label for=&#34;termos&#34;&gt;Li e aceito os termos de uso&lt;/label&gt;
+</code></pre>
+<p>Não deixe a caixa previamente marcada para consentimento que precisa ser livre e consciente.</p>
+<h2 is-upgraded>Radio: uma opção do grupo</h2>
+<p>Todos os radios do mesmo grupo usam o mesmo <code>name</code> e valores diferentes.</p>
+<pre><code language="language-html" class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;Turno preferido&lt;/legend&gt;
+
+  &lt;div&gt;
+    &lt;input id=&#34;turno-manha&#34; name=&#34;turno&#34; type=&#34;radio&#34; value=&#34;manha&#34; required&gt;
+    &lt;label for=&#34;turno-manha&#34;&gt;Manhã&lt;/label&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;input id=&#34;turno-tarde&#34; name=&#34;turno&#34; type=&#34;radio&#34; value=&#34;tarde&#34;&gt;
+    &lt;label for=&#34;turno-tarde&#34;&gt;Tarde&lt;/label&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;input id=&#34;turno-noite&#34; name=&#34;turno&#34; type=&#34;radio&#34; value=&#34;noite&#34;&gt;
+    &lt;label for=&#34;turno-noite&#34;&gt;Noite&lt;/label&gt;
+  &lt;/div&gt;
+&lt;/fieldset&gt;
+</code></pre>
+<p><code>fieldset</code> cria o grupo semântico; <code>legend</code> explica a pergunta compartilhada.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="9. Arquivos, campos ocultos e botões input" duration="45">
+        <h2 is-upgraded><code>file</code></h2>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/curriculos&#34; method=&#34;post&#34; enctype=&#34;multipart/form-data&#34;&gt;
+  &lt;label for=&#34;curriculo&#34;&gt;Currículo em PDF&lt;/label&gt;
+  &lt;input
+    id=&#34;curriculo&#34;
+    name=&#34;curriculo&#34;
+    type=&#34;file&#34;
+    accept=&#34;application/pdf&#34;
+    required&gt;
+
+  &lt;button type=&#34;submit&#34;&gt;Enviar currículo&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Para múltiplos arquivos:</p>
+<pre><code language="language-html" class="language-html">&lt;input
+  id=&#34;anexos&#34;
+  name=&#34;anexos&#34;
+  type=&#34;file&#34;
+  accept=&#34;image/png,image/jpeg&#34;
+  multiple&gt;
+</code></pre>
+<p><code>accept</code> orienta a seleção, mas não é barreira de segurança. O servidor deve verificar extensão, tipo real, conteúdo, tamanho, nome e destino de armazenamento.</p>
+<h2 is-upgraded><code>hidden</code></h2>
+<pre><code language="language-html" class="language-html">&lt;input name=&#34;origem&#34; type=&#34;hidden&#34; value=&#34;campanha-setembro&#34;&gt;
+</code></pre>
+<p>O campo fica invisível, mas seu valor pode ser inspecionado e alterado pela pessoa usuária. Nunca confie nele para preço, permissão, identidade ou qualquer regra sensível sem validação no servidor.</p>
+<h2 is-upgraded>Tipos de botão em <code>input</code></h2>
+<pre><code language="language-html" class="language-html">&lt;input type=&#34;submit&#34; value=&#34;Enviar&#34;&gt;
+&lt;input type=&#34;reset&#34; value=&#34;Limpar&#34;&gt;
+&lt;input type=&#34;button&#34; value=&#34;Executar ação&#34;&gt;
+&lt;input type=&#34;image&#34; src=&#34;enviar.png&#34; alt=&#34;Enviar formulário&#34;&gt;
+</code></pre>
+<p>Na maioria dos casos, prefira <code>button</code>, pois ele aceita texto e outros conteúdos de forma mais flexível.</p>
+<pre><code language="language-html" class="language-html">&lt;button type=&#34;submit&#34;&gt;Enviar inscrição&lt;/button&gt;
+</code></pre>
+<p>Evite <code>reset</code>: apagar todo o formulário por acidente costuma ser frustrante.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="10. textarea, select, option, optgroup e datalist" duration="55">
+        <h2 is-upgraded><code>textarea</code></h2>
+<p>Use para texto com várias linhas.</p>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;mensagem&#34;&gt;Mensagem&lt;/label&gt;
+&lt;textarea
+  id=&#34;mensagem&#34;
+  name=&#34;mensagem&#34;
+  rows=&#34;6&#34;
+  cols=&#34;40&#34;
+  minlength=&#34;20&#34;
+  maxlength=&#34;1000&#34;
+  required&gt;&lt;/textarea&gt;
+</code></pre>
+<p>O valor inicial de <code>textarea</code> fica entre as tags. Evite espaços acidentais:</p>
+<pre><code language="language-html" class="language-html">&lt;textarea name=&#34;observacao&#34;&gt;Texto inicial&lt;/textarea&gt;
+</code></pre>
+<h2 is-upgraded><code>select</code> e <code>option</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;campus&#34;&gt;Campus&lt;/label&gt;
+&lt;select id=&#34;campus&#34; name=&#34;campus&#34; required&gt;
+  &lt;option value=&#34;&#34;&gt;Selecione uma opção&lt;/option&gt;
+  &lt;option value=&#34;aclimacao&#34;&gt;Aclimação&lt;/option&gt;
+  &lt;option value=&#34;paulista&#34;&gt;Paulista&lt;/option&gt;
+  &lt;option value=&#34;vila-olimpia&#34;&gt;Vila Olímpia&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p>O texto visível pode ser amigável; <code>value</code> deve ser estável para o sistema.</p>
+<h2 is-upgraded><code>optgroup</code></h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;curso&#34;&gt;Curso&lt;/label&gt;
+&lt;select id=&#34;curso&#34; name=&#34;curso&#34;&gt;
+  &lt;optgroup label=&#34;Tecnologia&#34;&gt;
+    &lt;option value=&#34;ads&#34;&gt;Análise e Desenvolvimento de Sistemas&lt;/option&gt;
+    &lt;option value=&#34;si&#34;&gt;Sistemas de Informação&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label=&#34;Design&#34;&gt;
+    &lt;option value=&#34;design-digital&#34;&gt;Design Digital&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;
+</code></pre>
+<h2 is-upgraded>Seleção múltipla</h2>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;trilhas&#34;&gt;Trilhas desejadas&lt;/label&gt;
+&lt;select id=&#34;trilhas&#34; name=&#34;trilhas&#34; multiple size=&#34;4&#34;&gt;
+  &lt;option value=&#34;frontend&#34;&gt;Front-end&lt;/option&gt;
+  &lt;option value=&#34;backend&#34;&gt;Back-end&lt;/option&gt;
+  &lt;option value=&#34;dados&#34;&gt;Dados&lt;/option&gt;
+  &lt;option value=&#34;ux&#34;&gt;UX&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p>Explique como selecionar vários itens, porque o gesto varia conforme sistema e dispositivo. Muitas vezes checkboxes são mais claros para poucas opções.</p>
+<h2 is-upgraded><code>datalist</code></h2>
+<p>Fornece sugestões, mas geralmente permite digitar outro valor.</p>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;cidade&#34;&gt;Cidade&lt;/label&gt;
+&lt;input id=&#34;cidade&#34; name=&#34;cidade&#34; type=&#34;text&#34; list=&#34;cidades&#34;&gt;
+
+&lt;datalist id=&#34;cidades&#34;&gt;
+  &lt;option value=&#34;São Paulo&#34;&gt;&lt;/option&gt;
+  &lt;option value=&#34;Campinas&#34;&gt;&lt;/option&gt;
+  &lt;option value=&#34;Santos&#34;&gt;&lt;/option&gt;
+&lt;/datalist&gt;
+</code></pre>
+<p>Use <code>select</code> quando a escolha deve ficar restrita às opções. Use <code>datalist</code> quando sugestões forem úteis, mas outros valores continuarem válidos.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="11. fieldset, legend e organização lógica" duration="35">
+        <p><code>fieldset</code> agrupa controles relacionados. <code>legend</code> nomeia o grupo.</p>
+<pre><code language="language-html" class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;Dados pessoais&lt;/legend&gt;
+
+  &lt;label for=&#34;nome&#34;&gt;Nome completo&lt;/label&gt;
+  &lt;input id=&#34;nome&#34; name=&#34;nome&#34; type=&#34;text&#34; autocomplete=&#34;name&#34;&gt;
+
+  &lt;label for=&#34;data-nascimento&#34;&gt;Data de nascimento&lt;/label&gt;
+  &lt;input id=&#34;data-nascimento&#34; name=&#34;data_nascimento&#34; type=&#34;date&#34;&gt;
+&lt;/fieldset&gt;
+</code></pre>
+<p>É especialmente importante para grupos de <code>radio</code> e <code>checkbox</code>, pois cada opção tem seu próprio rótulo, enquanto a legenda comunica a pergunta comum.</p>
+<h2 is-upgraded>Desabilitar um grupo</h2>
+<pre><code language="language-html" class="language-html">&lt;fieldset disabled&gt;
+  &lt;legend&gt;Etapa indisponível&lt;/legend&gt;
+  &lt;label for=&#34;codigo-convite&#34;&gt;Código do convite&lt;/label&gt;
+  &lt;input id=&#34;codigo-convite&#34; name=&#34;codigo_convite&#34; type=&#34;text&#34;&gt;
+&lt;/fieldset&gt;
+</code></pre>
+<p>Controles desabilitados geralmente não são enviados. Não use isso se o servidor depende dos valores.</p>
+<h2 is-upgraded>Organização visual não substitui organização semântica</h2>
+<p>Uma borda em CSS pode parecer um grupo, mas não comunica a relação às tecnologias assistivas. Use <code>fieldset</code> e <code>legend</code> quando houver grupo lógico.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="12. button e envio do formulário" duration="35">
+        <p>Dentro de um formulário, declare sempre o <code>type</code> do botão.</p>
+<pre><code language="language-html" class="language-html">&lt;button type=&#34;submit&#34;&gt;Enviar&lt;/button&gt;
+&lt;button type=&#34;button&#34;&gt;Mostrar ajuda&lt;/button&gt;
+&lt;button type=&#34;reset&#34;&gt;Limpar tudo&lt;/button&gt;
+</code></pre>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Tipo</p>
+</td><td colspan="1" rowspan="1"><p>Comportamento</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>submit</code></p>
+</td><td colspan="1" rowspan="1"><p>Valida e envia o formulário.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>button</code></p>
+</td><td colspan="1" rowspan="1"><p>Não possui ação padrão; aguarda comportamento programado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>reset</code></p>
+</td><td colspan="1" rowspan="1"><p>Restaura valores iniciais. Use com cautela.</p>
+</td></tr>
+</table>
+<p>Se <code>type</code> for omitido dentro de um <code>form</code>, o botão normalmente age como <code>submit</code>. Isso pode enviar o formulário acidentalmente.</p>
+<h2 is-upgraded>Botões com destinos diferentes</h2>
+<p>Um botão de envio pode sobrescrever atributos do formulário:</p>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/rascunhos&#34; method=&#34;post&#34;&gt;
+  &lt;label for=&#34;titulo&#34;&gt;Título&lt;/label&gt;
+  &lt;input id=&#34;titulo&#34; name=&#34;titulo&#34; type=&#34;text&#34;&gt;
+
+  &lt;button type=&#34;submit&#34;&gt;Salvar rascunho&lt;/button&gt;
+  &lt;button type=&#34;submit&#34; formaction=&#34;/publicacoes&#34;&gt;Publicar&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Outros atributos relacionados são <code>formmethod</code>, <code>formenctype</code>, <code>formtarget</code> e <code>formnovalidate</code>. Use-os somente quando a interface deixar o resultado claro.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="13. Validação nativa" duration="60">
+        <p>HTML possui regras declarativas úteis.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Atributo</p>
+</td><td colspan="1" rowspan="1"><p>Exemplo</p>
+</td><td colspan="1" rowspan="1"><p>Finalidade</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>required</code></p>
+</td><td colspan="1" rowspan="1"><p><code>required</code></p>
+</td><td colspan="1" rowspan="1"><p>Campo obrigatório.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>minlength</code></p>
+</td><td colspan="1" rowspan="1"><p><code>minlength="3"</code></p>
+</td><td colspan="1" rowspan="1"><p>Quantidade mínima de caracteres.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>maxlength</code></p>
+</td><td colspan="1" rowspan="1"><p><code>maxlength="120"</code></p>
+</td><td colspan="1" rowspan="1"><p>Quantidade máxima de caracteres.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>min</code></p>
+</td><td colspan="1" rowspan="1"><p><code>min="1"</code></p>
+</td><td colspan="1" rowspan="1"><p>Menor valor ou data aceita.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>max</code></p>
+</td><td colspan="1" rowspan="1"><p><code>max="10"</code></p>
+</td><td colspan="1" rowspan="1"><p>Maior valor ou data aceita.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>step</code></p>
+</td><td colspan="1" rowspan="1"><p><code>step="0.01"</code></p>
+</td><td colspan="1" rowspan="1"><p>Intervalo entre valores válidos.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>pattern</code></p>
+</td><td colspan="1" rowspan="1"><p><code>pattern="[0-9]{8}"</code></p>
+</td><td colspan="1" rowspan="1"><p>Expressão regular para tipos compatíveis.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>multiple</code></p>
+</td><td colspan="1" rowspan="1"><p><code>multiple</code></p>
+</td><td colspan="1" rowspan="1"><p>Permite vários valores em tipos compatíveis.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>accept</code></p>
+</td><td colspan="1" rowspan="1"><p><code>accept="application/pdf"</code></p>
+</td><td colspan="1" rowspan="1"><p>Orienta tipos de arquivo selecionáveis.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;codigo&#34;&gt;Código de 8 dígitos&lt;/label&gt;
+&lt;input
+  id=&#34;codigo&#34;
+  name=&#34;codigo&#34;
+  type=&#34;text&#34;
+  inputmode=&#34;numeric&#34;
+  pattern=&#34;[0-9]{8}&#34;
+  minlength=&#34;8&#34;
+  maxlength=&#34;8&#34;
+  aria-describedby=&#34;formato-codigo&#34;
+  required&gt;
+&lt;p id=&#34;formato-codigo&#34;&gt;Digite exatamente 8 algarismos.&lt;/p&gt;
+</code></pre>
+<h2 is-upgraded><code>inputmode</code> não valida</h2>
+<p><code>inputmode="numeric"</code> sugere um teclado numérico, mas não impede letras. A validação vem de regras como <code>pattern</code> e, principalmente, do servidor.</p>
+<h2 is-upgraded>Marque obrigatoriedade no texto</h2>
+<pre><code language="language-html" class="language-html">&lt;p&gt;Campos marcados com &#34;obrigatório&#34; devem ser preenchidos.&lt;/p&gt;
+
+&lt;label for=&#34;nome&#34;&gt;Nome completo (obrigatório)&lt;/label&gt;
+&lt;input id=&#34;nome&#34; name=&#34;nome&#34; type=&#34;text&#34; required&gt;
+</code></pre>
+<p>Não dependa somente de asterisco, cor ou atributo técnico para comunicar a exigência.</p>
+<h2 is-upgraded>Validação do cliente não é segurança</h2>
+<p>Qualquer pessoa pode alterar o HTML, desativar JavaScript ou enviar requisições diretamente. O servidor deve validar novamente:</p>
+<ul>
+<li>presença;</li>
+<li>tipo e formato;</li>
+<li>limites;</li>
+<li>autorização;</li>
+<li>regras de negócio;</li>
+<li>arquivos enviados;</li>
+<li>consistência entre campos.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="14. Autocomplete, privacidade e experiência móvel" duration="40">
+        <p>O atributo <code>autocomplete</code> ajuda navegadores e gerenciadores de senha a preencher dados conhecidos.</p>
+<pre><code language="language-html" class="language-html">&lt;label for=&#34;nome&#34;&gt;Nome completo&lt;/label&gt;
+&lt;input id=&#34;nome&#34; name=&#34;nome&#34; type=&#34;text&#34; autocomplete=&#34;name&#34;&gt;
+
+&lt;label for=&#34;email&#34;&gt;E-mail&lt;/label&gt;
+&lt;input id=&#34;email&#34; name=&#34;email&#34; type=&#34;email&#34; autocomplete=&#34;email&#34;&gt;
+
+&lt;label for=&#34;cep&#34;&gt;CEP&lt;/label&gt;
+&lt;input
+  id=&#34;cep&#34;
+  name=&#34;cep&#34;
+  type=&#34;text&#34;
+  autocomplete=&#34;postal-code&#34;
+  inputmode=&#34;numeric&#34;&gt;
+</code></pre>
+<p>Tokens comuns:</p>
+<ul>
+<li><code>name</code>, <code>given-name</code>, <code>family-name</code>;</li>
+<li><code>email</code>, <code>tel</code>;</li>
+<li><code>street-address</code>, <code>address-line1</code>, <code>address-level2</code>, <code>postal-code</code>;</li>
+<li><code>organization</code>;</li>
+<li><code>username</code>, <code>current-password</code>, <code>new-password</code>;</li>
+<li><code>one-time-code</code>.</li>
+</ul>
+<h2 is-upgraded>Não bloqueie colagem de senha</h2>
+<p>Permitir colagem ajuda o uso de gerenciadores de senha e reduz erros. Não implemente bloqueios de <code>paste</code>.</p>
+<h2 is-upgraded>Dados sensíveis</h2>
+<ul>
+<li>colete somente o necessário;</li>
+<li>explique a finalidade;</li>
+<li>use HTTPS;</li>
+<li>não coloque senha, token ou dado pessoal em GET;</li>
+<li>defina retenção e acesso no backend;</li>
+<li>não confie em <code>hidden</code> para segurança.</li>
+</ul>
+<h2 is-upgraded>Foco</h2>
+<p>Evite <code>autofocus</code> indiscriminado. Ele pode deslocar o foco sem aviso, abrir teclado em celulares e atrapalhar tecnologias assistivas.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="15. GET, POST, HTTPS e segurança" duration="55">
+        <h2 is-upgraded>GET para leitura</h2>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/cursos&#34; method=&#34;get&#34;&gt;
+  &lt;label for=&#34;area&#34;&gt;Área&lt;/label&gt;
+  &lt;select id=&#34;area&#34; name=&#34;area&#34;&gt;
+    &lt;option value=&#34;&#34;&gt;Todas&lt;/option&gt;
+    &lt;option value=&#34;tecnologia&#34;&gt;Tecnologia&lt;/option&gt;
+    &lt;option value=&#34;design&#34;&gt;Design&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;button type=&#34;submit&#34;&gt;Filtrar&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>A URL resultante pode ser compartilhada:</p>
+<pre><code language="language-text" class="language-text">/cursos?area=tecnologia
+</code></pre>
+<h2 is-upgraded>POST para criação ou alteração</h2>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/inscricoes&#34; method=&#34;post&#34;&gt;
+  &lt;label for=&#34;email-inscricao&#34;&gt;E-mail&lt;/label&gt;
+  &lt;input id=&#34;email-inscricao&#34; name=&#34;email&#34; type=&#34;email&#34; required&gt;
+  &lt;button type=&#34;submit&#34;&gt;Realizar inscrição&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<h2 is-upgraded>POST não é criptografia</h2>
+<p>POST apenas coloca os dados no corpo da requisição em vez da URL. Sem HTTPS, os dados podem trafegar sem proteção adequada.</p>
+<h2 is-upgraded>Responsabilidades do servidor</h2>
+<p>O backend deve:</p>
+<ul>
+<li>validar e normalizar entradas;</li>
+<li>aplicar autorização;</li>
+<li>usar consultas parametrizadas ao acessar banco de dados;</li>
+<li>escapar saídas conforme o contexto;</li>
+<li>proteger ações contra CSRF quando necessário;</li>
+<li>limitar requisições e uploads;</li>
+<li>registrar erros sem expor dados sensíveis;</li>
+<li>devolver mensagens úteis e seguras.</li>
+</ul>
+<h2 is-upgraded>Token CSRF</h2>
+<p>Alguns frameworks inserem um token oculto:</p>
+<pre><code language="language-html" class="language-html">&lt;input name=&#34;csrf_token&#34; type=&#34;hidden&#34; value=&#34;valor-gerado-pelo-servidor&#34;&gt;
+</code></pre>
+<p>O valor deve ser criado e validado pelo servidor. Copiar esse exemplo estático não implementa proteção.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="16. Projeto prático: formulário de inscrição completo" duration="90">
+        <p>Crie <code>index.html</code>:</p>
+<pre><code language="language-html" class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+    &lt;meta
+      name=&#34;description&#34;
+      content=&#34;Formulário demonstrativo de inscrição no Conecta Campus&#34;&gt;
+    &lt;title&gt;Inscrição | Conecta Campus&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;
+      &lt;h1&gt;Inscrição no Conecta Campus&lt;/h1&gt;
+      &lt;p&gt;Preencha os dados para participar das atividades.&lt;/p&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+      &lt;p&gt;Campos identificados como &#34;obrigatório&#34; devem ser preenchidos.&lt;/p&gt;
+
+      &lt;form action=&#34;/inscricoes&#34; method=&#34;post&#34; enctype=&#34;multipart/form-data&#34;&gt;
+        &lt;fieldset&gt;
+          &lt;legend&gt;Dados pessoais&lt;/legend&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;nome&#34;&gt;Nome completo (obrigatório)&lt;/label&gt;
+            &lt;input
+              id=&#34;nome&#34;
+              name=&#34;nome&#34;
+              type=&#34;text&#34;
+              autocomplete=&#34;name&#34;
+              minlength=&#34;3&#34;
+              maxlength=&#34;120&#34;
+              required&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;email&#34;&gt;E-mail (obrigatório)&lt;/label&gt;
+            &lt;input
+              id=&#34;email&#34;
+              name=&#34;email&#34;
+              type=&#34;email&#34;
+              autocomplete=&#34;email&#34;
+              required&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;telefone&#34;&gt;Telefone&lt;/label&gt;
+            &lt;input
+              id=&#34;telefone&#34;
+              name=&#34;telefone&#34;
+              type=&#34;tel&#34;
+              autocomplete=&#34;tel&#34;
+              inputmode=&#34;tel&#34;&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;data-nascimento&#34;&gt;Data de nascimento&lt;/label&gt;
+            &lt;input
+              id=&#34;data-nascimento&#34;
+              name=&#34;data_nascimento&#34;
+              type=&#34;date&#34;
+              autocomplete=&#34;bday&#34;&gt;
+          &lt;/div&gt;
+        &lt;/fieldset&gt;
+
+        &lt;fieldset&gt;
+          &lt;legend&gt;Dados acadêmicos&lt;/legend&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;campus&#34;&gt;Campus (obrigatório)&lt;/label&gt;
+            &lt;select id=&#34;campus&#34; name=&#34;campus&#34; required&gt;
+              &lt;option value=&#34;&#34;&gt;Selecione&lt;/option&gt;
+              &lt;option value=&#34;aclimacao&#34;&gt;Aclimação&lt;/option&gt;
+              &lt;option value=&#34;paulista&#34;&gt;Paulista&lt;/option&gt;
+              &lt;option value=&#34;vila-olimpia&#34;&gt;Vila Olímpia&lt;/option&gt;
+            &lt;/select&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;matricula&#34;&gt;Matrícula com 8 dígitos (obrigatório)&lt;/label&gt;
+            &lt;input
+              id=&#34;matricula&#34;
+              name=&#34;matricula&#34;
+              type=&#34;text&#34;
+              inputmode=&#34;numeric&#34;
+              pattern=&#34;[0-9]{8}&#34;
+              minlength=&#34;8&#34;
+              maxlength=&#34;8&#34;
+              aria-describedby=&#34;ajuda-matricula&#34;
+              required&gt;
+            &lt;p id=&#34;ajuda-matricula&#34;&gt;Digite somente os oito algarismos.&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/fieldset&gt;
+
+        &lt;fieldset&gt;
+          &lt;legend&gt;Turno preferido (obrigatório)&lt;/legend&gt;
+
+          &lt;div&gt;
+            &lt;input id=&#34;manha&#34; name=&#34;turno&#34; type=&#34;radio&#34; value=&#34;manha&#34; required&gt;
+            &lt;label for=&#34;manha&#34;&gt;Manhã&lt;/label&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;input id=&#34;tarde&#34; name=&#34;turno&#34; type=&#34;radio&#34; value=&#34;tarde&#34;&gt;
+            &lt;label for=&#34;tarde&#34;&gt;Tarde&lt;/label&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;input id=&#34;noite&#34; name=&#34;turno&#34; type=&#34;radio&#34; value=&#34;noite&#34;&gt;
+            &lt;label for=&#34;noite&#34;&gt;Noite&lt;/label&gt;
+          &lt;/div&gt;
+        &lt;/fieldset&gt;
+
+        &lt;fieldset&gt;
+          &lt;legend&gt;Interesses&lt;/legend&gt;
+
+          &lt;div&gt;
+            &lt;input id=&#34;html&#34; name=&#34;interesses&#34; type=&#34;checkbox&#34; value=&#34;html&#34;&gt;
+            &lt;label for=&#34;html&#34;&gt;HTML&lt;/label&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;input id=&#34;css&#34; name=&#34;interesses&#34; type=&#34;checkbox&#34; value=&#34;css&#34;&gt;
+            &lt;label for=&#34;css&#34;&gt;CSS&lt;/label&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;input id=&#34;javascript&#34; name=&#34;interesses&#34; type=&#34;checkbox&#34; value=&#34;javascript&#34;&gt;
+            &lt;label for=&#34;javascript&#34;&gt;JavaScript&lt;/label&gt;
+          &lt;/div&gt;
+        &lt;/fieldset&gt;
+
+        &lt;fieldset&gt;
+          &lt;legend&gt;Apresentação&lt;/legend&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;portfolio&#34;&gt;URL do portfólio&lt;/label&gt;
+            &lt;input
+              id=&#34;portfolio&#34;
+              name=&#34;portfolio&#34;
+              type=&#34;url&#34;
+              placeholder=&#34;https://example.com&#34;&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;mensagem&#34;&gt;Por que deseja participar? (obrigatório)&lt;/label&gt;
+            &lt;textarea
+              id=&#34;mensagem&#34;
+              name=&#34;mensagem&#34;
+              rows=&#34;6&#34;
+              minlength=&#34;30&#34;
+              maxlength=&#34;1000&#34;
+              aria-describedby=&#34;ajuda-mensagem&#34;
+              required&gt;&lt;/textarea&gt;
+            &lt;p id=&#34;ajuda-mensagem&#34;&gt;Escreva entre 30 e 1000 caracteres.&lt;/p&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;label for=&#34;comprovante&#34;&gt;Comprovante em PDF&lt;/label&gt;
+            &lt;input
+              id=&#34;comprovante&#34;
+              name=&#34;comprovante&#34;
+              type=&#34;file&#34;
+              accept=&#34;application/pdf&#34;&gt;
+          &lt;/div&gt;
+        &lt;/fieldset&gt;
+
+        &lt;div&gt;
+          &lt;input
+            id=&#34;termos&#34;
+            name=&#34;aceitou_termos&#34;
+            type=&#34;checkbox&#34;
+            value=&#34;sim&#34;
+            required&gt;
+          &lt;label for=&#34;termos&#34;&gt;Li e aceito os termos (obrigatório)&lt;/label&gt;
+        &lt;/div&gt;
+
+        &lt;button type=&#34;submit&#34;&gt;Enviar inscrição&lt;/button&gt;
+        &lt;button type=&#34;button&#34;&gt;Salvar rascunho no navegador&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+      &lt;p&gt;&lt;small&gt;Formulário demonstrativo para fins educacionais.&lt;/small&gt;&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 is-upgraded>Observação sobre o botão de rascunho</h2>
+<p>O botão <code>type="button"</code> não faz nada sozinho. Para implementar o rascunho, registre um evento em <code>js/validacao.js</code> e carregue-o com <code>defer</code>:</p>
+<pre><code language="language-html" class="language-html">&lt;script src=&#34;js/validacao.js&#34; defer&gt;&lt;/script&gt;
+</code></pre>
+<p>Evite <code>onclick</code> diretamente no HTML.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="17. Testando o formulário" duration="50">
+        <h2 is-upgraded>Teste a validação nativa</h2>
+<ol type="1">
+<li>Tente enviar tudo vazio.</li>
+<li>Observe qual campo recebe foco.</li>
+<li>Digite um e-mail sem <code>@</code>.</li>
+<li>Digite matrícula com menos de oito algarismos.</li>
+<li>Não selecione o turno.</li>
+<li>Digite uma mensagem curta.</li>
+<li>tente anexar um arquivo não PDF.</li>
+</ol>
+<p>As mensagens variam por navegador e idioma.</p>
+<h2 is-upgraded>Teste com teclado</h2>
+<ol type="1">
+<li>Use <code>Tab</code> para avançar.</li>
+<li>Use <code>Shift</code> + <code>Tab</code> para voltar.</li>
+<li>Use setas para navegar no grupo de radio.</li>
+<li>Use espaço para marcar checkboxes.</li>
+<li>Confirme que o foco é visível.</li>
+<li>Verifique se a ordem acompanha a leitura visual.</li>
+</ol>
+<p>Não use valores positivos de <code>tabindex</code> para &#34;forçar&#34; a ordem. Corrija a ordem do próprio HTML.</p>
+<h2 is-upgraded>Inspecione a requisição</h2>
+<p>O endpoint de exemplo pode não existir, mas você pode observar a tentativa:</p>
+<ol type="1">
+<li>abra as ferramentas do desenvolvedor;</li>
+<li>abra a guia <strong>Network</strong> ou <strong>Rede</strong>;</li>
+<li>preencha e envie o formulário;</li>
+<li>selecione a requisição;</li>
+<li>examine URL, método, cabeçalhos e dados enviados;</li>
+<li>confirme que cada chave corresponde ao <code>name</code> esperado.</li>
+</ol>
+<h2 is-upgraded>Teste GET sem backend</h2>
+<p>Troque temporariamente o formulário por uma busca:</p>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;&#34; method=&#34;get&#34;&gt;
+  &lt;label for=&#34;teste&#34;&gt;Termo de teste&lt;/label&gt;
+  &lt;input id=&#34;teste&#34; name=&#34;q&#34; type=&#34;search&#34;&gt;
+  &lt;button type=&#34;submit&#34;&gt;Testar GET&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Ao enviar, procure <code>?q=...</code> na barra de endereço.</p>
+<h2 is-upgraded>Checklist final</h2>
+<ul>
+<li>[ ] Todo campo possui rótulo.</li>
+<li>[ ] Cada <code>for</code> corresponde a um <code>id</code> único.</li>
+<li>[ ] Todo dado a enviar possui <code>name</code>.</li>
+<li>[ ] O <code>type</code> representa a finalidade real.</li>
+<li>[ ] <code>autocomplete</code> e <code>inputmode</code> ajudam quando apropriado.</li>
+<li>[ ] Grupos possuem <code>fieldset</code> e <code>legend</code>.</li>
+<li>[ ] Botões declaram <code>type</code>.</li>
+<li>[ ] Upload usa POST e <code>multipart/form-data</code>.</li>
+<li>[ ] Campos obrigatórios são explicados em texto.</li>
+<li>[ ] Erros não dependem apenas de cor.</li>
+<li>[ ] O formulário funciona com teclado.</li>
+<li>[ ] O servidor repetirá todas as validações.</li>
+<li>[ ] Dados sensíveis serão enviados somente por HTTPS.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="18. Erros frequentes e como corrigir" duration="45">
+        <table>
+<tr><td colspan="1" rowspan="1"><p>Erro</p>
+</td><td colspan="1" rowspan="1"><p>Problema</p>
+</td><td colspan="1" rowspan="1"><p>Correção</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Usar apenas placeholder</p>
+</td><td colspan="1" rowspan="1"><p>O rótulo desaparece e pode não ser anunciado corretamente.</p>
+</td><td colspan="1" rowspan="1"><p>Adicione <code>label</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Esquecer <code>name</code></p>
+</td><td colspan="1" rowspan="1"><p>O valor não participa do envio.</p>
+</td><td colspan="1" rowspan="1"><p>Defina uma chave estável.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Repetir <code>id</code></p>
+</td><td colspan="1" rowspan="1"><p>Relações de rótulo e scripts ficam ambíguas.</p>
+</td><td colspan="1" rowspan="1"><p>Use um <code>id</code> único.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Radio com nomes diferentes</p>
+</td><td colspan="1" rowspan="1"><p>Mais de uma opção pode ser marcada.</p>
+</td><td colspan="1" rowspan="1"><p>Use o mesmo <code>name</code> no grupo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Upload sem <code>multipart/form-data</code></p>
+</td><td colspan="1" rowspan="1"><p>O arquivo não é codificado adequadamente.</p>
+</td><td colspan="1" rowspan="1"><p>Ajuste <code>enctype</code> e use POST.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Botão sem <code>type</code></p>
+</td><td colspan="1" rowspan="1"><p>Pode enviar o formulário sem intenção.</p>
+</td><td colspan="1" rowspan="1"><p>Declare <code>submit</code> ou <code>button</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>CPF como <code>number</code></p>
+</td><td colspan="1" rowspan="1"><p>Remove significado de zeros e sugere cálculo.</p>
+</td><td colspan="1" rowspan="1"><p>Use <code>text</code> com <code>inputmode</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Confiar em <code>required</code> no cliente</p>
+</td><td colspan="1" rowspan="1"><p>A regra pode ser contornada.</p>
+</td><td colspan="1" rowspan="1"><p>Valide novamente no servidor.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Usar GET para senha</p>
+</td><td colspan="1" rowspan="1"><p>Dado aparece na URL e em históricos.</p>
+</td><td colspan="1" rowspan="1"><p>Use POST sobre HTTPS.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Desabilitar campo necessário</p>
+</td><td colspan="1" rowspan="1"><p>O valor não é enviado.</p>
+</td><td colspan="1" rowspan="1"><p>Use <code>readonly</code> ou outro modelo de dados.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Esconder erro apenas com cor</p>
+</td><td colspan="1" rowspan="1"><p>Parte do público não percebe.</p>
+</td><td colspan="1" rowspan="1"><p>Use texto claro e associação ao campo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Limpar tudo automaticamente após erro</p>
+</td><td colspan="1" rowspan="1"><p>A pessoa perde trabalho.</p>
+</td><td colspan="1" rowspan="1"><p>Preserve dados válidos e foque no erro.</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="19. Desafios práticos" duration="55">
+        <h2 is-upgraded>Desafio 1 — diagnóstico</h2>
+<p>Encontre pelo menos oito problemas:</p>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/cadastro&#34; method=&#34;get&#34;&gt;
+  &lt;input id=&#34;nome&#34; placeholder=&#34;Nome&#34;&gt;
+  &lt;input id=&#34;nome&#34; name=&#34;email&#34; type=&#34;text&#34; placeholder=&#34;E-mail&#34;&gt;
+
+  &lt;p&gt;Turno&lt;/p&gt;
+  &lt;input id=&#34;manha&#34; name=&#34;manha&#34; type=&#34;radio&#34;&gt;
+  &lt;label for=&#34;manha&#34;&gt;Manhã&lt;/label&gt;
+  &lt;input id=&#34;noite&#34; name=&#34;noite&#34; type=&#34;radio&#34;&gt;
+  &lt;label for=&#34;noite&#34;&gt;Noite&lt;/label&gt;
+
+  &lt;input name=&#34;senha&#34; type=&#34;password&#34;&gt;
+  &lt;button&gt;Cadastrar&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<h2 is-upgraded>Desafio 2 — pesquisa com GET</h2>
+<p>Crie um formulário com:</p>
+<ul>
+<li>campo de busca chamado <code>q</code>;</li>
+<li>seleção de categoria chamada <code>categoria</code>;</li>
+<li>filtro de data inicial;</li>
+<li>botão &#34;Filtrar resultados&#34;;</li>
+<li>método GET;</li>
+<li>rótulos para todos os controles.</li>
+</ul>
+<h2 is-upgraded>Desafio 3 — contato com POST</h2>
+<p>Crie um formulário com:</p>
+<ul>
+<li>nome, e-mail, assunto e mensagem;</li>
+<li>assunto escolhido em <code>select</code>;</li>
+<li>mensagem entre 20 e 1000 caracteres;</li>
+<li>cópia para o remetente usando checkbox;</li>
+<li>botão de envio explícito;</li>
+<li>POST para <code>/mensagens</code>.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="20. Respostas, catálogo de tags e referências" duration="35">
+        <h2 is-upgraded>Uma possível correção do desafio 1</h2>
+<pre><code language="language-html" class="language-html">&lt;form action=&#34;/cadastros&#34; method=&#34;post&#34;&gt;
+  &lt;div&gt;
+    &lt;label for=&#34;nome&#34;&gt;Nome completo&lt;/label&gt;
+    &lt;input id=&#34;nome&#34; name=&#34;nome&#34; type=&#34;text&#34; autocomplete=&#34;name&#34; required&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;label for=&#34;email&#34;&gt;E-mail&lt;/label&gt;
+    &lt;input id=&#34;email&#34; name=&#34;email&#34; type=&#34;email&#34; autocomplete=&#34;email&#34; required&gt;
+  &lt;/div&gt;
+
+  &lt;fieldset&gt;
+    &lt;legend&gt;Turno&lt;/legend&gt;
+
+    &lt;input id=&#34;manha&#34; name=&#34;turno&#34; type=&#34;radio&#34; value=&#34;manha&#34; required&gt;
+    &lt;label for=&#34;manha&#34;&gt;Manhã&lt;/label&gt;
+
+    &lt;input id=&#34;noite&#34; name=&#34;turno&#34; type=&#34;radio&#34; value=&#34;noite&#34;&gt;
+    &lt;label for=&#34;noite&#34;&gt;Noite&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;div&gt;
+    &lt;label for=&#34;senha&#34;&gt;Senha&lt;/label&gt;
+    &lt;input
+      id=&#34;senha&#34;
+      name=&#34;senha&#34;
+      type=&#34;password&#34;
+      autocomplete=&#34;new-password&#34;
+      minlength=&#34;12&#34;
+      required&gt;
+  &lt;/div&gt;
+
+  &lt;button type=&#34;submit&#34;&gt;Cadastrar&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Problemas corrigidos: método inadequado, ausência de rótulos, <code>name</code> ausente, <code>id</code> repetido, tipo de e-mail incorreto, grupo radio com nomes diferentes, radios sem <code>value</code>, ausência de <code>fieldset</code> e <code>legend</code>, senha sem rótulo e botão sem tipo explícito.</p>
+<h2 is-upgraded>Catálogo das tags de formulário</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Tag</p>
+</td><td colspan="1" rowspan="1"><p>Quando usar</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>form</code></p>
+</td><td colspan="1" rowspan="1"><p>Agrupar controles de uma operação de envio.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>label</code></p>
+</td><td colspan="1" rowspan="1"><p>Identificar um controle.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>input</code></p>
+</td><td colspan="1" rowspan="1"><p>Entrada de linha única ou controle especializado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>textarea</code></p>
+</td><td colspan="1" rowspan="1"><p>Texto com várias linhas.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>select</code></p>
+</td><td colspan="1" rowspan="1"><p>Escolha restrita entre opções.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>option</code></p>
+</td><td colspan="1" rowspan="1"><p>Uma opção de <code>select</code> ou sugestão de <code>datalist</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>optgroup</code></p>
+</td><td colspan="1" rowspan="1"><p>Agrupar opções dentro de <code>select</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>datalist</code></p>
+</td><td colspan="1" rowspan="1"><p>Sugestões para um <code>input</code>, sem necessariamente restringir.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>button</code></p>
+</td><td colspan="1" rowspan="1"><p>Enviar, redefinir ou executar ação.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>fieldset</code></p>
+</td><td colspan="1" rowspan="1"><p>Agrupar controles relacionados.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>legend</code></p>
+</td><td colspan="1" rowspan="1"><p>Nomear um grupo de <code>fieldset</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>output</code></p>
+</td><td colspan="1" rowspan="1"><p>Exibir resultado de cálculo ou interação.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>progress</code></p>
+</td><td colspan="1" rowspan="1"><p>Mostrar progresso de uma tarefa.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>meter</code></p>
+</td><td colspan="1" rowspan="1"><p>Mostrar medida dentro de uma faixa conhecida.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Catálogo dos tipos de input</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Tipo</p>
+</td><td colspan="1" rowspan="1"><p>Uso principal</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>text</code></p>
+</td><td colspan="1" rowspan="1"><p>Texto curto genérico.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>search</code></p>
+</td><td colspan="1" rowspan="1"><p>Termo de pesquisa.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>email</code></p>
+</td><td colspan="1" rowspan="1"><p>Endereço de e-mail.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>password</code></p>
+</td><td colspan="1" rowspan="1"><p>Entrada de senha ocultada visualmente.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>tel</code></p>
+</td><td colspan="1" rowspan="1"><p>Telefone.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>url</code></p>
+</td><td colspan="1" rowspan="1"><p>Endereço Web.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>number</code></p>
+</td><td colspan="1" rowspan="1"><p>Quantidade numérica.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>range</code></p>
+</td><td colspan="1" rowspan="1"><p>Valor aproximado em intervalo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>date</code></p>
+</td><td colspan="1" rowspan="1"><p>Data.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>time</code></p>
+</td><td colspan="1" rowspan="1"><p>Hora.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>datetime-local</code></p>
+</td><td colspan="1" rowspan="1"><p>Data e hora local.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>month</code></p>
+</td><td colspan="1" rowspan="1"><p>Mês e ano.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>week</code></p>
+</td><td colspan="1" rowspan="1"><p>Semana e ano.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>checkbox</code></p>
+</td><td colspan="1" rowspan="1"><p>Escolhas independentes.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>radio</code></p>
+</td><td colspan="1" rowspan="1"><p>Uma escolha por grupo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>file</code></p>
+</td><td colspan="1" rowspan="1"><p>Seleção de arquivo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>color</code></p>
+</td><td colspan="1" rowspan="1"><p>Seleção de cor.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>hidden</code></p>
+</td><td colspan="1" rowspan="1"><p>Valor invisível, nunca secreto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>submit</code></p>
+</td><td colspan="1" rowspan="1"><p>Botão de envio.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>reset</code></p>
+</td><td colspan="1" rowspan="1"><p>Restaura valores iniciais.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>button</code></p>
+</td><td colspan="1" rowspan="1"><p>Botão sem ação padrão.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>image</code></p>
+</td><td colspan="1" rowspan="1"><p>Botão de envio representado por imagem.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Referências oficiais</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form" target="_blank">Elemento form — MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input" target="_blank">Elemento input — MDN</a></li>
+<li><a href="https://html.spec.whatwg.org/multipage/forms.html" target="_blank">Formulários — HTML Living Standard</a></li>
+<li><a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html" target="_blank">Infraestrutura de controles de formulário — HTML Living Standard</a></li>
+<li><a href="https://validator.w3.org/nu/" target="_blank">Nu HTML Checker — W3C</a></li>
+</ul>
+<p>Você concluiu o codelab de formulários HTML. Agora consegue estruturar campos, escolher tipos, validar no navegador, planejar o envio e reconhecer responsabilidades indispensáveis do servidor.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

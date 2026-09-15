@@ -1,0 +1,1191 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Tags semânticas HTML: estrutura, significado e boas práticas</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="codelab-tags-semanticas-html"
+                  title="Tags semânticas HTML: estrutura, significado e boas práticas"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="1. Visão geral e preparação" duration="15">
+        <aside class="special"><p> 🧱 <strong>Ideia central:</strong> uma página semântica funciona como uma construção bem sinalizada. <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code>, <code>section</code>, <code>aside</code> e <code>footer</code> informam claramente a função de cada região.</p>
+</aside>
+<p>Neste codelab você aprenderá a escolher tags HTML pelo <strong>significado do conteúdo</strong>, e não pela aparência que o navegador aplica. Ao final, você construirá uma página completa com cabeçalho, navegação, conteúdo principal, artigos, seções, conteúdo complementar, figuras, listas, tabela, informações de contato e rodapé.</p>
+<h2 is-upgraded>Objetivos de aprendizagem</h2>
+<p>Ao concluir, você conseguirá:</p>
+<ul>
+<li>explicar o que é HTML semântico;</li>
+<li>diferenciar estrutura, significado e apresentação visual;</li>
+<li>escolher entre <code>article</code>, <code>section</code>, <code>div</code> e <code>aside</code>;</li>
+<li>organizar títulos com <code>h1</code> a <code>h6</code>;</li>
+<li>marcar textos, listas, citações, datas, códigos, mídias e tabelas corretamente;</li>
+<li>reconhecer elementos semânticos menos frequentes;</li>
+<li>melhorar acessibilidade, SEO e manutenção semântica;</li>
+<li>validar uma página antes de entregá-la.</li>
+</ul>
+<h2 is-upgraded>Pré-requisitos</h2>
+<ul>
+<li>editor de código, como Visual Studio Code;</li>
+<li>navegador atualizado;</li>
+<li>conhecimentos básicos de arquivos e pastas;</li>
+<li>noções iniciais de HTML.</li>
+</ul>
+<h2 is-upgraded>Estrutura do projeto</h2>
+<p>Crie uma pasta chamada <code>portal-campus</code> e um arquivo <code>index.html</code> dentro dela:</p>
+<pre><code language="language-text" class="language-text">portal-campus/
+└── index.html
+</code></pre>
+<h2 is-upgraded>Glossário inicial</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Termo</p>
+</td><td colspan="1" rowspan="1"><p>Significado</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Conjunto formado pela tag de abertura, conteúdo e tag de fechamento, quando existe.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Tag</p>
+</td><td colspan="1" rowspan="1"><p>Marcação como <code><main></code> ou <code></main></code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Atributo</p>
+</td><td colspan="1" rowspan="1"><p>Informação adicional escrita na tag de abertura, como <code>lang="pt-BR"</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Semântica</p>
+</td><td colspan="1" rowspan="1"><p>Significado que um elemento comunica ao navegador e às tecnologias assistivas.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Landmark</p>
+</td><td colspan="1" rowspan="1"><p>Região importante de uma página, usada como ponto de navegação por tecnologias assistivas.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>DOM</p>
+</td><td colspan="1" rowspan="1"><p>Representação em árvore que o navegador cria a partir do HTML.</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="2. O que é semântica no HTML" duration="25">
+        <p>Semântica é o significado atribuído ao conteúdo. Uma tag semântica informa <strong>o que aquele conteúdo representa</strong>.</p>
+<p>Compare:</p>
+<pre><code language="language-html" class="language-html">&lt;div class=&#34;topo&#34;&gt;Portal do Campus&lt;/div&gt;
+&lt;div class=&#34;menu&#34;&gt;...&lt;/div&gt;
+&lt;div class=&#34;conteudo&#34;&gt;...&lt;/div&gt;
+</code></pre>
+<p>Com:</p>
+<pre><code language="language-html" class="language-html">&lt;header&gt;Portal do Campus&lt;/header&gt;
+&lt;nav aria-label=&#34;Navegação principal&#34;&gt;...&lt;/nav&gt;
+&lt;main&gt;...&lt;/main&gt;
+</code></pre>
+<p>As duas versões podem receber o mesmo CSS. Porém, a segunda comunica que existem um cabeçalho, uma área de navegação e um conteúdo principal.</p>
+<h2 is-upgraded>Semântica não é aparência</h2>
+<p>Não escolha uma tag porque ela aparece em negrito, grande ou itálico. Aparência pertence ao CSS.</p>
+<pre><code language="language-html" class="language-html">&lt;!-- Incorreto: escolher h2 apenas porque o texto fica grande. --&gt;
+&lt;h2&gt;R$ 49,90&lt;/h2&gt;
+
+&lt;!-- Melhor: o preço é um parágrafo com uma classe de estilo. --&gt;
+&lt;p class=&#34;preco&#34;&gt;R$ 49,90&lt;/p&gt;
+</code></pre>
+<h2 is-upgraded>Por que usar HTML semântico</h2>
+<ol type="1">
+<li><strong>Acessibilidade:</strong> leitores de tela podem anunciar regiões, títulos, listas, tabelas e controles.</li>
+<li><strong>Manutenção:</strong> outro desenvolvedor entende a estrutura com menos esforço.</li>
+<li><strong>SEO:</strong> mecanismos de busca recebem pistas melhores sobre a organização do conteúdo.</li>
+<li><strong>Consistência:</strong> elementos nativos já possuem comportamentos e relações conhecidos.</li>
+<li><strong>CSS e JavaScript:</strong> seletores podem refletir a estrutura real do documento.</li>
+</ol>
+<aside class="warning"><p> Semântica ajuda o SEO, mas não garante boa posição em buscas. Qualidade, relevância, desempenho e muitos outros fatores também importam.</p>
+</aside>
+<h2 is-upgraded>Estrutura mínima correta</h2>
+<pre><code language="language-html" class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+    &lt;title&gt;Portal do Campus&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;&lt;/header&gt;
+    &lt;main&gt;&lt;/main&gt;
+    &lt;footer&gt;&lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>O <code>lang="pt-BR"</code> ajuda mecanismos de busca, corretores e leitores de tela a interpretar a pronúncia e o idioma.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="3. Títulos e hierarquia do documento" duration="35">
+        <p>Os elementos <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code> e <code>h6</code> representam títulos em níveis hierárquicos.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Uso típico</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>h1</code></p>
+</td><td colspan="1" rowspan="1"><p>Título principal da página.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>h2</code></p>
+</td><td colspan="1" rowspan="1"><p>Grandes seções do conteúdo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>h3</code></p>
+</td><td colspan="1" rowspan="1"><p>Subseções de uma seção <code>h2</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>h4</code> a <code>h6</code></p>
+</td><td colspan="1" rowspan="1"><p>Divisões progressivamente mais profundas.</p>
+</td></tr>
+</table>
+<p>Uma estrutura coerente:</p>
+<pre><code language="language-html" class="language-html">&lt;main&gt;
+  &lt;h1&gt;Guia do estudante&lt;/h1&gt;
+
+  &lt;section&gt;
+    &lt;h2&gt;Biblioteca&lt;/h2&gt;
+    &lt;h3&gt;Horários&lt;/h3&gt;
+    &lt;h3&gt;Empréstimos&lt;/h3&gt;
+  &lt;/section&gt;
+
+  &lt;section&gt;
+    &lt;h2&gt;Laboratórios&lt;/h2&gt;
+    &lt;h3&gt;Regras de uso&lt;/h3&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+</code></pre>
+<h2 is-upgraded>Regras práticas</h2>
+<ul>
+<li>Use um <code>h1</code> claro para identificar o assunto principal da página.</li>
+<li>Não escolha o nível pelo tamanho visual; altere tamanhos com CSS.</li>
+<li>Evite saltar de <code>h2</code> diretamente para <code>h4</code> sem uma razão estrutural.</li>
+<li>Um título deve descrever o conteúdo que vem depois dele.</li>
+<li>Não use títulos vazios apenas para criar espaçamento.</li>
+</ul>
+<h2 is-upgraded>O elemento <code>hgroup</code></h2>
+<p><code>hgroup</code> agrupa um título com conteúdo secundário relacionado, como subtítulo ou linha de apoio.</p>
+<pre><code language="language-html" class="language-html">&lt;hgroup&gt;
+  &lt;h1&gt;Semana de Tecnologia&lt;/h1&gt;
+  &lt;p&gt;Ideias que conectam pessoas e transformam o campus&lt;/p&gt;
+&lt;/hgroup&gt;
+</code></pre>
+<p>Ele não é obrigatório. Use-o quando essa relação realmente existir.</p>
+<h2 is-upgraded>Exercício rápido</h2>
+<p>Corrija a hierarquia abaixo:</p>
+<pre><code language="language-html" class="language-html">&lt;h3&gt;Portal acadêmico&lt;/h3&gt;
+&lt;h1&gt;Cursos&lt;/h1&gt;
+&lt;h4&gt;Desenvolvimento Web&lt;/h4&gt;
+&lt;h2&gt;Banco de Dados&lt;/h2&gt;
+</code></pre>
+<p>Uma solução possível estará na etapa de respostas.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="4. Regiões principais: header, nav, main e footer" duration="45">
+        <h2 is-upgraded><code>header</code></h2>
+<p>Representa conteúdo introdutório ou um conjunto de recursos de navegação. Pode conter logotipo, título, busca ou navegação.</p>
+<pre><code language="language-html" class="language-html">&lt;header&gt;
+  &lt;p class=&#34;logo&#34;&gt;Conecta Campus&lt;/p&gt;
+  &lt;h1&gt;Portal do estudante&lt;/h1&gt;
+&lt;/header&gt;
+</code></pre>
+<p><code>header</code> pode aparecer no documento e dentro de <code>article</code> ou <code>section</code>. Ele não significa obrigatoriamente &#34;a faixa no topo da tela&#34;.</p>
+<h2 is-upgraded><code>nav</code></h2>
+<p>Representa um bloco importante de links de navegação. Não é necessário envolver todo pequeno grupo de links em <code>nav</code>.</p>
+<pre><code language="language-html" class="language-html">&lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;index.html&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;cursos.html&#34;&gt;Cursos&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;contato.html&#34;&gt;Contato&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+</code></pre>
+<p>Se houver mais de uma navegação, forneça rótulos diferentes:</p>
+<pre><code language="language-html" class="language-html">&lt;nav aria-label=&#34;Navegação principal&#34;&gt;...&lt;/nav&gt;
+&lt;nav aria-label=&#34;Navegação do rodapé&#34;&gt;...&lt;/nav&gt;
+</code></pre>
+<h2 is-upgraded><code>main</code></h2>
+<p>Representa o conteúdo dominante e exclusivo da página.</p>
+<pre><code language="language-html" class="language-html">&lt;main id=&#34;conteudo-principal&#34;&gt;
+  &lt;h1&gt;Notícias do campus&lt;/h1&gt;
+  &lt;!-- conteúdo principal --&gt;
+&lt;/main&gt;
+</code></pre>
+<p>Boas práticas:</p>
+<ul>
+<li>mantenha apenas um <code>main</code> visível por documento;</li>
+<li>não coloque o <code>main</code> dentro de <code>header</code>, <code>footer</code>, <code>nav</code>, <code>article</code> ou <code>aside</code>;</li>
+<li>cabeçalho, navegação repetida e rodapé geralmente ficam fora dele.</li>
+</ul>
+<h2 is-upgraded><code>footer</code></h2>
+<p>Representa o rodapé do documento ou da seção à qual pertence. Pode conter autoria, direitos autorais, contatos e links relacionados.</p>
+<pre><code language="language-html" class="language-html">&lt;footer&gt;
+  &lt;p&gt;&lt;small&gt;&amp;copy; 2026 Conecta Campus&lt;/small&gt;&lt;/p&gt;
+&lt;/footer&gt;
+</code></pre>
+<p>Assim como <code>header</code>, um <code>footer</code> pode existir dentro de um <code>article</code>.</p>
+<h2 is-upgraded>Monte o primeiro esqueleto</h2>
+<pre><code language="language-html" class="language-html">&lt;body&gt;
+  &lt;a href=&#34;#conteudo-principal&#34;&gt;Pular para o conteúdo principal&lt;/a&gt;
+
+  &lt;header&gt;
+    &lt;p&gt;Conecta Campus&lt;/p&gt;
+    &lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;index.html&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;noticias.html&#34;&gt;Notícias&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main id=&#34;conteudo-principal&#34;&gt;
+    &lt;h1&gt;Portal do estudante&lt;/h1&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;&lt;small&gt;&amp;copy; 2026 Conecta Campus&lt;/small&gt;&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="5. article, section, aside, address e search" duration="55">
+        <h2 is-upgraded><code>article</code>: conteúdo independente</h2>
+<p>Use <code>article</code> para uma unidade que poderia ser distribuída ou reutilizada separadamente: notícia, postagem, comentário, card de produto ou verbete.</p>
+<pre><code language="language-html" class="language-html">&lt;article&gt;
+  &lt;header&gt;
+    &lt;h2&gt;Inscrições para a maratona de programação&lt;/h2&gt;
+    &lt;p&gt;Publicado em &lt;time datetime=&#34;2026-09-15&#34;&gt;15 de setembro de 2026&lt;/time&gt;&lt;/p&gt;
+  &lt;/header&gt;
+
+  &lt;p&gt;As equipes podem realizar a inscrição até sexta-feira.&lt;/p&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;Texto da equipe de Tecnologia&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;
+</code></pre>
+<p>Pergunta de decisão: &#34;Este conteúdo ainda faz sentido se for copiado para outro lugar?&#34; Se sim, <code>article</code> pode ser adequado.</p>
+<h2 is-upgraded><code>section</code>: agrupamento temático</h2>
+<p>Use <code>section</code> para agrupar conteúdo sobre um mesmo tema quando não houver elemento mais específico. Normalmente ela deve possuir um título.</p>
+<pre><code language="language-html" class="language-html">&lt;section&gt;
+  &lt;h2&gt;Serviços da biblioteca&lt;/h2&gt;
+  &lt;p&gt;Consulte empréstimos, reservas e horários.&lt;/p&gt;
+&lt;/section&gt;
+</code></pre>
+<p>Não use <code>section</code> apenas para aplicar CSS. Para um contêiner sem significado próprio, use <code>div</code>.</p>
+<h2 is-upgraded><code>article</code> ou <code>section</code>?</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Pergunta</p>
+</td><td colspan="1" rowspan="1"><p>Melhor escolha provável</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>É uma unidade independente e reutilizável?</p>
+</td><td colspan="1" rowspan="1"><p><code>article</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>É uma parte temática de algo maior?</p>
+</td><td colspan="1" rowspan="1"><p><code>section</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Só preciso de uma caixa para layout?</p>
+</td><td colspan="1" rowspan="1"><p><code>div</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>É conteúdo lateral ou complementar?</p>
+</td><td colspan="1" rowspan="1"><p><code>aside</code></p>
+</td></tr>
+</table>
+<p>Um <code>article</code> pode conter várias <code>section</code>, e uma <code>section</code> pode agrupar vários <code>article</code>.</p>
+<h2 is-upgraded><code>aside</code>: conteúdo complementar</h2>
+<p>Representa conteúdo relacionado indiretamente ao conteúdo ao redor, como glossário lateral, biografia curta, links relacionados ou curiosidade.</p>
+<pre><code language="language-html" class="language-html">&lt;aside aria-labelledby=&#34;dica-titulo&#34;&gt;
+  &lt;h2 id=&#34;dica-titulo&#34;&gt;Dica de estudo&lt;/h2&gt;
+  &lt;p&gt;Reserve vinte minutos por dia para praticar HTML.&lt;/p&gt;
+&lt;/aside&gt;
+</code></pre>
+<p><code>aside</code> não significa apenas &#34;coluna da direita&#34;. Sua posição visual é responsabilidade do CSS.</p>
+<h2 is-upgraded><code>address</code>: contato relacionado</h2>
+<p>Use para informações de contato do documento ou do <code>article</code> mais próximo.</p>
+<pre><code language="language-html" class="language-html">&lt;address&gt;
+  Coordenação de Tecnologia&lt;br&gt;
+  &lt;a href=&#34;mailto:tecnologia@example.com&#34;&gt;tecnologia@example.com&lt;/a&gt;
+&lt;/address&gt;
+</code></pre>
+<p>Não use <code>address</code> para qualquer endereço postal citado em um texto, nem para envolver data de publicação.</p>
+<h2 is-upgraded><code>search</code>: área de pesquisa ou filtro</h2>
+<p><code>search</code> identifica um conjunto de controles usados para pesquisar ou filtrar conteúdo. Ele representa a interface de busca, não os resultados.</p>
+<pre><code language="language-html" class="language-html">&lt;search&gt;
+  &lt;form action=&#34;/buscar&#34; method=&#34;get&#34;&gt;
+    &lt;label for=&#34;busca&#34;&gt;Buscar no portal&lt;/label&gt;
+    &lt;input id=&#34;busca&#34; name=&#34;q&#34; type=&#34;search&#34;&gt;
+    &lt;button type=&#34;submit&#34;&gt;Buscar&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/search&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="6. Textos com significado" duration="65">
+        <h2 is-upgraded>Parágrafos e separações</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Significado e uso</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>p</code></p>
+</td><td colspan="1" rowspan="1"><p>Parágrafo de texto. Não deve conter blocos como <code>div</code>, <code>section</code> ou outro <code>p</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>hr</code></p>
+</td><td colspan="1" rowspan="1"><p>Mudança temática entre parágrafos, não apenas uma linha decorativa.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>br</code></p>
+</td><td colspan="1" rowspan="1"><p>Quebra necessária dentro do mesmo conteúdo, como verso ou endereço. Não use para criar margens.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>wbr</code></p>
+</td><td colspan="1" rowspan="1"><p>Ponto opcional onde uma palavra longa pode quebrar.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Importância, ênfase e destaque</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Use quando</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>strong</code></p>
+</td><td colspan="1" rowspan="1"><p>O trecho possui forte importância, seriedade ou urgência.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>em</code></p>
+</td><td colspan="1" rowspan="1"><p>A ênfase muda o sentido ou a entonação da frase.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>mark</code></p>
+</td><td colspan="1" rowspan="1"><p>O trecho está destacado por relevância no contexto atual.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>small</code></p>
+</td><td colspan="1" rowspan="1"><p>Observação lateral, condição, direitos autorais ou texto legal curto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>s</code></p>
+</td><td colspan="1" rowspan="1"><p>Informação que não é mais válida ou relevante.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>b</code></p>
+</td><td colspan="1" rowspan="1"><p>Atenção utilitária sem importância adicional, como palavra-chave. Não é &#34;negrito genérico&#34;.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>i</code></p>
+</td><td colspan="1" rowspan="1"><p>Voz alternativa, termo técnico, expressão estrangeira ou designação taxonômica. Não é &#34;itálico genérico&#34;.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>u</code></p>
+</td><td colspan="1" rowspan="1"><p>Anotação não textual, como marcação de erro ortográfico. Evite quando parecer link.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;p&gt;&lt;strong&gt;Atenção:&lt;/strong&gt; a inscrição termina hoje.&lt;/p&gt;
+&lt;p&gt;Você deve enviar o arquivo &lt;em&gt;antes&lt;/em&gt; de fechar a página.&lt;/p&gt;
+&lt;p&gt;Resultado da busca por &lt;mark&gt;HTML semântico&lt;/mark&gt;.&lt;/p&gt;
+&lt;p&gt;Ingresso: &lt;s&gt;R$ 80,00&lt;/s&gt; R$ 50,00.&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;Valores sujeitos a alteração.&lt;/small&gt;&lt;/p&gt;
+</code></pre>
+<h2 is-upgraded>Citações, abreviações e definições</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Uso</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>blockquote</code></p>
+</td><td colspan="1" rowspan="1"><p>Citação em bloco. O atributo <code>cite</code> pode registrar a fonte em uma URL.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>q</code></p>
+</td><td colspan="1" rowspan="1"><p>Citação curta incorporada ao parágrafo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>cite</code></p>
+</td><td colspan="1" rowspan="1"><p>Título de uma obra, não o nome genérico da pessoa autora.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>abbr</code></p>
+</td><td colspan="1" rowspan="1"><p>Abreviação; <code>title</code> pode fornecer a forma expandida.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>dfn</code></p>
+</td><td colspan="1" rowspan="1"><p>Primeira definição formal de um termo.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;p&gt;
+  A &lt;abbr title=&#34;World Wide Web Consortium&#34;&gt;W3C&lt;/abbr&gt; publica padrões para a Web.
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;dfn id=&#34;dom&#34;&gt;DOM&lt;/dfn&gt; é a representação em árvore do documento.
+&lt;/p&gt;
+
+&lt;blockquote cite=&#34;https://example.com/fonte&#34;&gt;
+  &lt;p&gt;Uma boa estrutura torna o conteúdo mais fácil de compreender.&lt;/p&gt;
+&lt;/blockquote&gt;
+</code></pre>
+<h2 is-upgraded>Datas, dados e alterações</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Uso</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>time</code></p>
+</td><td colspan="1" rowspan="1"><p>Data, hora ou duração legível por máquina por meio de <code>datetime</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>data</code></p>
+</td><td colspan="1" rowspan="1"><p>Associa texto visível a um valor processável por máquina.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ins</code></p>
+</td><td colspan="1" rowspan="1"><p>Conteúdo inserido em uma edição.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>del</code></p>
+</td><td colspan="1" rowspan="1"><p>Conteúdo removido em uma edição.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;p&gt;A aula começa às &lt;time datetime=&#34;19:00&#34;&gt;19h&lt;/time&gt;.&lt;/p&gt;
+&lt;p&gt;Evento em &lt;time datetime=&#34;2026-10-05&#34;&gt;5 de outubro de 2026&lt;/time&gt;.&lt;/p&gt;
+&lt;p&gt;Produto: &lt;data value=&#34;SKU-1042&#34;&gt;Camiseta do campus&lt;/data&gt;.&lt;/p&gt;
+&lt;p&gt;Prazo: &lt;del&gt;10 de outubro&lt;/del&gt; &lt;ins&gt;15 de outubro&lt;/ins&gt;.&lt;/p&gt;
+</code></pre>
+<h2 is-upgraded>Código, entrada e saída</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Uso</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>code</code></p>
+</td><td colspan="1" rowspan="1"><p>Trecho de código ou identificador.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>pre</code></p>
+</td><td colspan="1" rowspan="1"><p>Conteúdo pré-formatado, preservando espaços e quebras.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>kbd</code></p>
+</td><td colspan="1" rowspan="1"><p>Entrada fornecida pelo usuário, normalmente teclado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>samp</code></p>
+</td><td colspan="1" rowspan="1"><p>Saída de um programa.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>var</code></p>
+</td><td colspan="1" rowspan="1"><p>Variável matemática ou de programação.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;p&gt;Use &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;S&lt;/kbd&gt; para salvar.&lt;/p&gt;
+&lt;p&gt;O navegador exibiu: &lt;samp&gt;Arquivo não encontrado&lt;/samp&gt;.&lt;/p&gt;
+&lt;p&gt;A área é calculada por &lt;var&gt;largura&lt;/var&gt; × &lt;var&gt;altura&lt;/var&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;main&amp;gt;
+  &amp;lt;h1&amp;gt;Conteúdo principal&amp;lt;/h1&amp;gt;
+&amp;lt;/main&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<h2 is-upgraded>Escrita bidirecional e notação</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Uso</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>bdi</code></p>
+</td><td colspan="1" rowspan="1"><p>Isola um texto cuja direção é desconhecida, como nome vindo do usuário.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>bdo</code></p>
+</td><td colspan="1" rowspan="1"><p>Força direção do texto com <code>dir="ltr"</code> ou <code>dir="rtl"</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>sub</code></p>
+</td><td colspan="1" rowspan="1"><p>Subscrito com significado, como H₂O.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>sup</code></p>
+</td><td colspan="1" rowspan="1"><p>Sobrescrito com significado, como x² ou nota de rodapé.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ruby</code>, <code>rt</code>, <code>rp</code></p>
+</td><td colspan="1" rowspan="1"><p>Anotações de pronúncia usadas principalmente em tipografia asiática.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;p&gt;Água: H&lt;sub&gt;2&lt;/sub&gt;O.&lt;/p&gt;
+&lt;p&gt;Área: 4 m&lt;sup&gt;2&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Usuário: &lt;bdi&gt;إياد&lt;/bdi&gt; — 90 pontos.&lt;/p&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="7. Listas e agrupamentos de conteúdo" duration="40">
+        <h2 is-upgraded>Listas não ordenadas</h2>
+<p>Use <code>ul</code> quando a ordem dos itens não altera o sentido.</p>
+<pre><code language="language-html" class="language-html">&lt;ul&gt;
+  &lt;li&gt;HTML&lt;/li&gt;
+  &lt;li&gt;CSS&lt;/li&gt;
+  &lt;li&gt;JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<h2 is-upgraded>Listas ordenadas</h2>
+<p>Use <code>ol</code> quando a sequência, posição ou contagem for importante.</p>
+<pre><code language="language-html" class="language-html">&lt;ol&gt;
+  &lt;li&gt;Crie a pasta do projeto.&lt;/li&gt;
+  &lt;li&gt;Crie o arquivo index.html.&lt;/li&gt;
+  &lt;li&gt;Abra o arquivo no navegador.&lt;/li&gt;
+&lt;/ol&gt;
+</code></pre>
+<p><code>li</code> só deve representar um item dentro de <code>ul</code>, <code>ol</code> ou <code>menu</code>.</p>
+<h2 is-upgraded>Lista de descrições</h2>
+<p>Use <code>dl</code> para pares de termos e descrições. <code>dt</code> representa o termo; <code>dd</code>, a descrição.</p>
+<pre><code language="language-html" class="language-html">&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;Linguagem de marcação usada para estruturar o conteúdo.&lt;/dd&gt;
+
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Linguagem usada para definir a apresentação.&lt;/dd&gt;
+&lt;/dl&gt;
+</code></pre>
+<h2 is-upgraded><code>menu</code></h2>
+<p><code>menu</code> representa uma lista não ordenada de comandos, como uma barra de ferramentas. Na prática, os navegadores o expõem de modo semelhante a <code>ul</code>.</p>
+<pre><code language="language-html" class="language-html">&lt;menu&gt;
+  &lt;li&gt;&lt;button type=&#34;button&#34;&gt;Copiar&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&#34;button&#34;&gt;Compartilhar&lt;/button&gt;&lt;/li&gt;
+&lt;/menu&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="8. Figuras, imagens, áudio e vídeo" duration="45">
+        <h2 is-upgraded><code>figure</code> e <code>figcaption</code></h2>
+<p><code>figure</code> representa conteúdo autocontido referenciado pelo fluxo principal, como imagem, diagrama, trecho de código ou tabela. <code>figcaption</code> fornece a legenda.</p>
+<pre><code language="language-html" class="language-html">&lt;figure&gt;
+  &lt;img
+    src=&#34;imagens/ambiente-de-estudo.jpg&#34;
+    alt=&#34;Monitor exibindo código de uma página Web&#34;
+    width=&#34;1000&#34;&gt;
+  &lt;figcaption&gt;Ambiente usado durante a prática de HTML.&lt;/figcaption&gt;
+&lt;/figure&gt;
+</code></pre>
+<p>O <code>alt</code> descreve a função ou a informação relevante da imagem. Uma legenda visível não substitui automaticamente o <code>alt</code>.</p>
+<h2 is-upgraded><code>picture</code>, <code>source</code> e <code>img</code></h2>
+<p><code>picture</code> permite oferecer fontes alternativas para diferentes condições. <code>img</code> continua sendo obrigatório como opção final.</p>
+<pre><code language="language-html" class="language-html">&lt;picture&gt;
+  &lt;source media=&#34;(min-width: 900px)&#34; srcset=&#34;banner-grande.webp&#34;&gt;
+  &lt;source media=&#34;(min-width: 500px)&#34; srcset=&#34;banner-medio.webp&#34;&gt;
+  &lt;img src=&#34;banner-pequeno.webp&#34; alt=&#34;Estudantes reunidos no laboratório&#34;&gt;
+&lt;/picture&gt;
+</code></pre>
+<h2 is-upgraded><code>audio</code>, <code>video</code> e <code>track</code></h2>
+<pre><code language="language-html" class="language-html">&lt;video controls width=&#34;640&#34; poster=&#34;capa-video.jpg&#34;&gt;
+  &lt;source src=&#34;apresentacao.webm&#34; type=&#34;video/webm&#34;&gt;
+  &lt;source src=&#34;apresentacao.mp4&#34; type=&#34;video/mp4&#34;&gt;
+  &lt;track
+    kind=&#34;captions&#34;
+    src=&#34;legendas-pt.vtt&#34;
+    srclang=&#34;pt-BR&#34;
+    label=&#34;Português&#34;
+    default&gt;
+  Seu navegador não reproduz este vídeo.
+&lt;/video&gt;
+</code></pre>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Função</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>audio</code></p>
+</td><td colspan="1" rowspan="1"><p>Incorpora conteúdo sonoro.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>video</code></p>
+</td><td colspan="1" rowspan="1"><p>Incorpora vídeo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>source</code></p>
+</td><td colspan="1" rowspan="1"><p>Fornece alternativas de mídia ou imagem.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>track</code></p>
+</td><td colspan="1" rowspan="1"><p>Adiciona legendas, capítulos ou descrições temporizadas.</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="9. Tabelas com significado" duration="45">
+        <p>Use tabelas para dados tabulares, nunca para montar o layout visual da página.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Função</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>table</code></p>
+</td><td colspan="1" rowspan="1"><p>Contêiner da tabela.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>caption</code></p>
+</td><td colspan="1" rowspan="1"><p>Título ou descrição da tabela.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>thead</code></p>
+</td><td colspan="1" rowspan="1"><p>Grupo de linhas de cabeçalho.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>tbody</code></p>
+</td><td colspan="1" rowspan="1"><p>Grupo principal de dados.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>tfoot</code></p>
+</td><td colspan="1" rowspan="1"><p>Grupo de resumo ou rodapé.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>tr</code></p>
+</td><td colspan="1" rowspan="1"><p>Linha.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>th</code></p>
+</td><td colspan="1" rowspan="1"><p>Célula de cabeçalho.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>td</code></p>
+</td><td colspan="1" rowspan="1"><p>Célula de dado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>colgroup</code>, <code>col</code></p>
+</td><td colspan="1" rowspan="1"><p>Definem grupos e propriedades de colunas.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;table&gt;
+  &lt;caption&gt;Horários dos laboratórios&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope=&#34;col&#34;&gt;Laboratório&lt;/th&gt;
+      &lt;th scope=&#34;col&#34;&gt;Abertura&lt;/th&gt;
+      &lt;th scope=&#34;col&#34;&gt;Fechamento&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope=&#34;row&#34;&gt;Lab 1&lt;/th&gt;
+      &lt;td&gt;08:00&lt;/td&gt;
+      &lt;td&gt;22:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope=&#34;row&#34;&gt;Lab 2&lt;/th&gt;
+      &lt;td&gt;09:00&lt;/td&gt;
+      &lt;td&gt;21:00&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+<p><code>scope="col"</code> relaciona um cabeçalho à coluna; <code>scope="row"</code>, à linha. Isso facilita a interpretação por leitores de tela.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="10. Conteúdo interativo e outros elementos semânticos" duration="45">
+        <h2 is-upgraded><code>details</code> e <code>summary</code></h2>
+<p>Criam uma região expansível nativa. <code>summary</code> é o rótulo acionável.</p>
+<pre><code language="language-html" class="language-html">&lt;details&gt;
+  &lt;summary&gt;Quais documentos devo levar?&lt;/summary&gt;
+  &lt;p&gt;Documento com foto e comprovante de matrícula.&lt;/p&gt;
+&lt;/details&gt;
+</code></pre>
+<p>O atributo <code>open</code> deixa a região inicialmente aberta.</p>
+<pre><code language="language-html" class="language-html">&lt;details open&gt;
+  &lt;summary&gt;Aviso importante&lt;/summary&gt;
+  &lt;p&gt;O laboratório fechará às 18h.&lt;/p&gt;
+&lt;/details&gt;
+</code></pre>
+<h2 is-upgraded><code>dialog</code></h2>
+<p>Representa uma caixa de diálogo. Uma caixa modal deve ser aberta com JavaScript usando <code>showModal()</code>; o atributo <code>open</code> sozinho cria uma caixa não modal.</p>
+<pre><code language="language-html" class="language-html">&lt;dialog id=&#34;confirmacao&#34;&gt;
+  &lt;h2&gt;Confirmar inscrição&lt;/h2&gt;
+  &lt;p&gt;Deseja continuar?&lt;/p&gt;
+  &lt;form method=&#34;dialog&#34;&gt;
+    &lt;button value=&#34;cancelar&#34;&gt;Cancelar&lt;/button&gt;
+    &lt;button value=&#34;confirmar&#34;&gt;Confirmar&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+</code></pre>
+<h2 is-upgraded><code>meter</code>, <code>progress</code> e <code>output</code></h2>
+<pre><code language="language-html" class="language-html">&lt;p&gt;
+  Uso do armazenamento:
+  &lt;meter min=&#34;0&#34; max=&#34;100&#34; value=&#34;72&#34;&gt;72%&lt;/meter&gt;
+&lt;/p&gt;
+
+&lt;label for=&#34;envio&#34;&gt;Envio do arquivo:&lt;/label&gt;
+&lt;progress id=&#34;envio&#34; max=&#34;100&#34; value=&#34;35&#34;&gt;35%&lt;/progress&gt;
+
+&lt;p&gt;Resultado: &lt;output name=&#34;resultado&#34;&gt;42&lt;/output&gt;&lt;/p&gt;
+</code></pre>
+<ul>
+<li><code>meter</code> mede um valor conhecido dentro de uma faixa.</li>
+<li><code>progress</code> representa o avanço de uma tarefa.</li>
+<li><code>output</code> representa o resultado de um cálculo ou ação.</li>
+</ul>
+<h2 is-upgraded>Elementos embutidos e especializados</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Finalidade</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>iframe</code></p>
+</td><td colspan="1" rowspan="1"><p>Incorpora outra página; exige atenção a título, permissões e segurança.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>embed</code></p>
+</td><td colspan="1" rowspan="1"><p>Incorpora conteúdo externo tratado por plug-in ou navegador.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>object</code></p>
+</td><td colspan="1" rowspan="1"><p>Recurso externo, podendo conter conteúdo alternativo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>canvas</code></p>
+</td><td colspan="1" rowspan="1"><p>Superfície bitmap desenhada por JavaScript; forneça alternativa acessível.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>map</code>, <code>area</code></p>
+</td><td colspan="1" rowspan="1"><p>Criam regiões clicáveis em uma imagem.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>noscript</code></p>
+</td><td colspan="1" rowspan="1"><p>Conteúdo alternativo quando scripts não estão disponíveis.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>template</code></p>
+</td><td colspan="1" rowspan="1"><p>Fragmento HTML que não é renderizado até ser usado por JavaScript.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>slot</code></p>
+</td><td colspan="1" rowspan="1"><p>Ponto de inserção usado em Web Components.</p>
+</td></tr>
+</table>
+<p>Esses elementos são semânticos, mas especializados. Use-os apenas quando o problema exigir.</p>
+<h2 is-upgraded>Catálogo complementar: documento, metadados e execução</h2>
+<p>Os elementos abaixo também fazem parte do HTML atual. Muitos não aparecem visualmente no conteúdo, mas comunicam informações essenciais ao navegador.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Elemento</p>
+</td><td colspan="1" rowspan="1"><p>Finalidade</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>html</code></p>
+</td><td colspan="1" rowspan="1"><p>Raiz do documento; use <code>lang</code> para declarar o idioma.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>head</code></p>
+</td><td colspan="1" rowspan="1"><p>Reúne metadados que não fazem parte do conteúdo principal visível.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>title</code></p>
+</td><td colspan="1" rowspan="1"><p>Nome do documento exibido na aba e usado em favoritos e históricos.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>base</code></p>
+</td><td colspan="1" rowspan="1"><p>Define uma URL-base ou alvo padrão para URLs relativas; use com cuidado porque altera todos os caminhos relativos.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>link</code></p>
+</td><td colspan="1" rowspan="1"><p>Relaciona o documento a um recurso externo, como folha de estilos ou ícone.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>meta</code></p>
+</td><td colspan="1" rowspan="1"><p>Declara metadados como codificação, viewport e descrição.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>style</code></p>
+</td><td colspan="1" rowspan="1"><p>Contém CSS incorporado ao documento. Em projetos organizados, folhas externas costumam ser mais fáceis de manter.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>body</code></p>
+</td><td colspan="1" rowspan="1"><p>Contém o conteúdo do documento apresentado à pessoa usuária.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>script</code></p>
+</td><td colspan="1" rowspan="1"><p>Incorpora ou referencia código executável, normalmente JavaScript. Para arquivo externo, use <code>defer</code> quando ele depender do DOM e puder aguardar.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>noscript</code></p>
+</td><td colspan="1" rowspan="1"><p>Fornece alternativa quando determinado tipo de script não é executado.</p>
+</td></tr>
+</table>
+<pre><code language="language-html" class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+    &lt;meta name=&#34;description&#34; content=&#34;Portal acadêmico do campus&#34;&gt;
+    &lt;title&gt;Portal acadêmico&lt;/title&gt;
+    &lt;link rel=&#34;stylesheet&#34; href=&#34;css/estilos.css&#34;&gt;
+    &lt;script src=&#34;js/app.js&#34; defer&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;noscript&gt;Alguns recursos interativos exigem JavaScript.&lt;/noscript&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 is-upgraded>Catálogo complementar: links, formulários e conteúdo incorporado</h2>
+<p>Para que o catálogo fique completo, estes elementos atuais também possuem finalidade própria. Os codelabs seguintes detalham <code>a</code> e os formulários.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Grupo</p>
+</td><td colspan="1" rowspan="1"><p>Elementos</p>
+</td><td colspan="1" rowspan="1"><p>Finalidade geral</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Hiperlinks</p>
+</td><td colspan="1" rowspan="1"><p><code>a</code></p>
+</td><td colspan="1" rowspan="1"><p>Cria hiperlink quando possui <code>href</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Mapa de imagem</p>
+</td><td colspan="1" rowspan="1"><p><code>map</code>, <code>area</code></p>
+</td><td colspan="1" rowspan="1"><p>Define regiões de navegação dentro de uma imagem.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Formulário</p>
+</td><td colspan="1" rowspan="1"><p><code>form</code></p>
+</td><td colspan="1" rowspan="1"><p>Agrupa controles de uma operação de envio.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Entrada</p>
+</td><td colspan="1" rowspan="1"><p><code>label</code>, <code>input</code>, <code>textarea</code>, <code>select</code>, <code>option</code>, <code>optgroup</code>, <code>datalist</code></p>
+</td><td colspan="1" rowspan="1"><p>Identifica e coleta valores.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Agrupamento</p>
+</td><td colspan="1" rowspan="1"><p><code>fieldset</code>, <code>legend</code></p>
+</td><td colspan="1" rowspan="1"><p>Relaciona controles e nomeia o grupo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Ação e resultado</p>
+</td><td colspan="1" rowspan="1"><p><code>button</code>, <code>output</code>, <code>progress</code>, <code>meter</code></p>
+</td><td colspan="1" rowspan="1"><p>Executa ação ou representa resultado, progresso e medida.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Gráfico vetorial</p>
+</td><td colspan="1" rowspan="1"><p><code>svg</code></p>
+</td><td colspan="1" rowspan="1"><p>Ponto de integração para conteúdo SVG.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Matemática</p>
+</td><td colspan="1" rowspan="1"><p><code>math</code></p>
+</td><td colspan="1" rowspan="1"><p>Ponto de integração para conteúdo MathML.</p>
+</td></tr>
+</table>
+<h2 is-upgraded>E as tags antigas?</h2>
+<p>Elementos como <code>font</code>, <code>center</code>, <code>marquee</code>, <code>frameset</code>, <code>frame</code>, <code>big</code>, <code>tt</code>, <code>strike</code>, <code>acronym</code> e <code>applet</code> são obsoletos ou não conformes. Eles podem aparecer em sistemas antigos, mas não devem ser usados em projetos novos. Substitua apresentação por CSS e escolha elementos atuais pelo significado.</p>
+<aside class="special"><p> &#34;Todas as tags&#34; não significa usar todas na mesma página. Significa conhecer o catálogo e selecionar apenas as que descrevem corretamente o conteúdo e o comportamento necessários.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="11. div, span, ARIA e erros frequentes" duration="40">
+        <h2 is-upgraded><code>div</code> e <code>span</code></h2>
+<p><code>div</code> e <code>span</code> são contêineres sem significado específico.</p>
+<ul>
+<li><code>div</code> agrupa conteúdo de fluxo, normalmente em bloco.</li>
+<li><code>span</code> agrupa um trecho curto dentro de uma linha.</li>
+</ul>
+<p>Eles não são proibidos. São corretos quando não existe elemento semântico mais adequado.</p>
+<pre><code language="language-html" class="language-html">&lt;div class=&#34;grade-de-cards&#34;&gt;
+  &lt;!-- agrupamento necessário apenas para o layout --&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Vagas disponíveis: &lt;span class=&#34;quantidade&#34;&gt;12&lt;/span&gt;&lt;/p&gt;
+</code></pre>
+<h2 is-upgraded>HTML nativo antes de ARIA</h2>
+<p>Prefira:</p>
+<pre><code language="language-html" class="language-html">&lt;button type=&#34;button&#34;&gt;Abrir menu&lt;/button&gt;
+</code></pre>
+<p>Em vez de recriar um botão com:</p>
+<pre><code language="language-html" class="language-html">&lt;div role=&#34;button&#34; tabindex=&#34;0&#34;&gt;Abrir menu&lt;/div&gt;
+</code></pre>
+<p>O botão nativo já possui foco, ativação por teclado e semântica esperada. ARIA complementa o HTML; não adiciona automaticamente comportamento.</p>
+<h2 is-upgraded>Erros frequentes</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Erro</p>
+</td><td colspan="1" rowspan="1"><p>Correção</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Usar <code>section</code> como qualquer caixa de layout</p>
+</td><td colspan="1" rowspan="1"><p>Use <code>div</code> quando não existir agrupamento temático.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Criar todas as regiões com <code>div</code></p>
+</td><td colspan="1" rowspan="1"><p>Escolha <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code>, <code>aside</code> e <code>footer</code> quando representarem o conteúdo.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Usar <code>aside</code> apenas porque algo aparece à direita</p>
+</td><td colspan="1" rowspan="1"><p>Decida pela relação complementar, não pela posição.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Usar <code>strong</code> para deixar tudo em negrito</p>
+</td><td colspan="1" rowspan="1"><p>Use CSS quando a intenção for apenas visual.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Usar <code>br</code> várias vezes para espaçamento</p>
+</td><td colspan="1" rowspan="1"><p>Use margem ou espaçamento no CSS.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Usar tabela para montar colunas</p>
+</td><td colspan="1" rowspan="1"><p>Use Grid ou Flexbox no CSS.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Colocar <code>li</code> fora de uma lista</p>
+</td><td colspan="1" rowspan="1"><p>Envolva-o em <code>ul</code>, <code>ol</code> ou <code>menu</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Adicionar <code>role</code> redundante a todo elemento</p>
+</td><td colspan="1" rowspan="1"><p>Use o elemento nativo e adicione ARIA somente quando necessário.</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="12. Projeto prático: página semântica completa" duration="70">
+        <p>Substitua o conteúdo de <code>index.html</code> pelo código a seguir. Digite e teste por partes.</p>
+<pre><code language="language-html" class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+    &lt;meta
+      name=&#34;description&#34;
+      content=&#34;Portal acadêmico com notícias, agenda e serviços do campus&#34;&gt;
+    &lt;title&gt;Conecta Campus&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;a href=&#34;#conteudo-principal&#34;&gt;Pular para o conteúdo principal&lt;/a&gt;
+
+    &lt;header&gt;
+      &lt;hgroup&gt;
+        &lt;h1&gt;Conecta Campus&lt;/h1&gt;
+        &lt;p&gt;Informação acadêmica em um só lugar&lt;/p&gt;
+      &lt;/hgroup&gt;
+
+      &lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&#34;index.html&#34; aria-current=&#34;page&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;noticias.html&#34;&gt;Notícias&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;servicos.html&#34;&gt;Serviços&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;contato.html&#34;&gt;Contato&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+
+      &lt;search&gt;
+        &lt;form action=&#34;/buscar&#34; method=&#34;get&#34;&gt;
+          &lt;label for=&#34;termo-busca&#34;&gt;Buscar no portal&lt;/label&gt;
+          &lt;input id=&#34;termo-busca&#34; name=&#34;q&#34; type=&#34;search&#34; required&gt;
+          &lt;button type=&#34;submit&#34;&gt;Buscar&lt;/button&gt;
+        &lt;/form&gt;
+      &lt;/search&gt;
+    &lt;/header&gt;
+
+    &lt;main id=&#34;conteudo-principal&#34;&gt;
+      &lt;section aria-labelledby=&#34;noticias-titulo&#34;&gt;
+        &lt;h2 id=&#34;noticias-titulo&#34;&gt;Últimas notícias&lt;/h2&gt;
+
+        &lt;article&gt;
+          &lt;header&gt;
+            &lt;h3&gt;Semana de Tecnologia abre inscrições&lt;/h3&gt;
+            &lt;p&gt;
+              Publicado em
+              &lt;time datetime=&#34;2026-09-15&#34;&gt;15 de setembro de 2026&lt;/time&gt;
+            &lt;/p&gt;
+          &lt;/header&gt;
+
+          &lt;figure&gt;
+            &lt;img
+              src=&#34;imagens/codigo-em-editor.jpg&#34;
+              alt=&#34;Tela de computador exibindo código em um editor&#34;
+              width=&#34;1000&#34;&gt;
+            &lt;figcaption&gt;Atividades práticas fazem parte da programação.&lt;/figcaption&gt;
+          &lt;/figure&gt;
+
+          &lt;p&gt;
+            O evento reunirá oficinas, palestras e desafios de programação.
+            As vagas são limitadas.
+          &lt;/p&gt;
+
+          &lt;footer&gt;
+            &lt;p&gt;Por Equipe de Tecnologia&lt;/p&gt;
+          &lt;/footer&gt;
+        &lt;/article&gt;
+
+        &lt;article&gt;
+          &lt;h3&gt;Biblioteca amplia horário de atendimento&lt;/h3&gt;
+          &lt;p&gt;A unidade passará a funcionar até as 22h durante as avaliações.&lt;/p&gt;
+        &lt;/article&gt;
+      &lt;/section&gt;
+
+      &lt;section aria-labelledby=&#34;agenda-titulo&#34;&gt;
+        &lt;h2 id=&#34;agenda-titulo&#34;&gt;Agenda da semana&lt;/h2&gt;
+        &lt;ol&gt;
+          &lt;li&gt;&lt;time datetime=&#34;2026-09-16&#34;&gt;Quarta-feira&lt;/time&gt;: oficina de Git.&lt;/li&gt;
+          &lt;li&gt;&lt;time datetime=&#34;2026-09-17&#34;&gt;Quinta-feira&lt;/time&gt;: feira de projetos.&lt;/li&gt;
+          &lt;li&gt;&lt;time datetime=&#34;2026-09-18&#34;&gt;Sexta-feira&lt;/time&gt;: encontro de comunidades.&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/section&gt;
+
+      &lt;section aria-labelledby=&#34;servicos-titulo&#34;&gt;
+        &lt;h2 id=&#34;servicos-titulo&#34;&gt;Serviços&lt;/h2&gt;
+        &lt;dl&gt;
+          &lt;dt&gt;Secretaria acadêmica&lt;/dt&gt;
+          &lt;dd&gt;Documentos, matrículas e orientações.&lt;/dd&gt;
+
+          &lt;dt&gt;Biblioteca&lt;/dt&gt;
+          &lt;dd&gt;Empréstimos, reservas e espaços de estudo.&lt;/dd&gt;
+
+          &lt;dt&gt;Laboratórios&lt;/dt&gt;
+          &lt;dd&gt;Computadores e suporte para atividades práticas.&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/section&gt;
+
+      &lt;aside aria-labelledby=&#34;lembrete-titulo&#34;&gt;
+        &lt;h2 id=&#34;lembrete-titulo&#34;&gt;Lembrete&lt;/h2&gt;
+        &lt;p&gt;&lt;strong&gt;Não se esqueça:&lt;/strong&gt; atualize seus dados cadastrais.&lt;/p&gt;
+        &lt;details&gt;
+          &lt;summary&gt;Quais dados devo conferir?&lt;/summary&gt;
+          &lt;ul&gt;
+            &lt;li&gt;E-mail&lt;/li&gt;
+            &lt;li&gt;Telefone&lt;/li&gt;
+            &lt;li&gt;Endereço&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/details&gt;
+      &lt;/aside&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+      &lt;address&gt;
+        Atendimento do Conecta Campus&lt;br&gt;
+        &lt;a href=&#34;mailto:atendimento@example.com&#34;&gt;atendimento@example.com&lt;/a&gt;
+      &lt;/address&gt;
+      &lt;p&gt;&lt;small&gt;&amp;copy; 2026 Conecta Campus&lt;/small&gt;&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 is-upgraded>O que verificar no navegador</h2>
+<ol type="1">
+<li>A página abre sem erros visíveis.</li>
+<li>O título da aba é &#34;Conecta Campus&#34;.</li>
+<li>O link &#34;Pular para o conteúdo principal&#34; leva ao <code>main</code>.</li>
+<li>As imagens exibem texto alternativo se não forem carregadas.</li>
+<li><code>details</code> abre e fecha pelo teclado e pelo mouse.</li>
+<li>Os títulos formam uma hierarquia compreensível.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="13. Inspeção, validação e acessibilidade" duration="35">
+        <h2 is-upgraded>Inspecione o DOM</h2>
+<ol type="1">
+<li>Abra a página no navegador.</li>
+<li>Pressione <code>F12</code>.</li>
+<li>Abra a guia <strong>Elements</strong> ou <strong>Elementos</strong>.</li>
+<li>Localize <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>aside</code> e <code>footer</code>.</li>
+<li>Confirme que o <code>main</code> não está dentro de outra região inadequada.</li>
+</ol>
+<h2 is-upgraded>Navegue apenas com teclado</h2>
+<ol type="1">
+<li>Recarregue a página.</li>
+<li>Pressione <code>Tab</code> repetidamente.</li>
+<li>Confirme que links, botões e <code>summary</code> recebem foco visível.</li>
+<li>Pressione <code>Enter</code> para ativar links.</li>
+<li>Pressione <code>Espaço</code> ou <code>Enter</code> para ativar botões e o resumo expansível.</li>
+</ol>
+<h2 is-upgraded>Valide o HTML</h2>
+<p>Use o <a href="https://validator.w3.org/nu/" target="_blank">Nu HTML Checker</a>:</p>
+<ol type="1">
+<li>selecione a opção para enviar o arquivo;</li>
+<li>escolha <code>index.html</code>;</li>
+<li>execute a verificação;</li>
+<li>corrija erros antes dos avisos;</li>
+<li>valide novamente.</li>
+</ol>
+<h2 is-upgraded>Checklist semântico</h2>
+<ul>
+<li>[ ] O documento declara <code><!doctype html></code>.</li>
+<li>[ ] <code>html</code> possui <code>lang="pt-BR"</code>.</li>
+<li>[ ] Existe um título de página útil em <code>title</code>.</li>
+<li>[ ] Existe um <code>h1</code> claro.</li>
+<li>[ ] A hierarquia de títulos é coerente.</li>
+<li>[ ] Há um único <code>main</code> visível.</li>
+<li>[ ] <code>nav</code> identifica apenas blocos importantes de navegação.</li>
+<li>[ ] Cada <code>section</code> temática possui um título.</li>
+<li>[ ] Cada <code>article</code> faz sentido como unidade independente.</li>
+<li>[ ] <code>aside</code> contém informação complementar.</li>
+<li>[ ] Listas usam <code>ul</code>, <code>ol</code> ou <code>dl</code> corretamente.</li>
+<li>[ ] Tabelas são usadas somente para dados tabulares.</li>
+<li>[ ] Toda imagem informativa possui <code>alt</code> significativo.</li>
+<li>[ ] Elementos interativos funcionam com teclado.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="14. Desafios práticos" duration="45">
+        <h2 is-upgraded>Desafio 1 — escolha a tag</h2>
+<p>Escolha o elemento mais adequado para cada conteúdo:</p>
+<ol type="1">
+<li>Uma postagem que pode ser compartilhada separadamente.</li>
+<li>A principal navegação do site.</li>
+<li>Uma caixa usada apenas para organizar quatro cards com CSS Grid.</li>
+<li>Um aviso complementar relacionado a uma notícia.</li>
+<li>O conteúdo exclusivo daquela página.</li>
+<li>Uma data de publicação legível por máquinas.</li>
+<li>Uma sigla com a forma completa disponível.</li>
+</ol>
+<h2 is-upgraded>Desafio 2 — corrija o HTML</h2>
+<pre><code language="language-html" class="language-html">&lt;div class=&#34;cabecalho&#34;&gt;
+  &lt;div class=&#34;titulo&#34;&gt;Notícias&lt;/div&gt;
+  &lt;div class=&#34;menu&#34;&gt;
+    &lt;li&gt;Início&lt;/li&gt;
+    &lt;li&gt;Contato&lt;/li&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;principal&#34;&gt;
+  &lt;section class=&#34;card&#34;&gt;
+    &lt;b&gt;Atenção importante&lt;/b&gt;
+    &lt;br&gt;&lt;br&gt;
+    Inscrições terminam hoje.
+  &lt;/section&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Corrija títulos, lista, navegação, conteúdo principal, artigo e espaçamento indevido.</p>
+<h2 is-upgraded>Desafio 3 — amplie o projeto</h2>
+<p>Adicione ao projeto prático:</p>
+<ul>
+<li>uma tabela com três eventos;</li>
+<li>uma citação em bloco;</li>
+<li>uma abreviação;</li>
+<li>uma pergunta frequente com <code>details</code> e <code>summary</code>;</li>
+<li>um segundo <code>article</code> com <code>header</code> e <code>footer</code> próprios.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="15. Respostas, resumo e referências" duration="30">
+        <h2 is-upgraded>Resposta do exercício de títulos</h2>
+<pre><code language="language-html" class="language-html">&lt;h1&gt;Portal acadêmico&lt;/h1&gt;
+
+&lt;section&gt;
+  &lt;h2&gt;Cursos&lt;/h2&gt;
+  &lt;h3&gt;Desenvolvimento Web&lt;/h3&gt;
+  &lt;h3&gt;Banco de Dados&lt;/h3&gt;
+&lt;/section&gt;
+</code></pre>
+<h2 is-upgraded>Respostas do desafio 1</h2>
+<ol type="1">
+<li><code>article</code></li>
+<li><code>nav</code></li>
+<li><code>div</code></li>
+<li><code>aside</code></li>
+<li><code>main</code></li>
+<li><code>time</code> com <code>datetime</code></li>
+<li><code>abbr</code> com uma expansão compreensível</li>
+</ol>
+<h2 is-upgraded>Uma possível correção do desafio 2</h2>
+<pre><code language="language-html" class="language-html">&lt;header&gt;
+  &lt;h1&gt;Notícias&lt;/h1&gt;
+  &lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&#34;index.html&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&#34;contato.html&#34;&gt;Contato&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;article&gt;
+    &lt;h2&gt;Atenção importante&lt;/h2&gt;
+    &lt;p&gt;&lt;strong&gt;As inscrições terminam hoje.&lt;/strong&gt;&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/main&gt;
+</code></pre>
+<h2 is-upgraded>Mapa mental de decisão</h2>
+<ul>
+<li>É o conteúdo principal? Use <code>main</code>.</li>
+<li>É navegação importante? Use <code>nav</code>.</li>
+<li>É independente? Considere <code>article</code>.</li>
+<li>É um agrupamento temático? Considere <code>section</code>.</li>
+<li>É complementar? Considere <code>aside</code>.</li>
+<li>É somente uma caixa para layout? Use <code>div</code>.</li>
+<li>É somente um trecho para estilo? Use <code>span</code>.</li>
+</ul>
+<h2 is-upgraded>Referências oficiais</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements" target="_blank">Referência de elementos HTML — MDN</a></li>
+<li><a href="https://html.spec.whatwg.org/multipage/sections.html" target="_blank">Seções no HTML Living Standard — WHATWG</a></li>
+<li><a href="https://html.spec.whatwg.org/multipage/indices.html#elements-3" target="_blank">Índice de elementos do HTML Living Standard — WHATWG</a></li>
+<li><a href="https://validator.w3.org/nu/" target="_blank">Nu HTML Checker — W3C</a></li>
+</ul>
+<p>Você concluiu o codelab de tags semânticas. O próximo passo é praticar a navegação com a tag <code>a</code> e, depois, construir formulários acessíveis.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,824 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Tag a, âncoras e links: navegação segura e acessível</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="codelab-tag-a-ancoras-links"
+                  title="Tag a, âncoras e links: navegação segura e acessível"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="1. Visão geral e preparação" duration="15">
+        <aside class="special"><p> 🔗 <strong>Ideia central:</strong> um link é uma ponte entre dois endereços. O <code>href</code> informa o destino; o texto do link explica à pessoa para onde essa ponte leva.</p>
+</aside>
+<p>A tag <code>a</code>, chamada de <strong>âncora</strong>, cria hiperlinks. Links conectam páginas, arquivos, seções, endereços de e-mail, telefones e outros recursos identificados por uma URL.</p>
+<p>Neste codelab você construirá um pequeno site de três páginas e aprenderá a evitar links quebrados, textos ambíguos, abertura inesperada de abas e problemas relacionados a <code>target="_blank"</code>.</p>
+<h2 is-upgraded>Objetivos</h2>
+<ul>
+<li>compreender a anatomia da tag <code>a</code>;</li>
+<li>distinguir URL absoluta, relativa à pasta e relativa à raiz;</li>
+<li>navegar entre pastas com <code>./</code> e <code>../</code>;</li>
+<li>criar links para partes da mesma página;</li>
+<li>conhecer <code>mailto:</code>, <code>tel:</code> e <code>download</code>;</li>
+<li>usar <code>target</code> com intenção e segurança;</li>
+<li>explicar o risco de <code>window.opener</code> e o papel de <code>rel="noopener"</code>;</li>
+<li>criar links acessíveis e fáceis de testar.</li>
+</ul>
+<h2 is-upgraded>Estrutura do projeto</h2>
+<pre><code language="language-text" class="language-text">site-campus/
+├── index.html
+├── contato.html
+├── documentos/
+│   └── manual-do-aluno.pdf
+└── cursos/
+    ├── index.html
+    └── desenvolvimento-web.html
+</code></pre>
+<p>Crie as pastas e os arquivos HTML. O PDF pode ser adicionado depois; neste momento, o importante é compreender o caminho.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="2. Anatomia da tag a" duration="30">
+        <p>Um link básico possui tag de abertura, atributo <code>href</code>, conteúdo e tag de fechamento.</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;contato.html&#34;&gt;Entre em contato&lt;/a&gt;
+</code></pre>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Parte</p>
+</td><td colspan="1" rowspan="1"><p>Função</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>a</code></p>
+</td><td colspan="1" rowspan="1"><p>Identifica o elemento âncora.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>href</code></p>
+</td><td colspan="1" rowspan="1"><p>Define o destino do hiperlink.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>contato.html</code></p>
+</td><td colspan="1" rowspan="1"><p>URL do destino.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Entre em contato</code></p>
+</td><td colspan="1" rowspan="1"><p>Texto acessível e área clicável.</p>
+</td></tr>
+</table>
+<p>Quando <code>href</code> está presente, o link entra naturalmente na ordem do teclado e pode ser ativado com <code>Enter</code>.</p>
+<h2 is-upgraded>Link não é apenas texto azul</h2>
+<p>A cor e o sublinhado são estilos padrão do navegador. O significado vem da tag e do <code>href</code>.</p>
+<pre><code language="language-html" class="language-html">&lt;!-- Navega para outra página. --&gt;
+&lt;a href=&#34;cursos.html&#34;&gt;Conheça os cursos&lt;/a&gt;
+
+&lt;!-- Executa uma ação. --&gt;
+&lt;button type=&#34;button&#34;&gt;Abrir filtros&lt;/button&gt;
+</code></pre>
+<p>Use link para <strong>navegação</strong> e botão para <strong>ação</strong>. Não crie um falso botão com <code>href="#"</code> ou <code>javascript:void(0)</code>.</p>
+<h2 is-upgraded>Atributos principais</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Atributo</p>
+</td><td colspan="1" rowspan="1"><p>Para que serve</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>href</code></p>
+</td><td colspan="1" rowspan="1"><p>URL de destino.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>target</code></p>
+</td><td colspan="1" rowspan="1"><p>Contexto em que o destino será aberto.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>rel</code></p>
+</td><td colspan="1" rowspan="1"><p>Relação e algumas proteções entre a página atual e o destino.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>download</code></p>
+</td><td colspan="1" rowspan="1"><p>Sugere que o recurso seja baixado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>hreflang</code></p>
+</td><td colspan="1" rowspan="1"><p>Informa o idioma esperado do destino.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>type</code></p>
+</td><td colspan="1" rowspan="1"><p>Sugere o tipo MIME do recurso.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>referrerpolicy</code></p>
+</td><td colspan="1" rowspan="1"><p>Controla quais dados de referência podem ser enviados.</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="3. URL absoluta e partes de uma URL" duration="35">
+        <p>Uma URL absoluta informa o endereço completo.</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;https://developer.mozilla.org/pt-BR/docs/Web/HTML&#34;&gt;
+  Referência de HTML na MDN
+&lt;/a&gt;
+</code></pre>
+<p>Observe as partes:</p>
+<pre><code language="language-text" class="language-text">https://exemplo.com.br/cursos/html/index.html?turma=2026#conteudo
+└─ esquema
+        └─ domínio
+                      └─ caminho
+                                             └─ consulta
+                                                        └─ fragmento
+</code></pre>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Parte</p>
+</td><td colspan="1" rowspan="1"><p>Exemplo</p>
+</td><td colspan="1" rowspan="1"><p>Função</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Esquema</p>
+</td><td colspan="1" rowspan="1"><p><code>https</code></p>
+</td><td colspan="1" rowspan="1"><p>Protocolo usado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Host</p>
+</td><td colspan="1" rowspan="1"><p><code>exemplo.com.br</code></p>
+</td><td colspan="1" rowspan="1"><p>Servidor ou domínio.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Caminho</p>
+</td><td colspan="1" rowspan="1"><p><code>/cursos/html/index.html</code></p>
+</td><td colspan="1" rowspan="1"><p>Recurso dentro do servidor.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Consulta</p>
+</td><td colspan="1" rowspan="1"><p><code>?turma=2026</code></p>
+</td><td colspan="1" rowspan="1"><p>Dados enviados como parâmetros.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Fragmento</p>
+</td><td colspan="1" rowspan="1"><p><code>#conteudo</code></p>
+</td><td colspan="1" rowspan="1"><p>Ponto dentro do documento de destino.</p>
+</td></tr>
+</table>
+<p>Use URLs absolutas principalmente para outros sites.</p>
+<h2 is-upgraded>Prefira HTTPS</h2>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;https://example.com&#34;&gt;Site seguro por HTTPS&lt;/a&gt;
+</code></pre>
+<p>Evite criar novos links <code>http://</code> quando o destino oferece HTTPS. O HTTPS protege a comunicação durante o transporte, embora não garanta que o conteúdo do site seja confiável.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="4. Links relativos: mesma pasta, subpasta e pasta superior" duration="60">
+        <p>Um caminho relativo é calculado a partir da localização do arquivo atual.</p>
+<h2 is-upgraded>Mesma pasta</h2>
+<p>De <code>index.html</code> para <code>contato.html</code>:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;contato.html&#34;&gt;Contato&lt;/a&gt;
+</code></pre>
+<p><code>./contato.html</code> também representa explicitamente a pasta atual:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;./contato.html&#34;&gt;Contato&lt;/a&gt;
+</code></pre>
+<h2 is-upgraded>Entrar em uma subpasta</h2>
+<p>De <code>index.html</code> para <code>cursos/desenvolvimento-web.html</code>:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;cursos/desenvolvimento-web.html&#34;&gt;Desenvolvimento Web&lt;/a&gt;
+</code></pre>
+<h2 is-upgraded>Voltar uma pasta</h2>
+<p>De <code>cursos/desenvolvimento-web.html</code> para o <code>index.html</code> da raiz:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;../index.html&#34;&gt;Voltar ao início&lt;/a&gt;
+</code></pre>
+<p>Cada <code>../</code> sobe um nível:</p>
+<pre><code language="language-text" class="language-text">./        pasta atual
+../       sobe uma pasta
+../../    sobe duas pastas
+</code></pre>
+<h2 is-upgraded>Link relativo à raiz do site</h2>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;/contato.html&#34;&gt;Contato&lt;/a&gt;
+</code></pre>
+<p>A barra inicial <code>/</code> significa &#34;comece na raiz do site&#34;. Isso costuma funcionar em um servidor, mas pode falhar quando o arquivo é aberto diretamente pelo sistema operacional ou quando o projeto está publicado dentro de uma subpasta.</p>
+<aside class="warning"><p> Para exercícios abertos diretamente com <code>file:///</code>, prefira caminhos relativos como <code>contato.html</code> e <code>../index.html</code>. Em produção, escolha a estratégia de URL compatível com a hospedagem.</p>
+</aside>
+<h2 is-upgraded>Nomes de arquivos seguros</h2>
+<p>Prefira:</p>
+<ul>
+<li>letras minúsculas;</li>
+<li>palavras separadas por hífen;</li>
+<li>sem espaços;</li>
+<li>sem acentos em nomes de arquivo e pasta.</li>
+</ul>
+<pre><code language="language-text" class="language-text">desenvolvimento-web.html
+manual-do-aluno.pdf
+</code></pre>
+<h2 is-upgraded>Exercício guiado</h2>
+<p>Complete os caminhos considerando a árvore inicial:</p>
+<ol type="1">
+<li>De <code>index.html</code> para <code>cursos/index.html</code>.</li>
+<li>De <code>cursos/index.html</code> para <code>contato.html</code>.</li>
+<li>De <code>cursos/desenvolvimento-web.html</code> para <code>documentos/manual-do-aluno.pdf</code>.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="5. Fragmentos: links para partes da página" duration="40">
+        <p>Um fragmento aponta para um elemento que possui um <code>id</code>.</p>
+<pre><code language="language-html" class="language-html">&lt;nav aria-label=&#34;Sumário da página&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#objetivos&#34;&gt;Objetivos&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#conteudo&#34;&gt;Conteúdo&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#exercicios&#34;&gt;Exercícios&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;section id=&#34;objetivos&#34;&gt;
+  &lt;h2&gt;Objetivos&lt;/h2&gt;
+&lt;/section&gt;
+
+&lt;section id=&#34;conteudo&#34;&gt;
+  &lt;h2&gt;Conteúdo&lt;/h2&gt;
+&lt;/section&gt;
+
+&lt;section id=&#34;exercicios&#34;&gt;
+  &lt;h2&gt;Exercícios&lt;/h2&gt;
+&lt;/section&gt;
+</code></pre>
+<h2 is-upgraded>Regras para <code>id</code></h2>
+<ul>
+<li>deve ser único na página;</li>
+<li>não deve conter espaços;</li>
+<li>deve permanecer estável se outros links apontarem para ele;</li>
+<li>deve ser descritivo;</li>
+<li>o valor em <code>href="#..."</code> deve corresponder exatamente ao <code>id</code>.</li>
+</ul>
+<h2 is-upgraded>Fragmento em outra página</h2>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;cursos/desenvolvimento-web.html#avaliacao&#34;&gt;
+  Ver avaliação do curso
+&lt;/a&gt;
+</code></pre>
+<h2 is-upgraded>Link para o topo</h2>
+<p>Crie um ponto explícito:</p>
+<pre><code language="language-html" class="language-html">&lt;body id=&#34;topo&#34;&gt;
+  &lt;!-- conteúdo --&gt;
+  &lt;a href=&#34;#topo&#34;&gt;Voltar ao topo&lt;/a&gt;
+&lt;/body&gt;
+</code></pre>
+<p>Embora <code>href="#"</code> possa levar ao topo, um <code>id</code> descritivo comunica melhor a intenção e evita o uso do fragmento vazio como falso botão.</p>
+<h2 is-upgraded>Link de salto para acessibilidade</h2>
+<pre><code language="language-html" class="language-html">&lt;body&gt;
+  &lt;a class=&#34;link-pular&#34; href=&#34;#conteudo-principal&#34;&gt;
+    Pular para o conteúdo principal
+  &lt;/a&gt;
+
+  &lt;header&gt;...&lt;/header&gt;
+  &lt;main id=&#34;conteudo-principal&#34;&gt;...&lt;/main&gt;
+&lt;/body&gt;
+</code></pre>
+<p>Esse link permite que pessoas que usam teclado ignorem navegações repetidas.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="6. E-mail, telefone, SMS e outros protocolos" duration="35">
+        <h2 is-upgraded><code>mailto:</code></h2>
+<p>Abre o aplicativo de e-mail configurado pelo usuário.</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;mailto:contato@example.com&#34;&gt;Enviar e-mail&lt;/a&gt;
+</code></pre>
+<p>Com assunto:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;mailto:contato@example.com?subject=D%C3%BAvida%20sobre%20o%20curso&#34;&gt;
+  Enviar dúvida por e-mail
+&lt;/a&gt;
+</code></pre>
+<p>Espaços e caracteres especiais precisam ser codificados na URL. Evite preencher mensagens extensas ou informações sensíveis diretamente no link.</p>
+<h2 is-upgraded><code>tel:</code></h2>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;tel:+5511999999999&#34;&gt;Ligar para (11) 99999-9999&lt;/a&gt;
+</code></pre>
+<p>O comportamento depende do dispositivo e dos aplicativos instalados.</p>
+<h2 is-upgraded><code>sms:</code></h2>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;sms:+5511999999999&#34;&gt;Enviar SMS&lt;/a&gt;
+</code></pre>
+<p>O suporte e o comportamento podem variar entre plataformas.</p>
+<h2 is-upgraded>Evite <code>javascript:</code></h2>
+<pre><code language="language-html" class="language-html">&lt;!-- Evite. --&gt;
+&lt;a href=&#34;javascript:abrirMenu()&#34;&gt;Abrir menu&lt;/a&gt;
+
+&lt;!-- Prefira. --&gt;
+&lt;button type=&#34;button&#34; id=&#34;botao-menu&#34;&gt;Abrir menu&lt;/button&gt;
+</code></pre>
+<p>URLs <code>javascript:</code> misturam comportamento com navegação, podem criar riscos de segurança e não funcionam como links reais.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="7. target: onde o link será aberto" duration="50">
+        <p><code>target</code> define o contexto de navegação usado para abrir o destino.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Valor</p>
+</td><td colspan="1" rowspan="1"><p>Comportamento</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>_self</code></p>
+</td><td colspan="1" rowspan="1"><p>Abre no contexto atual. É o padrão.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>_blank</code></p>
+</td><td colspan="1" rowspan="1"><p>Normalmente abre nova aba; o navegador ou usuário pode escolher nova janela.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>_parent</code></p>
+</td><td colspan="1" rowspan="1"><p>Abre no contexto pai, útil em documentos embutidos. Sem pai, age como <code>_self</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>_top</code></p>
+</td><td colspan="1" rowspan="1"><p>Abre no contexto de nível mais alto. Sem ancestrais, age como <code>_self</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>nome personalizado</p>
+</td><td colspan="1" rowspan="1"><p>Abre ou reutiliza um contexto com aquele nome.</p>
+</td></tr>
+</table>
+<p>Existe ainda <code>_unfencedTop</code>, destinado a um caso avançado de <em>fenced frames</em>. Ele raramente é necessário em sites comuns.</p>
+<h2 is-upgraded>Comportamento padrão</h2>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;contato.html&#34;&gt;Contato&lt;/a&gt;
+</code></pre>
+<p>É equivalente a:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;contato.html&#34; target=&#34;_self&#34;&gt;Contato&lt;/a&gt;
+</code></pre>
+<h2 is-upgraded>Abrir nova aba</h2>
+<pre><code language="language-html" class="language-html">&lt;a
+  href=&#34;https://developer.mozilla.org/&#34;
+  target=&#34;_blank&#34;
+  rel=&#34;noopener noreferrer&#34;&gt;
+  Abrir a MDN em nova aba
+&lt;/a&gt;
+</code></pre>
+<p>Não use <code>_blank</code> por padrão em todo link externo. A pessoa pode escolher abrir uma nova aba pelo navegador. Use-o somente quando a mudança de contexto fizer sentido e avise o que acontecerá.</p>
+<pre><code language="language-html" class="language-html">&lt;a
+  href=&#34;https://developer.mozilla.org/&#34;
+  target=&#34;_blank&#34;
+  rel=&#34;noopener noreferrer&#34;&gt;
+  Referência MDN (abre em nova aba)
+&lt;/a&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="8. O perigo do target _blank" duration="55">
+        <p>O risco clássico é conhecido como <strong>reverse tabnabbing</strong>. Em navegadores antigos ou cenários sem proteção, a página aberta poderia acessar <code>window.opener</code> e tentar redirecionar a aba original para uma página falsa.</p>
+<p>Uma sequência possível seria:</p>
+<ol type="1">
+<li>a pessoa clica em um link com <code>target="_blank"</code>;</li>
+<li>o destino abre em outra aba;</li>
+<li>o destino obtém uma referência para a página original por <code>window.opener</code>;</li>
+<li>um script malicioso altera o endereço da aba original;</li>
+<li>a pessoa volta e encontra uma página falsa parecida com a verdadeira.</li>
+</ol>
+<h2 is-upgraded>Proteção com <code>noopener</code></h2>
+<pre><code language="language-html" class="language-html">&lt;a
+  href=&#34;https://site-externo.example&#34;
+  target=&#34;_blank&#34;
+  rel=&#34;noopener&#34;&gt;
+  Site externo (abre em nova aba)
+&lt;/a&gt;
+</code></pre>
+<p><code>noopener</code> impede que o novo contexto receba acesso à página original por <code>window.opener</code>.</p>
+<h2 is-upgraded>Proteção e privacidade com <code>noreferrer</code></h2>
+<pre><code language="language-html" class="language-html">&lt;a
+  href=&#34;https://site-externo.example&#34;
+  target=&#34;_blank&#34;
+  rel=&#34;noopener noreferrer&#34;&gt;
+  Site externo (abre em nova aba)
+&lt;/a&gt;
+</code></pre>
+<p><code>noreferrer</code> também evita o envio do cabeçalho HTTP <code>Referer</code> e implica o comportamento de <code>noopener</code>. Isso aumenta a privacidade, mas pode impedir que o site de destino saiba de onde veio a visita, afetando métricas legítimas.</p>
+<h2 is-upgraded>Situação nos navegadores modernos</h2>
+<p>Navegadores atuais tratam <code>target="_blank"</code> em elementos <code>a</code> como se <code>rel="noopener"</code> estivesse presente. Mesmo assim, escrever <code>rel="noopener"</code> de forma explícita:</p>
+<ul>
+<li>documenta a intenção de segurança;</li>
+<li>ajuda em ambientes antigos ou incomuns;</li>
+<li>facilita revisões de código;</li>
+<li>não resolve, porém, o problema de usabilidade de abrir uma aba inesperadamente.</li>
+</ul>
+<aside class="warning"><p> O principal cuidado atual não é afirmar que todo <code>_blank</code> moderno está vulnerável. É decidir se a nova aba é necessária, avisar a pessoa e manter uma proteção explícita quando apropriado.</p>
+</aside>
+<h2 is-upgraded>Outros valores de <code>rel</code></h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Valor</p>
+</td><td colspan="1" rowspan="1"><p>Significado comum</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>noopener</code></p>
+</td><td colspan="1" rowspan="1"><p>Remove acesso por <code>window.opener</code>.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>noreferrer</code></p>
+</td><td colspan="1" rowspan="1"><p>Não envia referência e também protege o opener.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>external</code></p>
+</td><td colspan="1" rowspan="1"><p>Indica que o recurso está fora do site atual.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>nofollow</code></p>
+</td><td colspan="1" rowspan="1"><p>Indica que o autor não endossa o destino ou não quer influenciar rastreamento.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>sponsored</code></p>
+</td><td colspan="1" rowspan="1"><p>Identifica link publicitário ou patrocinado.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ugc</code></p>
+</td><td colspan="1" rowspan="1"><p>Identifica conteúdo gerado por usuário.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>author</code></p>
+</td><td colspan="1" rowspan="1"><p>Aponta para informações sobre autoria.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>license</code></p>
+</td><td colspan="1" rowspan="1"><p>Aponta para a licença do conteúdo.</p>
+</td></tr>
+</table>
+<p>Não adicione valores sem entender o objetivo. <code>external</code>, por exemplo, não abre uma nova aba sozinho.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="9. Links acessíveis e compreensíveis" duration="45">
+        <p>O texto do link deve indicar o destino mesmo quando lido fora do parágrafo.</p>
+<pre><code language="language-html" class="language-html">&lt;!-- Fraco e ambíguo. --&gt;
+&lt;p&gt;Para conhecer os cursos, &lt;a href=&#34;cursos.html&#34;&gt;clique aqui&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!-- Melhor. --&gt;
+&lt;p&gt;&lt;a href=&#34;cursos.html&#34;&gt;Conheça os cursos disponíveis&lt;/a&gt;.&lt;/p&gt;
+</code></pre>
+<p>Pessoas que usam leitores de tela podem listar todos os links da página. Dez links chamados &#34;saiba mais&#34; não ajudam a diferenciar destinos.</p>
+<h2 is-upgraded>Imagens dentro de links</h2>
+<p>Quando uma imagem é o único conteúdo do link, o <code>alt</code> deve descrever a finalidade do link.</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;index.html&#34;&gt;
+  &lt;img
+    src=&#34;imagens/logo-html.svg&#34;
+    alt=&#34;Página inicial do Portal Campus&#34;
+    width=&#34;72&#34;
+    height=&#34;72&#34;&gt;
+&lt;/a&gt;
+</code></pre>
+<p>Se o link já possui texto equivalente, uma imagem apenas decorativa pode usar <code>alt=""</code>.</p>
+<h2 is-upgraded>Estado da página atual</h2>
+<pre><code language="language-html" class="language-html">&lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;index.html&#34; aria-current=&#34;page&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;cursos.html&#34;&gt;Cursos&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+</code></pre>
+<p><code>aria-current="page"</code> informa qual link representa a página atual.</p>
+<h2 is-upgraded>Não aninhe controles interativos</h2>
+<pre><code language="language-html" class="language-html">&lt;!-- Incorreto. --&gt;
+&lt;a href=&#34;matricula.html&#34;&gt;&lt;button&gt;Matricular&lt;/button&gt;&lt;/a&gt;
+
+&lt;!-- Correto para navegar. --&gt;
+&lt;a href=&#34;matricula.html&#34; class=&#34;link-destaque&#34;&gt;Matricular&lt;/a&gt;
+</code></pre>
+<p>Não coloque botão dentro de link nem link dentro de botão.</p>
+<h2 is-upgraded>Não dependa apenas de cor</h2>
+<p>Links em textos devem possuir uma indicação visual que não dependa exclusivamente da cor, como sublinhado. Mantenha também um foco visível para navegação por teclado.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="10. Downloads e tipos de arquivo" duration="30">
+        <p>O atributo <code>download</code> sugere ao navegador que o destino seja baixado.</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;documentos/manual-do-aluno.pdf&#34; download&gt;
+  Baixar manual do aluno (PDF, 2 MB)
+&lt;/a&gt;
+</code></pre>
+<p>Também é possível sugerir um nome:</p>
+<pre><code language="language-html" class="language-html">&lt;a
+  href=&#34;documentos/manual-do-aluno.pdf&#34;
+  download=&#34;manual-conecta-campus.pdf&#34;&gt;
+  Baixar manual do aluno (PDF, 2 MB)
+&lt;/a&gt;
+</code></pre>
+<h2 is-upgraded>Limitações importantes</h2>
+<ul>
+<li><code>download</code> funciona principalmente para URLs da mesma origem e para URLs <code>blob:</code> ou <code>data:</code>;</li>
+<li>cabeçalhos enviados pelo servidor podem influenciar o nome e a forma de abertura;</li>
+<li>configurações do navegador e do usuário podem alterar o comportamento;</li>
+<li>informe formato e tamanho quando isso ajudar a pessoa a decidir.</li>
+</ul>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;documentos/calendario-2026.pdf&#34; type=&#34;application/pdf&#34;&gt;
+  Abrir calendário acadêmico (PDF, 850 KB)
+&lt;/a&gt;
+</code></pre>
+<p>O atributo <code>type</code> é apenas uma dica; ele não substitui o <code>Content-Type</code> correto no servidor.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="11. Projeto prático: site com três páginas" duration="75">
+        <h2 is-upgraded>Arquivo <code>index.html</code></h2>
+<pre><code language="language-html" class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+    &lt;title&gt;Início | Conecta Campus&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body id=&#34;topo&#34;&gt;
+    &lt;a href=&#34;#conteudo-principal&#34;&gt;Pular para o conteúdo principal&lt;/a&gt;
+
+    &lt;header&gt;
+      &lt;h1&gt;Conecta Campus&lt;/h1&gt;
+      &lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&#34;index.html&#34; aria-current=&#34;page&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;cursos/index.html&#34;&gt;Cursos&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;contato.html&#34;&gt;Contato&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main id=&#34;conteudo-principal&#34;&gt;
+      &lt;h2&gt;Bem-vindo ao portal&lt;/h2&gt;
+
+      &lt;nav aria-label=&#34;Sumário desta página&#34;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&#34;#destaques&#34;&gt;Destaques&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;#documentos&#34;&gt;Documentos&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;#referencias&#34;&gt;Referências&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+
+      &lt;section id=&#34;destaques&#34;&gt;
+        &lt;h2&gt;Destaques&lt;/h2&gt;
+        &lt;p&gt;
+          &lt;a href=&#34;cursos/desenvolvimento-web.html&#34;&gt;
+            Conheça o curso de Desenvolvimento Web
+          &lt;/a&gt;.
+        &lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;section id=&#34;documentos&#34;&gt;
+        &lt;h2&gt;Documentos&lt;/h2&gt;
+        &lt;p&gt;
+          &lt;a href=&#34;documentos/manual-do-aluno.pdf&#34; download&gt;
+            Baixar manual do aluno (PDF)
+          &lt;/a&gt;
+        &lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;section id=&#34;referencias&#34;&gt;
+        &lt;h2&gt;Referências externas&lt;/h2&gt;
+        &lt;p&gt;
+          &lt;a
+            href=&#34;https://developer.mozilla.org/pt-BR/docs/Web/HTML&#34;
+            target=&#34;_blank&#34;
+            rel=&#34;noopener noreferrer external&#34;&gt;
+            Documentação HTML da MDN (abre em nova aba)
+          &lt;/a&gt;
+        &lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;p&gt;&lt;a href=&#34;#topo&#34;&gt;Voltar ao topo&lt;/a&gt;&lt;/p&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+      &lt;p&gt;&lt;a href=&#34;mailto:contato@example.com&#34;&gt;Enviar e-mail para o portal&lt;/a&gt;&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 is-upgraded>Arquivo <code>cursos/index.html</code></h2>
+<pre><code language="language-html" class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+    &lt;title&gt;Cursos | Conecta Campus&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;
+      &lt;h1&gt;Cursos&lt;/h1&gt;
+      &lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&#34;../index.html&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;index.html&#34; aria-current=&#34;page&#34;&gt;Cursos&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;../contato.html&#34;&gt;Contato&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+      &lt;h2&gt;Opções disponíveis&lt;/h2&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;a href=&#34;desenvolvimento-web.html&#34;&gt;Desenvolvimento Web&lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/main&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 is-upgraded>Arquivo <code>cursos/desenvolvimento-web.html</code></h2>
+<pre><code language="language-html" class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+    &lt;title&gt;Desenvolvimento Web | Conecta Campus&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;
+      &lt;h1&gt;Desenvolvimento Web&lt;/h1&gt;
+      &lt;nav aria-label=&#34;Navegação estrutural&#34;&gt;
+        &lt;a href=&#34;index.html&#34;&gt;Todos os cursos&lt;/a&gt;
+        &lt;span aria-hidden=&#34;true&#34;&gt; / &lt;/span&gt;
+        &lt;a href=&#34;../index.html&#34;&gt;Página inicial&lt;/a&gt;
+      &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+      &lt;section id=&#34;conteudo&#34;&gt;
+        &lt;h2&gt;Conteúdo&lt;/h2&gt;
+        &lt;p&gt;HTML, CSS, JavaScript e versionamento com Git.&lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;section id=&#34;avaliacao&#34;&gt;
+        &lt;h2&gt;Avaliação&lt;/h2&gt;
+        &lt;p&gt;Projeto prático e exercícios semanais.&lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;p&gt;
+        &lt;a href=&#34;../documentos/manual-do-aluno.pdf&#34;&gt;
+          Abrir manual do aluno (PDF)
+        &lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/main&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 is-upgraded>Arquivo <code>contato.html</code></h2>
+<pre><code language="language-html" class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&#34;pt-BR&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+    &lt;title&gt;Contato | Conecta Campus&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;
+      &lt;h1&gt;Contato&lt;/h1&gt;
+      &lt;nav aria-label=&#34;Navegação principal&#34;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&#34;index.html&#34;&gt;Início&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;cursos/index.html&#34;&gt;Cursos&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&#34;contato.html&#34; aria-current=&#34;page&#34;&gt;Contato&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+      &lt;p&gt;&lt;a href=&#34;mailto:contato@example.com&#34;&gt;contato@example.com&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&#34;tel:+5511999999999&#34;&gt;(11) 99999-9999&lt;/a&gt;&lt;/p&gt;
+    &lt;/main&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="12. Testes e diagnóstico de links quebrados" duration="40">
+        <h2 is-upgraded>Teste manual</h2>
+<ol type="1">
+<li>Abra <code>index.html</code>.</li>
+<li>Ative cada link com o mouse.</li>
+<li>Repita usando <code>Tab</code> e <code>Enter</code>.</li>
+<li>Use o botão <strong>Voltar</strong> do navegador.</li>
+<li>Confirme o destino na barra de endereço.</li>
+<li>Verifique se os fragmentos chegam à seção correta.</li>
+<li>Confirme que links com nova aba avisam esse comportamento.</li>
+</ol>
+<h2 is-upgraded>Diagnóstico de erro 404</h2>
+<p>Se um link falhar, confira:</p>
+<ul>
+<li>nome exato do arquivo;</li>
+<li>diferença entre maiúsculas e minúsculas;</li>
+<li>extensão <code>.html</code>;</li>
+<li>quantidade de <code>../</code>;</li>
+<li>existência da pasta;</li>
+<li>acentos e espaços no nome;</li>
+<li>endereço de publicação em subpasta.</li>
+</ul>
+<h2 is-upgraded>Use as ferramentas do navegador</h2>
+<ol type="1">
+<li>Pressione <code>F12</code>.</li>
+<li>Abra <strong>Network</strong> ou <strong>Rede</strong>.</li>
+<li>Ative o link problemático.</li>
+<li>Observe a URL solicitada e o código de resposta.</li>
+<li>Um <code>404</code> significa que o recurso não foi encontrado naquele caminho.</li>
+</ol>
+<h2 is-upgraded>Checklist</h2>
+<ul>
+<li>[ ] Todo <code>a</code> de navegação possui <code>href</code> real.</li>
+<li>[ ] O texto informa o destino.</li>
+<li>[ ] Caminhos relativos foram testados em todas as páginas.</li>
+<li>[ ] Cada <code>id</code> usado por fragmento existe e é único.</li>
+<li>[ ] <code>_blank</code> é usado somente quando justificado.</li>
+<li>[ ] Links que abrem outra aba avisam o usuário.</li>
+<li>[ ] <code>rel="noopener"</code> está explícito nos links <code>_blank</code> externos.</li>
+<li>[ ] Links para arquivos informam formato e, quando possível, tamanho.</li>
+<li>[ ] Não existe botão dentro de link.</li>
+<li>[ ] Não existe <code>javascript:</code> usado como navegação.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="13. Desafios" duration="40">
+        <h2 is-upgraded>Desafio 1 — caminhos</h2>
+<p>Escreva os links corretos:</p>
+<ol type="1">
+<li><code>cursos/index.html</code> para <code>documentos/manual-do-aluno.pdf</code>.</li>
+<li><code>cursos/desenvolvimento-web.html</code> para <code>contato.html</code>.</li>
+<li><code>contato.html</code> para <code>cursos/desenvolvimento-web.html#avaliacao</code>.</li>
+</ol>
+<h2 is-upgraded>Desafio 2 — segurança e experiência</h2>
+<p>Corrija:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;https://site-externo.example&#34; target=&#34;_blank&#34;&gt;Clique aqui&lt;/a&gt;
+</code></pre>
+<p>A correção precisa:</p>
+<ul>
+<li>explicar o destino;</li>
+<li>avisar sobre a nova aba;</li>
+<li>incluir a proteção apropriada.</li>
+</ul>
+<h2 is-upgraded>Desafio 3 — semântica</h2>
+<p>Corrija:</p>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;#&#34; onclick=&#34;enviarFormulario()&#34;&gt;
+  &lt;button&gt;Enviar&lt;/button&gt;
+&lt;/a&gt;
+</code></pre>
+<p>O controle executa uma ação; não navega.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="14. Respostas, resumo e referências" duration="25">
+        <h2 is-upgraded>Respostas dos caminhos iniciais</h2>
+<ol type="1">
+<li>De <code>index.html</code> para <code>cursos/index.html</code>:</li>
+</ol>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;cursos/index.html&#34;&gt;Cursos&lt;/a&gt;
+</code></pre>
+<ol type="1" start="2">
+<li>De <code>cursos/index.html</code> para <code>contato.html</code>:</li>
+</ol>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;../contato.html&#34;&gt;Contato&lt;/a&gt;
+</code></pre>
+<ol type="1" start="3">
+<li>De <code>cursos/desenvolvimento-web.html</code> para o PDF:</li>
+</ol>
+<pre><code language="language-html" class="language-html">&lt;a href=&#34;../documentos/manual-do-aluno.pdf&#34;&gt;Manual&lt;/a&gt;
+</code></pre>
+<p>Observe: a partir de <code>cursos/desenvolvimento-web.html</code>, um <code>../</code> leva à raiz, onde está a pasta <code>documentos</code>.</p>
+<h2 is-upgraded>Respostas dos desafios finais</h2>
+<pre><code language="language-html" class="language-html">&lt;!-- Desafio 1.1 --&gt;
+&lt;a href=&#34;../documentos/manual-do-aluno.pdf&#34;&gt;Manual&lt;/a&gt;
+
+&lt;!-- Desafio 1.2 --&gt;
+&lt;a href=&#34;../contato.html&#34;&gt;Contato&lt;/a&gt;
+
+&lt;!-- Desafio 1.3 --&gt;
+&lt;a href=&#34;cursos/desenvolvimento-web.html#avaliacao&#34;&gt;Ver avaliação&lt;/a&gt;
+</code></pre>
+<pre><code language="language-html" class="language-html">&lt;!-- Desafio 2 --&gt;
+&lt;a
+  href=&#34;https://site-externo.example&#34;
+  target=&#34;_blank&#34;
+  rel=&#34;noopener noreferrer external&#34;&gt;
+  Visitar o site externo (abre em nova aba)
+&lt;/a&gt;
+</code></pre>
+<pre><code language="language-html" class="language-html">&lt;!-- Desafio 3 --&gt;
+&lt;button type=&#34;button&#34; id=&#34;enviar-formulario&#34;&gt;Enviar&lt;/button&gt;
+</code></pre>
+<p>O evento JavaScript deve ser registrado em um arquivo externo, sem <code>onclick</code> embutido.</p>
+<h2 is-upgraded>Resumo de decisão</h2>
+<ul>
+<li>Outro site: URL absoluta.</li>
+<li>Arquivo do projeto: URL relativa.</li>
+<li>Seção: fragmento <code>#id</code>.</li>
+<li>Navegação: <code>a</code> com <code>href</code> real.</li>
+<li>Ação: <code>button</code>.</li>
+<li>Nova aba: use apenas quando necessário, avise e proteja.</li>
+</ul>
+<h2 is-upgraded>Referências oficiais</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a" target="_blank">Elemento a — MDN</a></li>
+<li><a href="https://html.spec.whatwg.org/multipage/links.html" target="_blank">Links — HTML Living Standard</a></li>
+<li><a href="https://url.spec.whatwg.org/" target="_blank">URL Standard — WHATWG</a></li>
+<li><a href="https://www.w3.org/WAI/WCAG21/Techniques/general/G200" target="_blank">Técnica G200: abrir novas janelas somente quando necessário — W3C</a></li>
+</ul>
+<p>Você concluiu o codelab sobre links, caminhos, fragmentos, targets, segurança e acessibilidade.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
